@@ -9,7 +9,7 @@ const PropertyProvider = ({ children }) => {
 
   const fetchProperties = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/properties");
+      const res = await axios.get("https://niarobi-apartments-backend.vercel.app/api/properties");
       setProperties(res.data);
       setLoading(false);
     } catch (error) {
