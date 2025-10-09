@@ -92,9 +92,9 @@ const Explore = () => {
             <span className='text-dark font-medium inline-flex items-center space-x-1 cursor-pointer'> 
               <select  className='cursor-pointer'>
                 <option value="Price"> Price </option>
-                <option value="Price"> Alphbet </option>
+                <option value="Price"> Alphabet </option>
               </select>
-              {/* <MdOutlineKeyboardArrowDown /> */}
+              <MdOutlineKeyboardArrowDown className='flex sm:hidden' />
             </span> 
           </div>
         </div>

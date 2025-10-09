@@ -210,11 +210,11 @@ const PropertyDetail = () => {
           </div>
 
           <div className="w-full flex items-center justify-between gap-1.5">
-            <button className='btn-tertiary'>
+            <button className='btn-tertiary truncate' title={property.agent}>
               <span className="text-gray-600">Agent:</span>
-              <span className="font-semibold"> {property.agent} </span>
+              <span className="font-semibold overflow-hidden truncate"> {property.agent} </span>
             </button>
-            <button className="btn">Send a request</button>
+            <button className="btn text-nowrap">Send a request</button>
           </div>
         </div>
 
@@ -236,7 +236,7 @@ const PropertyDetail = () => {
             )}
           </div>
 
-          <div className="w-full grid grid-cols-2 md:grid-cols-3  gap-4 mt-6">
+          <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-4 mt-2 md:mt-6">
             {property.amenities.map((amenity, index) => (
               <div key={index} className="flex items-center">
                 <FiCheck className="text-green-500 mr-2" />
