@@ -162,18 +162,36 @@ import { PropertyContext } from "../contexts/PropertyContext";
 import "./PropertyDetail.css";
 
 const PropertyDetail = () => {
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
   const { id } = useParams();
   const { properties, loading } = useContext(PropertyContext);
-
+  
   const property = properties.find(p => p._id === id);
 
   if (loading) return <div className="container py-4">Loading...</div>;
   if (!property) return <div className="container py-4">Property not found</div>;
 
-  const [showFullDescription, setShowFullDescription] = useState(false);
+
+
+
+  const openLightbox = (index) => {
+    setCurrentImageIndex(index);
+    setIsLightboxOpen(true);
+  };
+
+  const closeLightbox = () => setIsLightboxOpen(false);
+
+  const nextImage = () =>
+    setCurrentImageIndex((currentImageIndex + 1) % property.images.length);
+
+  const prevImage = () =>
+    setCurrentImageIndex((currentImageIndex - 1 + property.images.length) % property.images.length);
 
   return (
-    <div className="container py-4 space-y-8">
+    <div className="container py-4 space-y-8 relative">
       {/* Back button */}
       <button onClick={() => window.history.back()} className="absolute z-2 ml-2 mt-2 text-sm btn-secondary bg-light/90 hover:bg-light">
         <HiMiniChevronLeft className='text-lg' />
@@ -184,12 +202,59 @@ const PropertyDetail = () => {
       <div className="property-images-grid">
         {property.images.slice(0, 4).map((img, index) => (
           <div key={index} className={`grid-item-${index + 1}`}>
-            <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover" />
+            {/* <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover" /> */}
+            <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover cursor-pointer" onClick={() => openLightbox(index)} />
           </div>
         ))}
       </div>
 
-      <button className='block md:hidden btn-tertiary'> more </button>
+      {isLightboxOpen && (
+        <div className="fixed w-full h-full top-0 left-0 bg-dark/80 backdrop-blur-sm flex flex-col items-center justify-center z-50">
+          <button
+            className="absolute top-4 right-4 text-white text-4xl cursor-pointer"
+            onClick={closeLightbox}
+          >
+            &times;
+          </button>
+
+          <div className="relative max-w-3xl mx-auto w-full max-h-[80%] px-4">
+            <img
+              src={property.images[currentImageIndex]}
+              alt={`Slide ${currentImageIndex + 1}`}
+              className="rounded-lg w-full h-full"
+            />
+            <div
+              className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl cursor-pointer"
+              onClick={prevImage}
+            >
+              &#10094;
+            </div>
+            <div
+              className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white text-3xl cursor-pointer"
+              onClick={nextImage}
+            >
+              &#10095;
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center gap-3 mt-4">
+            {property.images.map((_, index) => (
+              <span
+                key={index}
+                onClick={() => setCurrentImageIndex(index)}
+                className={`w-2.5 h-2.5 rounded-full cursor-pointer transition-all duration-300 ${
+                  currentImageIndex === index ? 'bg-white scale-125' : 'bg-light/80 hover:bg-light'
+                }`}
+              ></span>
+            ))}
+          </div>
+          <p className="text-white mt-2 text-sm">
+            {currentImageIndex + 1} / {property.images.length}
+          </p>
+        </div>
+      )}
+
+      <button className='block md:hidden btn-tertiary' onClick={() => openLightbox}> more </button>
 
       {/* Property details */}
       <div className='grid md:grid-cols-2 gap-4 space-y-8'>

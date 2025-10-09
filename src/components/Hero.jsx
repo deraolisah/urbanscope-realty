@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import heroImg from '../assets/hero-img.png';
 import heroImg2 from '../assets/hero-img-2.png';
 import heroImg3 from '../assets/hero-img-3.png';
@@ -19,6 +19,16 @@ const Hero = () => {
 
   const nextSlide = () => setCurrentIndex((currentIndex + 1) % images.length);
   const prevSlide = () => setCurrentIndex((currentIndex - 1 + images.length) % images.length);
+
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+      if (e.key === 'Escape') closeLightbox();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [currentIndex]);
 
   return (
     <section className="container py-8 md:py-12">
@@ -55,13 +65,27 @@ const Hero = () => {
 
       {/* LIGHTBOX MODAL */}
       {isOpen && (
-        <div className="fixed inset-0 bg-dark/80 backdrop-blur-xs flex items-center justify-center z-50">
-          <button className="absolute top-4 right-4 text-white text-3xl cursor-pointer" onClick={closeLightbox}>&times;</button>
+        <div className="fixed inset-0 bg-dark/80 backdrop-blur-xs flex flex-col items-center justify-center z-50">
+          <button className="absolute top-4 right-4 text-white text-4xl cursor-pointer" onClick={closeLightbox}>&times;</button>
           <div className="relative max-w-3xl mx-auto w-full px-4">
             <img src={images[currentIndex]} alt={`Slide ${currentIndex + 1}`} className="rounded-lg w-full" />
             <div className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl cursor-pointer" onClick={prevSlide}>&#10094;</div>
             <div className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white text-3xl cursor-pointer" onClick={nextSlide}>&#10095;</div>
           </div>
+          <div className='flex items-center justify-center gap-3 my-4'>
+            {images.map((_, index) => (
+              <span
+                key={index}
+                onClick={() => setCurrentIndex(index)}
+                className={`w-2.5 h-2.5 rounded-full cursor-pointer transition-all duration-300 ${
+                  currentIndex === index ? 'bg-white scale-125' : 'bg-light/80 hover:bg-light'
+                }`}
+              ></span>
+            ))}
+          </div>
+          <p className="text-white mt-2 text-sm">
+            {currentIndex + 1} / {images.length}
+          </p>
         </div>
       )}
     </section>
