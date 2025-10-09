@@ -175,7 +175,7 @@ const PropertyDetail = () => {
   return (
     <div className="container py-4 space-y-8">
       {/* Back button */}
-      <button onClick={() => window.history.back()} className="absolute z-2 ml-2 mt-2 text-sm btn-secondary bg-light/80 hover:bg-light">
+      <button onClick={() => window.history.back()} className="absolute z-2 ml-2 mt-2 text-sm btn-secondary bg-light/90 hover:bg-light">
         <HiMiniChevronLeft className='text-lg' />
         Go back
       </button>
@@ -192,7 +192,7 @@ const PropertyDetail = () => {
       <button className='block md:hidden btn-tertiary'> more </button>
 
       {/* Property details */}
-      <div className='grid md:grid-cols-2 gap-4 space-y-4'>
+      <div className='grid md:grid-cols-2 gap-4 space-y-8'>
         <div className="flex flex-col items-start gap-1.5">
           <h3 className='text-xl font-extrabold uppercase'> {property.title} </h3>
           <p className="text-lg font-normal flex items-center gap-1"> <GrLocation /> {property.location} </p>

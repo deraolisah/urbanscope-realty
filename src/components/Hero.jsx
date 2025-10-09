@@ -55,7 +55,7 @@ const Hero = () => {
 
       {/* LIGHTBOX MODAL */}
       {isOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-xs flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-dark/80 backdrop-blur-xs flex items-center justify-center z-50">
           <button className="absolute top-4 right-4 text-white text-3xl cursor-pointer" onClick={closeLightbox}>&times;</button>
           <div className="relative max-w-3xl mx-auto w-full px-4">
             <img src={images[currentIndex]} alt={`Slide ${currentIndex + 1}`} className="rounded-lg w-full" />
