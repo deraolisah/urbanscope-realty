@@ -41,7 +41,7 @@
 /* Custom styles */
 @layer components {
   .btn{
-    @apply w-full bg-dark text-white px-6 py-2.5 text-center rounded-sm hover:bg-dark border border-dark transition-colors flex items-center justify-center gap-1.5 cursor-pointer;
+    @apply w-full bg-dark text-white px-6 py-2.5 text-center rounded-sm hover:gap-2 hover:bg-dark border border-dark transition-all flex items-center justify-center gap-1.5 cursor-pointer;
   }
   
   .btn-dark-2 {

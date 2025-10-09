@@ -12,7 +12,13 @@ const Explore = () => {
   const [ properties, setProperties ] = useState([]);
   const [ priceFilter, setPriceFilter ] = useState(600);
 
-  const [showLayout, setShowLayout] = useState('grid');
+  const [ showFilter, setShowFilter ] = useState(false);
+
+  const toggleFilter = () => {
+    setShowFilter(!showFilter);
+  }
+
+  const [ showLayout, setShowLayout ] = useState('grid');
 
   useEffect(() => {
     setLoading(false);
@@ -23,7 +29,8 @@ const Explore = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-100 relative container md:!p-0">
-      <aside className="hidden md:block w-1/4 bg-white p-6 shadow-md relative">
+      {showFilter && <div onClick={() => setShowFilter(false)} className='cursor-pointer fixed z-1 inset-0 bg-dark/80 backdrop-blur-xs'></div>}
+      <aside className={`md:block w-full md:w-1/4 bg-white p-6 shadow-md left-0 md:relative fixed z-2 bottom-0 md:opacity-100 md:translate-y-0 md:pointer-events-auto transition-all duration-400 ${showFilter ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-20 pointer-events-none"}`}>
         <div className='sticky top-20'>
           <h2 className="text-xl font-bold mb-4">Filters</h2>
           <div>
@@ -42,7 +49,7 @@ const Explore = () => {
             <label htmlFor='houses' className='space-x-2 mb-1'>
               <input
                 id='houses'
-                type='radio'
+                type='checkbox'
                 className=''
                 />
               <span> Houses </span>
@@ -50,7 +57,7 @@ const Explore = () => {
             <label htmlFor='apartments' className='space-x-2 mb-1'>
               <input
                 id='apartments'
-                type='radio'
+                type='checkbox'
                 className=''
                 />
               <span> Apartments </span>
@@ -58,7 +65,7 @@ const Explore = () => {
             <label htmlFor='lands' className='space-x-2'>
               <input
                 id='lands'
-                type='radio'
+                type='checkbox'
                 className=''
                 />
               <span> Lands </span>
@@ -75,7 +82,7 @@ const Explore = () => {
       <main className="w-full md:w-3/4 h-fit p-4 px-0 md:px-6">
         <div className='mb-4 flex items-center justify-between'>
           <div className='flex items-center gap-2'>
-            <button className='flex md:hidden items-center gap-1 text-base cursor-pointer hover:bg-dark/5 p-0.5 px-2 border border-dark/5'> 
+            <button onClick={toggleFilter} className='flex md:hidden items-center gap-1 text-base cursor-pointer hover:bg-dark/5 p-0.5 px-2 border border-dark/5'> 
               Filters <MdOutlineFilterList /> 
             </button>
             <button onClick={() => setShowLayout("grid")} title='Grid Layout' className={`text-xl p-1 border-1 border-dark/5 hover:bg-dark/5 cursor-pointer ' ${showLayout === "grid" ? "bg-dark/10" : ""}`}>
