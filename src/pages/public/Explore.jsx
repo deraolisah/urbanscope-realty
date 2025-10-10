@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import PropertyCard from '../components/PropertyCard';
-import PropertyList from '../components/PropertyList';
+import PropertyCard from '../../components/PropertyCard';
+import PropertyList from '../../components/PropertyList';
 import { MdOutlineFilterList } from "react-icons/md";
 import { FiGrid } from "react-icons/fi";
 import { HiMiniListBullet } from "react-icons/hi2";
@@ -81,19 +81,6 @@ const Explore = () => {
 
       <main className="w-full md:w-3/4 h-fit p-4 px-0 md:px-6">
         <div className='mb-4 flex items-center justify-between'>
-          <div className='flex items-center gap-2'>
-            <button onClick={toggleFilter} className='flex md:hidden items-center gap-1 text-base cursor-pointer hover:bg-dark/5 p-0.5 px-2 border border-dark/5'> 
-              Filters <MdOutlineFilterList /> 
-            </button>
-            <button onClick={() => setShowLayout("grid")} title='Grid Layout' className={`text-xl p-1 border-1 border-dark/5 hover:bg-dark/5 cursor-pointer ' ${showLayout === "grid" ? "bg-dark/10" : ""}`}>
-              <FiGrid /> 
-            </button>
-            <button onClick={() => setShowLayout("list")} title='List Layout' className={`text-xl p-1 border-1 border-dark/5 hover:bg-dark/5 cursor-pointer ' ${showLayout === "list" ? "bg-dark/10" : ""}`}> 
-              <HiMiniListBullet /> 
-            </button>
-          </div>
-
-
           <div className='text-dark/80 flex items-center gap-1'> 
             Sort by 
             <span className='text-dark font-medium inline-flex items-center space-x-1 cursor-pointer'> 
@@ -103,6 +90,18 @@ const Explore = () => {
               </select>
               <MdOutlineKeyboardArrowDown className='flex sm:hidden' />
             </span> 
+          </div>
+
+          <div className='flex items-center gap-2'>
+            <button onClick={() => setShowLayout("grid")} title='Grid Layout' className={`text-xl p-1 border-1 border-dark/5 hover:bg-dark/5 cursor-pointer ' ${showLayout === "grid" ? "bg-dark/10" : ""}`}>
+              <FiGrid /> 
+            </button>
+            <button onClick={() => setShowLayout("list")} title='List Layout' className={`text-xl p-1 border-1 border-dark/5 hover:bg-dark/5 cursor-pointer ' ${showLayout === "list" ? "bg-dark/10" : ""}`}> 
+              <HiMiniListBullet /> 
+            </button>
+            <button onClick={toggleFilter} className='flex md:hidden items-center gap-1 text-base cursor-pointer hover:bg-dark/5 p-0.5 px-2 border border-dark/5'> 
+              Filters <MdOutlineFilterList /> 
+            </button>
           </div>
         </div>
 

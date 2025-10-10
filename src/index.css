@@ -59,7 +59,7 @@
   }
   
   .input-field {
-    @apply bg-grey/10 w-full px-4 py-2 border border-grey focus:outline-none focus:ring-1 focus:ring-dark focus:border-transparent;
+    @apply bg-grey/0 w-full px-4 py-2 border border-grey focus:outline-none focus:ring-1 focus:ring-dark focus:border-transparent;
   }
 }
 

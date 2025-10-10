@@ -158,10 +158,11 @@ import { useParams } from 'react-router-dom';
 import { FiArrowLeft, FiCheck, FiMail } from 'react-icons/fi';
 import { HiMiniChevronLeft, HiOutlineHeart, HiMiniShare } from "react-icons/hi2";
 import { GrLocation } from "react-icons/gr";
-import { PropertyContext } from "../contexts/PropertyContext";
+import { PropertyContext } from "../../contexts/PropertyContext";
 import "./PropertyDetail.css";
 
 const PropertyDetail = () => {
+  const [ pricing, setPricing ] = useState(false);
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -184,11 +185,18 @@ const PropertyDetail = () => {
 
   const closeLightbox = () => setIsLightboxOpen(false);
 
-  const nextImage = () =>
+  const nextImage = () => {
     setCurrentImageIndex((currentImageIndex + 1) % property.images.length);
+  }
 
-  const prevImage = () =>
+  const prevImage = () => {
     setCurrentImageIndex((currentImageIndex - 1 + property.images.length) % property.images.length);
+  }
+
+
+  const togglePricing = () => {
+    setPricing(!pricing);
+ }
 
   return (
     <div className="container py-4 space-y-8 relative">
@@ -265,7 +273,18 @@ const PropertyDetail = () => {
             ${property.price}
             <span className='text-base font-normal text-dark/80'> /month </span>
           </h3>
-          <span className="cursor-pointer font-semibold underline">Pricing details and terms</span>
+          <button onClick={togglePricing} className="cursor-pointer font-semibold underline">Pricing details and terms</button>
+
+          {pricing && (
+            <div className='bg-dark/80 w-full h-full fixed z-50 top-0 left-0 flex items-center justify-center px-4'> 
+              <div className='bg-light h-68 w-lg mx-auto shadow-md rounded-sm p-6'>
+                <div className='flex items-center justify-between'>
+                  <h4 className='text-lg font-extrabold'> Pricing details </h4>
+                  <button onClick={() => { setPricing(false)}} className='cursor-pointer hover:underline'> close </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-dark/5 border border-dark/5 rounded-sm mt-4">
             <div className="text-center"><div className="font-semibold text-2xl">{property.size}<span className='text-sm'> m² </span></div></div>
