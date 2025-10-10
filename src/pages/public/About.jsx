@@ -4,7 +4,7 @@ import React from 'react';
 const About = () => {
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-6">About GRANDVIEW REALTY</h1>
+      <h1 className="text-4xl font-bold mb-6"> About Niarobi Apartments </h1>
       <p className="text-lg text-gray-700 leading-relaxed">
         We are dedicated to helping you find your perfect home with over 1,000 apartments 
         available across the city. Our experienced agents are committed to providing 

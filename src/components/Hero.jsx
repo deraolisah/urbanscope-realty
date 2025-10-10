@@ -3,6 +3,7 @@ import heroImg from '../assets/hero-img.png';
 import heroImg2 from '../assets/hero-img-2.png';
 import heroImg3 from '../assets/hero-img-3.png';
 import { HiMiniArrowRight } from "react-icons/hi2";
+import { Link } from 'react-router-dom';
 
 const images = [heroImg, heroImg2, heroImg, heroImg3]; // Replace with actual image imports
 
@@ -40,7 +41,7 @@ const Hero = () => {
           <p className='text-md md:pr-[35%]'>
             We offer over 1,000 apartments for every request. You are guaranteed to find an apartment that suits you.
           </p>
-          <div className='flex gap-0'>
+          <Link to="/explore" className='flex gap-0'>
             <input
               type='search'
               placeholder='Enter country, city or region'
@@ -49,7 +50,7 @@ const Hero = () => {
             <button className='btn w-fit rounded-l-none rounded-r-lg'>
               <HiMiniArrowRight />
             </button>
-          </div>
+          </Link>
         </div>
       </div>
 

@@ -32,7 +32,7 @@ const Explore = () => {
       {showFilter && <div onClick={() => setShowFilter(false)} className='cursor-pointer fixed z-1 inset-0 bg-dark/80 backdrop-blur-xs'></div>}
       <aside className={`md:block w-full md:w-1/4 bg-white p-6 shadow-md left-0 md:relative fixed z-2 bottom-0 md:opacity-100 md:translate-y-0 md:pointer-events-auto transition-all duration-400 ${showFilter ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-20 pointer-events-none"}`}>
         <div className='sticky top-20'>
-          <h2 className="text-xl font-bold mb-4">Filters</h2>
+          <h2 className="text-xl font-bold mb-4"> Filter Properties ({ properties.length }) </h2>
           <div>
             <label className="block font-semibold mb-2">  Price: ${priceFilter}</label>
             <input

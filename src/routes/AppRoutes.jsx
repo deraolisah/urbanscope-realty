@@ -9,6 +9,8 @@ import Contact from '../pages/public/Contact';
 import Explore from '../pages/public/Explore';
 import Services from '../pages/public/Services';
 import PropertyDetail from '../pages/public/PropertyDetail';
+import Privacy from '../pages/public/Privacy';
+import Terms from '../pages/public/Terms';
 
 // AUTH
 import Login from '../pages/auth/Login';
@@ -16,6 +18,8 @@ import Login from '../pages/auth/Login';
 // ADMIN
 import DashboardLayout from '../layouts/DashboardLayout';
 import AdminDashboard from '../pages/admin/AdminDashboard';
+ 
+// ERROR 404
 import NotFound from '../pages/NotFound';
 
 
@@ -31,6 +35,8 @@ const AppRoutes = () => {
           <Route path='/explore' element={<Explore />} />
           <Route path='/services' element={<Services />} />
           <Route path="/property/:id" element={<PropertyDetail />} />
+          <Route path='/privacy' element={<Privacy />} />
+          <Route path='/terms' element={<Terms />} />
           {/* AUTH */}
           <Route path='/login' element={<Login />} />
         </Route>
