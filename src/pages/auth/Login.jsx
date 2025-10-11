@@ -13,7 +13,7 @@ const Login = () => {
         <button onClick={() => setIsLogin(false)} className="w-full py-3 cursor-pointer" title='Register'>
           Register
         </button>
-        <div className={`absolute bottom-0 h-0.5 w-1/2 left-0 bg-dark transition-transform duration-300 ${
+        <div className={`absolute bottom-0 h-0.5 w-1/2 left-0 bg-dark transition-transform duration-800 ${
             isLogin ? 'translate-x-0' : 'translate-x-full'
           }`}
         />
@@ -23,7 +23,7 @@ const Login = () => {
       <div className="relative h-[320px] mt-8">
         {/* Login Form */}
         <form
-          className={`absolute top-0 left-0 w-full flex flex-col gap-4 transition-all duration-500 ${
+          className={`absolute top-0 left-0 w-full flex flex-col gap-4 transition-all duration-600 ${
             isLogin ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'
           }`}
         >

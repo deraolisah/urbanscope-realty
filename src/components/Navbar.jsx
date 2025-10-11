@@ -46,9 +46,9 @@ const Navbar = () => {
           <Link to="/about" onClick={() => setIsMenuOpen(false)} className="text-dark"> About </Link>
           <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="text-dark"> Contact </Link>
           <Link to="/services" onClick={() => setIsMenuOpen(false)} className="text-dark"> Services </Link>
-          <Link to="/login" className="btn"> Sign In </Link>
+          <Link to="/login" onClick={() => setIsMenuOpen(false)} className="btn"> Sign In </Link>
         </ul>
-      {isMenuOpen && ( <div className='z-0 fixed inset-0 bg-dark/80 backdrop-blur-xs'></div>)} 
+      {isMenuOpen && ( <div onClick={() => setIsMenuOpen(false)} className='z-0 fixed inset-0 bg-dark/80 backdrop-blur-xs cursor-pointer'></div>)} 
     </nav>
   )
 }
