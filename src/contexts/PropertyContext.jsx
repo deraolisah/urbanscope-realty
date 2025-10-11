@@ -12,10 +12,10 @@ const PropertyProvider = ({ children }) => {
   const fetchProperties = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`${API_URL}/properties`);
+      const res = await axios.get(`${API_URL}/properties/featured`);
       setProperties(res.data);
     } catch (error) {
-      console.error("Failed to fetch properties:", error);
+      console.error("Failed to fetch featured properties:", error);
     } finally {
       setLoading(false);
     }
