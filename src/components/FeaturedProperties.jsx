@@ -11,6 +11,12 @@ const FeaturedProperties = () => {
   const featuredProperties = properties.filter(p => p.featured === true);
   const newProperties = properties.filter(p => p.featured !== true);
 
+  if (!Array.isArray(properties)) {
+    console.error("Expected an array but got:", typeof properties);
+    return null;
+  }
+
+
   return (
     <section className="container py-8 md:py-12">
       {/* Featured Properties Section */}
