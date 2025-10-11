@@ -265,7 +265,7 @@ const PropertyDetail = () => {
       <button className='block md:hidden btn-tertiary' onClick={() => openLightbox}> more </button>
 
       {/* Property details */}
-      <div className='grid md:grid-cols-2 gap-4 space-y-8'>
+      <div className='grid md:grid-cols-2 gap-4 space-y-8 pb-4'>
         <div className="flex flex-col items-start gap-1.5">
           <h3 className='text-xl font-extrabold uppercase'> {property.title} </h3>
           <p className="text-lg font-normal flex items-center gap-1"> <GrLocation /> {property.location} </p>

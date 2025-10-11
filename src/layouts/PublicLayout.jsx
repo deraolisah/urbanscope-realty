@@ -7,7 +7,9 @@ const PublicLayout = () => {
   return (
     <>
       <Navbar />
+      <div className='min-h-100'>
         <Outlet />
+      </div>
       <Footer />
     </>
   )

@@ -20,9 +20,11 @@ const Explore = () => {
 
   const [ showLayout, setShowLayout ] = useState('grid');
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     setLoading(false);
-    axios.get('http://localhost:5000/api/properties')
+    axios.get(`${API_URL}/properties`)
       .then(res => setProperties(res.data))
       .catch(err => console.error(err));
   }, []);
@@ -79,7 +81,7 @@ const Explore = () => {
         </div>
       </aside>
 
-      <main className="w-full md:w-3/4 h-fit p-4 px-0 md:px-6">
+      <main className="w-full md:w-3/4 h-fit p-4 pb-6 px-0 md:px-6">
         <div className='mb-4 flex items-center justify-between'>
           <div className='text-dark/80 flex items-center gap-1'> 
             Sort by 
