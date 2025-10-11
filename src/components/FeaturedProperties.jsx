@@ -7,12 +7,13 @@ const FeaturedProperties = () => {
 
   if (loading) return <div className="container py-8">Loading properties...</div>;
 
-  // You can filter featured or new properties if needed
-  // const featuredProperties = properties.filter(p => p.featured);
-  // const newProperties = properties.filter(p => !p.featured);
+  if (!Array.isArray(properties)) {
+    console.error("Expected an array but got:", typeof properties);
+    return null;
+  }
 
   const featuredProperties = properties.filter(p => p.featured === true);
-const newProperties = properties.filter(p => p.featured !== true);
+  const newProperties = properties.filter(p => p.featured !== true);
 
   return (
     <section className="container py-8 md:py-12">
@@ -28,7 +29,6 @@ const newProperties = properties.filter(p => p.featured !== true);
           </div>
         ))}
       </div>
-
 
       {/* New in Town Section */}
       <div className="mb-12">
