@@ -6,18 +6,10 @@ const FeaturedProperties = () => {
   const { properties, loading } = useContext(PropertyContext);
 
   if (loading) return <div className="container py-8">Loading properties...</div>;
-
-  if (!Array.isArray(properties)) {
-    console.error("Expected an array but got:", typeof properties);
-    return null;
-  }
+  if (properties.length === 0) return <div className="container py-8 text-center">No properties available.</div>;
 
   const featuredProperties = properties.filter(p => p.featured === true);
   const newProperties = properties.filter(p => p.featured !== true);
-
-  if (properties.length === 0) {
-    return <div className="container py-8 text-center">No properties available.</div>;
-  }
 
   return (
     <section className="container py-8 md:py-12">

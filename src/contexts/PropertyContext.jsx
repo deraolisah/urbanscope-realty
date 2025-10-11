@@ -11,12 +11,13 @@ const PropertyProvider = ({ children }) => {
 
   const fetchProperties = async () => {
     try {
+      setLoading(true);
       const res = await axios.get(`${API_URL}/properties`);
-      // const res = await axios.get("https://niarobi-apartments-backend.vercel.app/api/properties");
       setProperties(res.data);
-      setLoading(false);
     } catch (error) {
       console.error("Failed to fetch properties:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
