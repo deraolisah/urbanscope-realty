@@ -5,8 +5,8 @@ import { HiMiniArrowRight } from "react-icons/hi2";
 const PropertyPreview = ({ property, showMore = true }) => {
   return (
     <div className="bg-dark/5 hover:bg-dark/10 hover:shadow-md transition-colors duration-200 rounded-lg">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-start md:h-[400px] gap-0">
-        <div className="flex flex-col items-start justify-between space-y-2 h-full w-full md:max-w-md p-4">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-start md:h-[400px] gap-1">
+        <div className="flex flex-col items-start justify-between space-y-2 h-full w-full md:max-w-md p-6">
           <div className='space-y-1'>
             <h3 className="font-bold text-lg md:text-xl uppercase">{property.title}</h3>
               
