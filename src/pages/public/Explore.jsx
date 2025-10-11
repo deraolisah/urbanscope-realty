@@ -21,6 +21,7 @@ const Explore = () => {
       try {
         setLoading(true);
         const res = await axios.get(`${API_URL}/properties`);
+        console.log(res.data);
         setProperties(res.data);
       } catch (err) {
         console.error("Failed to fetch properties:", err);
