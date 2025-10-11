@@ -86,7 +86,7 @@ const Explore = () => {
           <div className='text-dark/80 flex items-center gap-1'> 
             Sort by 
             <span className='text-dark font-medium inline-flex items-center space-x-1 cursor-pointer'> 
-              <select  className='cursor-pointer'>
+              <select className='cursor-pointer'>
                 <option value="Price"> Price </option>
                 <option value="Price"> Alphabet </option>
               </select>
