@@ -22,10 +22,8 @@ const Explore = () => {
         setLoading(true);
         const res = await axios.get(`${API_URL}/properties`);
         setProperties(res.data);
-        // console.log(res.data);
       } catch (err) {
         console.error("Failed to fetch properties:", err);
-        // setProperties([]); // Set empty array on error
       } finally {
         setLoading(false);
       }
@@ -52,46 +50,6 @@ const Explore = () => {
     const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
     return matchesPrice && matchesType;
   });
-
-  // const filteredProperties = Array.isArray(properties) 
-  // ? properties.filter(p => {
-  //     const matchesPrice = p.price <= priceFilter;
-  //     const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
-  //     return matchesPrice && matchesType;
-  //   })
-  // : [];
-
-  // // Safe filtering
-  // const filteredProperties = properties.filter(p => {
-  //   // Add additional safety checks for property structure
-  //   if (!p || typeof p !== 'object') return false;
-    
-  //   const matchesPrice = p.price != null && p.price <= priceFilter;
-  //   const matchesType = selectedTypes.length === 0 || 
-  //                      (p.propertyType && selectedTypes.includes(p.propertyType));
-  //   return matchesPrice && matchesType;
-  // });
-
-
-  //  // Safe filter function
-  // const filteredProperties = React.useMemo(() => {
-  //   if (!Array.isArray(properties)) return [];
-    
-  //   return properties.filter(property => {
-  //     // Validate property object
-  //     if (!property || typeof property !== 'object') return false;
-      
-  //     // Safe price check
-  //     const price = Number(property.price);
-  //     const matchesPrice = !isNaN(price) && price <= priceFilter;
-      
-  //     // Safe type check
-  //     const matchesType = selectedTypes.length === 0 || 
-  //                        (property.propertyType && selectedTypes.includes(property.propertyType));
-      
-  //     return matchesPrice && matchesType;
-  //   });
-  // }, [properties, priceFilter, selectedTypes]);
 
 
   return (

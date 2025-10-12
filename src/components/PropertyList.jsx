@@ -19,7 +19,7 @@ const PropertyList = ({ property }) => {
         </div>
         <p className='text-sm uppercase font-bold'> {property.title} </p>
         <p className='text-sm text-dark/60 font-semibold'> {property.location} </p>
-        <p className='text-dark/80 text-sm'> {property.description.slice(0,200) + "..."} </p>
+        <p className='text-dark/80 text-xs mt-2'> {property.description.slice(0,120) + "..."} </p>
       </div>
     </div>
   )
