@@ -3,23 +3,25 @@ import { Link } from 'react-router-dom';
 import { HiMiniArrowRight } from "react-icons/hi2";
 
 const PropertyPreview = ({ property, showMore = true }) => {
+
+
   return (
-    <div className="bg-dark/5 hover:bg-dark/10 hover:shadow-md transition-colors duration-200 rounded-lg">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-start md:h-[400px] gap-1">
-        <div className="flex flex-col items-start justify-between space-y-2 h-full w-full md:max-w-md p-6">
-          <div className='space-y-1'>
-            <h3 className="font-bold text-lg md:text-xl uppercase">{property.title}</h3>
+    <div className="bg-dark/5 w-full hover:bg-dark/10 hover:shadow-md transition-colors duration-200 rounded-lg">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-start md:h-[400px] gap-0">
+        <div className="flex flex-col items-start justify-between space-y-2 h-full w-full md:max-w-md p-4 md:p-6 overflow-hidden">
+          <div className='space-y-1 w-full'>
+            <h3 className="font-bold text-base md:text-xl uppercase whitespace-nowrap overflow-hidden text-ellipsis w-full">{property.title}</h3>
               
-            <p className="font-medium"> {property.location} </p>
-            <p className="text-gray-600"> {property.description} </p>
+            <p className="font-medium text-xs"> {property.location} </p>
+            <p className="text-gray-600 text-sm"> {property.description} </p>
             {property.price && (
-              <p className="text-3xl font-extrabold mt-2"> ${property.price}<span className='text-dark/80 font-normal text-base'>/month</span></p>
+              <p className="text-xl md:text-3xl font-extrabold mt-2"> ${property.price}<span className='text-dark/80 font-normal text-base'>/month</span></p>
             )}
           </div>
           {showMore && (
             <Link
             to={`/property/${property._id}`}
-            className="btn"
+            className="hidden md:flex btn"
             onClick={() => { scrollTo(0,0)}}
             >
               View details 
@@ -30,13 +32,13 @@ const PropertyPreview = ({ property, showMore = true }) => {
         </div>
 
         {property.images && (
-          <div className="w-full h-full bg-gray-200 rounded-lg overflow-hidden">
+          <Link to={`/property/${property._id}`} className="w-full h-full bg-gray-200 rounded-lg overflow-hidden">
             <img 
               src={property.images[0]} 
               alt={property.title}
-              className="w-full object-cover"
+              className="w-full h-full object-cover"
             />
-          </div>
+          </Link>
         )}
       </div>
     </div>

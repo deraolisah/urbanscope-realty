@@ -13,6 +13,7 @@ const PropertyProvider = ({ children }) => {
     try {
       setLoading(true);
       const res = await axios.get(`${API_URL}/properties/featured`);
+      // console.log(res.data);
       setProperties(res.data);
     } catch (error) {
       console.error("Failed to fetch featured properties:", error);
