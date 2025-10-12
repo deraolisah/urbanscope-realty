@@ -105,6 +105,7 @@ const Explore = () => {
       return matchesPrice && matchesType;
     });
   }, [properties, priceFilter, selectedTypes]);
+  
 
   return (
     <div className="flex min-h-screen bg-gray-100 relative container md:!p-0">
