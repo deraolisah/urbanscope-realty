@@ -22,11 +22,17 @@ const Explore = () => {
         setLoading(true);
         const res = await axios.get(`${API_URL}/properties`);
 
-        // Ensure we always set an array
-        if (Array.isArray(res.data)) {
+        // Comprehensive response validation
+        if (res.data && Array.isArray(res.data)) {
           setProperties(res.data);
-        } else {
-          console.error("API response is not an array:", res.data);
+        } else if (res.data && Array.isArray(res.data.properties)) {
+          // Handle case where data is nested
+          setProperties(res.data.properties);
+        } else if (res.data && Array.isArray(res.data.data)) {
+          // Handle case where data is in data property
+          setProperties(res.data.data);
+          } else {
+          console.warn("Unexpected API response structure:", res.data);
           setProperties([]);
         }
         // console.log(res.data);
@@ -68,16 +74,37 @@ const Explore = () => {
   //   })
   // : [];
 
-  // Safe filtering
-  const filteredProperties = properties.filter(p => {
-    // Add additional safety checks for property structure
-    if (!p || typeof p !== 'object') return false;
+  // // Safe filtering
+  // const filteredProperties = properties.filter(p => {
+  //   // Add additional safety checks for property structure
+  //   if (!p || typeof p !== 'object') return false;
     
-    const matchesPrice = p.price != null && p.price <= priceFilter;
-    const matchesType = selectedTypes.length === 0 || 
-                       (p.propertyType && selectedTypes.includes(p.propertyType));
-    return matchesPrice && matchesType;
-  });
+  //   const matchesPrice = p.price != null && p.price <= priceFilter;
+  //   const matchesType = selectedTypes.length === 0 || 
+  //                      (p.propertyType && selectedTypes.includes(p.propertyType));
+  //   return matchesPrice && matchesType;
+  // });
+
+
+   // Safe filter function
+  const filteredProperties = React.useMemo(() => {
+    if (!Array.isArray(properties)) return [];
+    
+    return properties.filter(property => {
+      // Validate property object
+      if (!property || typeof property !== 'object') return false;
+      
+      // Safe price check
+      const price = Number(property.price);
+      const matchesPrice = !isNaN(price) && price <= priceFilter;
+      
+      // Safe type check
+      const matchesType = selectedTypes.length === 0 || 
+                         (property.propertyType && selectedTypes.includes(property.propertyType));
+      
+      return matchesPrice && matchesType;
+    });
+  }, [properties, priceFilter, selectedTypes]);
 
   return (
     <div className="flex min-h-screen bg-gray-100 relative container md:!p-0">
