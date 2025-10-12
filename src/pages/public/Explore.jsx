@@ -13,6 +13,7 @@ const Explore = () => {
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showLayout, setShowLayout] = useState('grid');
+  const [sortBy, setSortBy] = useState('price'); // Default sort by price
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -45,12 +46,37 @@ const Explore = () => {
     setSelectedTypes([]);
   };
 
-  const filteredProperties = properties.filter(p => {
-    const matchesPrice = p.price <= priceFilter;
-    const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
-    return matchesPrice && matchesType;
-  });
+  const handleSortChange = (e) => {
+    setSortBy(e.target.value);
+  };
 
+  // Filter and sort properties
+  const filteredProperties = properties
+    .filter(p => {
+      const matchesPrice = p.price <= priceFilter;
+      const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
+      return matchesPrice && matchesType;
+    })
+    .sort((a, b) => {
+      switch (sortBy) {
+        case 'price':
+          return a.price - b.price; // Ascending price
+        case 'price-desc':
+          return b.price - a.price; // Descending price
+        case 'alphabet':
+          return a.title?.localeCompare(b.title); // A-Z
+        case 'alphabet-desc':
+          return b.title?.localeCompare(a.title); // Z-A
+        case 'date':
+          // Assuming you have a createdAt or date field
+          return new Date(a.createdAt || a.date) - new Date(b.createdAt || b.date); // Oldest first
+        case 'date-desc':
+          // Assuming you have a createdAt or date field
+          return new Date(b.createdAt || b.date) - new Date(a.createdAt || a.date); // Newest first
+        default:
+          return 0;
+      }
+    });
 
   return (
     <div className="flex min-h-screen bg-gray-100 relative container md:!p-0">
@@ -64,7 +90,7 @@ const Explore = () => {
       {/* Sidebar Filters */}
       <aside className={`md:block w-full md:w-1/4 bg-white p-6 shadow-md left-0 md:relative fixed z-2 bottom-0 md:opacity-100 md:translate-y-0 md:pointer-events-auto transition-all duration-400 ${showFilter ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-20 pointer-events-none"}`}>
         <div className="sticky top-20">
-          <h2 className="text-xl font-bold mb-4">Filter Properties ({properties.length})</h2>
+          <h2 className="text-xl font-bold mb-4">Filter Properties <span className='font-normal'> ({filteredProperties.length} results) </span></h2>
 
           {/* Price Filter */}
           <div>
@@ -109,10 +135,17 @@ const Explore = () => {
           <div className="text-dark/80 flex items-center gap-1">
             Sort by
             <span className="text-dark font-medium inline-flex items-center space-x-1 cursor-pointer">
-              <select className="cursor-pointer">
-                <option value="price">Price</option>
-                <option value="alphabet">Alphabet</option>
-                <option value="date">Date</option>
+              <select 
+                className="cursor-pointer"
+                value={sortBy}
+                onChange={handleSortChange}
+              >
+                <option value="price">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="alphabet">Name: A to Z</option>
+                <option value="alphabet-desc">Name: Z to A</option>
+                <option value="date">Date: Oldest First</option>
+                <option value="date-desc">Date: Newest First</option>
               </select>
               <MdOutlineKeyboardArrowDown className="flex sm:hidden" />
             </span>

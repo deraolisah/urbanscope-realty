@@ -6,7 +6,7 @@ const PropertyList = ({ property }) => {
   return (
     <div className='w-full flex items-center hover:shadow-md rounded-sm overflow-hidden bg-light'>
       <Link to={`/property/${property._id}`} className='w-fit'>
-        <img src={property.images[0]} alt={property.title} className="w-full h-60 md:h-48 object-cover" />
+        <img src={property.images[0]} alt={property.title} className="w-full h-48 object-cover" />
       </Link>
       <div className='p-4 py-3 w-full space-y-1'>
         <div className='w-full flex items-center justify-between'>
