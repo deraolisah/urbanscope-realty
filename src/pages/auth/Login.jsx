@@ -42,7 +42,7 @@ const Login = () => {
         localStorage.setItem('user', JSON.stringify(response.data.user));
         
         // Redirect to home or intended page
-        navigate('/');
+        navigate('/admin');
         window.location.reload(); // Refresh to update auth state
       }
     } catch (error) {

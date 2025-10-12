@@ -13,6 +13,7 @@ import Privacy from '../pages/public/Privacy';
 import Terms from '../pages/public/Terms';
 
 // AUTH
+import ProtectedRoute from '../components/ProtectedRoute';
 import Login from '../pages/auth/Login';
 
 // ADMIN
@@ -44,9 +45,10 @@ const AppRoutes = () => {
           
 
 
-        {/* ADMIN */}
-        <Route element={<DashboardLayout />}>
-          <Route path='/admin' element={<AdminDashboard />} />
+        {/* PROTECTED ADMIN ROUTES */}
+        <Route path="/admin/*" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+          <Route index element={<AdminDashboard />} />
+          {/* Add more admin routes here */}
         </Route>
 
 
