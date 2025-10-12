@@ -46,11 +46,19 @@ const Explore = () => {
     setSelectedTypes([]);
   };
 
-  const filteredProperties = properties.filter(p => {
-    const matchesPrice = p.price <= priceFilter;
-    const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
-    return matchesPrice && matchesType;
-  });
+  // const filteredProperties = properties.filter(p => {
+  //   const matchesPrice = p.price <= priceFilter;
+  //   const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
+  //   return matchesPrice && matchesType;
+  // });
+
+  const filteredProperties = Array.isArray(properties) 
+  ? properties.filter(p => {
+      const matchesPrice = p.price <= priceFilter;
+      const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
+      return matchesPrice && matchesType;
+    })
+  : [];
 
   return (
     <div className="flex min-h-screen bg-gray-100 relative container md:!p-0">
