@@ -21,10 +21,18 @@ const Explore = () => {
       try {
         setLoading(true);
         const res = await axios.get(`${API_URL}/properties`);
+
+        // Ensure we always set an array
+        if (Array.isArray(res.data)) {
+          setProperties(res.data);
+        } else {
+          console.error("API response is not an array:", res.data);
+          setProperties([]);
+        }
         // console.log(res.data);
-        setProperties(res.data);
       } catch (err) {
         console.error("Failed to fetch properties:", err);
+        setProperties([]); // Set empty array on error
       } finally {
         setLoading(false);
       }
@@ -52,13 +60,24 @@ const Explore = () => {
   //   return matchesPrice && matchesType;
   // });
 
-  const filteredProperties = Array.isArray(properties) 
-  ? properties.filter(p => {
-      const matchesPrice = p.price <= priceFilter;
-      const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
-      return matchesPrice && matchesType;
-    })
-  : [];
+  // const filteredProperties = Array.isArray(properties) 
+  // ? properties.filter(p => {
+  //     const matchesPrice = p.price <= priceFilter;
+  //     const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
+  //     return matchesPrice && matchesType;
+  //   })
+  // : [];
+
+  // Safe filtering
+  const filteredProperties = properties.filter(p => {
+    // Add additional safety checks for property structure
+    if (!p || typeof p !== 'object') return false;
+    
+    const matchesPrice = p.price != null && p.price <= priceFilter;
+    const matchesType = selectedTypes.length === 0 || 
+                       (p.propertyType && selectedTypes.includes(p.propertyType));
+    return matchesPrice && matchesType;
+  });
 
   return (
     <div className="flex min-h-screen bg-gray-100 relative container md:!p-0">
@@ -120,6 +139,7 @@ const Explore = () => {
               <select className="cursor-pointer">
                 <option value="price">Price</option>
                 <option value="alphabet">Alphabet</option>
+                <option value="date">Date</option>
               </select>
               <MdOutlineKeyboardArrowDown className="flex sm:hidden" />
             </span>
