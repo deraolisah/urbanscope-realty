@@ -13,13 +13,16 @@ import Privacy from '../pages/public/Privacy';
 import Terms from '../pages/public/Terms';
 
 // AUTH
-import ProtectedRoute from '../components/ProtectedRoute';
 import Login from '../pages/auth/Login';
+import ProtectedRoute from '../components/ProtectedRoute';
 
-// ADMIN
+// USER DASHBOARD
+import UserDashboard from '../pages/user/UserDashboard';
+
+// ADMIN DASHBOARD
 import DashboardLayout from '../layouts/DashboardLayout';
 import AdminDashboard from '../pages/admin/AdminDashboard';
- 
+
 // ERROR 404
 import NotFound from '../pages/NotFound';
 
@@ -41,12 +44,30 @@ const AppRoutes = () => {
           {/* AUTH */}
           <Route path='/login' element={<Login />} />
         </Route>
+        
+        
+        {/* USER DASHBOARD ROUTES */}
+        <Route 
+          path="/dashboard/*" 
+          element={
+            <ProtectedRoute requiredRole="user">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<UserDashboard />} />
+          {/* Add more user routes here later */}
+        </Route>
 
-          
-
-
-        {/* PROTECTED ADMIN ROUTES */}
-        <Route path="/admin/*" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
+        {/* ADMIN DASHBOARD ROUTES */}
+        <Route 
+          path="/admin/*" 
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<AdminDashboard />} />
           {/* Add more admin routes here */}
         </Route>

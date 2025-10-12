@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await axios.get(`${API_URL}/auth/me`, {
+      const response = await axios.get(`${API_URL}/auth/profile`, {
         withCredentials: true
       });
       setUser(response.data);

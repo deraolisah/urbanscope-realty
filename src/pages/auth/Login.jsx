@@ -37,13 +37,20 @@ const Login = () => {
         withCredentials: true
       });
 
+      // In handleSubmit function, after successful login:
       if (response.status === 200 || response.status === 201) {
-        // Store user data in localStorage or context
+        // Store user data
         localStorage.setItem('user', JSON.stringify(response.data.user));
         
-        // Redirect to home or intended page
-        navigate('/admin');
-        window.location.reload(); // Refresh to update auth state
+        // Redirect based on user role
+        if (response.data.user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
+        
+        // Optional: soft refresh instead of full reload
+        window.dispatchEvent(new Event('authChange'));
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Something went wrong');

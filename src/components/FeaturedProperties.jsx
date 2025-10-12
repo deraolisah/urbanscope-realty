@@ -3,10 +3,10 @@ import { PropertyContext } from '../contexts/PropertyContext';
 import PropertyPreview from './PropertyPreview';
 
 const FeaturedProperties = () => {
-  const { properties, loading } = useContext(PropertyContext);
+  const { featuredProperties, properties, loading } = useContext(PropertyContext);
 
   if (loading) return <div className="container py-8">Loading properties...</div>;
-  if (!Array.isArray(properties) || properties.length === 0) {
+  if (!Array.isArray(featuredProperties) || featuredProperties.length === 0) {
     return <div className="container py-8 text-center">No featured properties available.</div>;
   }
 
