@@ -233,9 +233,9 @@ const Explore = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="w-full md:w-3/4 h-fit p-4 pb-8 px-0 md:px-6">
+      <main className="w-full md:w-3/4 h-fit p-4 pb-8 px-0 md:px-6 space-y-4">
         {/* Header Controls */}
-        <div className="mb-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Search */}
           <div className='w-full flex items-center justify-between gap-3'>
             <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-dark/10 focus:border-dark w-full rounded placeholder:text-sm' />
@@ -307,13 +307,6 @@ const Explore = () => {
                 ))}
               </div>
             )}
-
-            {/* Pagination */}
-            <div className='rounded-md mt-4 text-center flex items-center justify-between'>
-              <button className='btn-tertiary w-fit'> Previous </button>
-              <span className='bg-light p-2.5 rounded-md'> Page 1 / 2 </span>
-              <button className='btn-tertiary w-fit'> Next </button>
-            </div>
           </div>
         )}
 
@@ -330,6 +323,13 @@ const Explore = () => {
             </button>
           </div>
         )}
+
+         {/* Pagination */}
+        <div className='rounded-md text-center flex items-center justify-between'>
+          <button className='btn-tertiary w-fit'> Previous </button>
+          <span className='bg-light p-2.5 px-4 rounded-md'> Page 1 / 2 </span>
+          <button className='btn-tertiary w-fit'> Next </button>
+        </div>
       </main>
     </div>
   );
