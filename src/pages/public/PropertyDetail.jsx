@@ -156,6 +156,7 @@
 import React, { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { FiArrowLeft, FiCheck, FiMail } from 'react-icons/fi';
+import { AiOutlinePicture } from "react-icons/ai";
 import { HiMiniChevronLeft, HiOutlineHeart, HiMiniShare } from "react-icons/hi2";
 import { GrLocation } from "react-icons/gr";
 import { PropertyContext } from "../../contexts/PropertyContext";
@@ -207,14 +208,19 @@ const PropertyDetail = () => {
       </button>
 
       {/* Property images */}
-      <div className="property-images-grid relative bg-dark/5 rounded">
+      <div className={`property-images-grid relative rounded-md ${property.images.length < 4 ? "bg-dark/5" : "" }`}>
         {property.images.slice(0, 4).map((img, index) => (
           <div key={index} className={`grid-item-${index + 1}`}>
             {/* <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover" /> */}
             <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover cursor-pointer" onClick={() => openLightbox(index)} />
           </div>
         ))}
-        {/* <button className='block absolute bottom-2 right-2 btn w-fit' onClick={() => openLightbox}> more </button> */}
+        {property.images.length > 3 && (
+          <button className='flex items-center gap-1 absolute bottom-0 md:bottom-2 right-2 btn-tertiary py-1.5 w-fit cursor-pointer pointer-events-none rounded-full text-sm' onClick={() => openLightbox(index)}> 
+            <AiOutlinePicture />
+            More 
+          </button>
+        )}
       </div>
 
       {isLightboxOpen && (
@@ -230,7 +236,7 @@ const PropertyDetail = () => {
             <img
               src={property.images[currentImageIndex]}
               alt={`Slide ${currentImageIndex + 1}`}
-              className="rounded-lg w-full h-full"
+              className="rounded-lg w-full h-full object-cover"
             />
             <div
               className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl cursor-pointer"
@@ -272,7 +278,7 @@ const PropertyDetail = () => {
           <p className="text-lg font-normal flex items-center gap-1"> <GrLocation /> {property.location} </p>
           <h3 className="text-4xl font-extrabold mt-4">
             ${property.price}
-            <span className='text-base font-normal text-dark/80'> /month available for <span className='bgblue-200 p-1.5 rounded text-blue-600'>{property.propertyTransaction} </span></span>
+            <span className='text-base font-normal text-dark/80'> /month, available for <span className='text-blue-600 lowercase'>{property?.propertyTransaction} </span></span>
           </h3>
           <button onClick={togglePricing} className="cursor-pointer font-semibold underline">Pricing details and terms</button>
 
@@ -297,7 +303,7 @@ const PropertyDetail = () => {
             <div className="text-center">
               <div className="font-semibold text-2xl">
                 {property.size}m²
-                <span className='text-sm font-normal mt-1 block'> Property Size </span>
+                <span className='text-sm font-normal mt-1 block'> Size </span>
               </div>
             </div>
             <div className="text-center">
@@ -319,9 +325,9 @@ const PropertyDetail = () => {
           </div>
 
           <div className="w-full flex items-center justify-between gap-1.5">
-            <button className='btn-tertiary gap-1 truncate' title={property.agent}>
+            <button className='btn-tertiary gap-1 truncate' title={property.agentName}>
               <span className="text-gray-600">Agent:</span>
-              <span className="font-semibold overflow-hidden truncate"> {property.agent} </span>
+              <span className="font-semibold overflow-hidden truncate"> {property?.agentName || "Realtor"} </span>
             </button>
             <button className="btn text-nowrap">Send a request</button>
           </div>

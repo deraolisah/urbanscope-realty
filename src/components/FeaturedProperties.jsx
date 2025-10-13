@@ -24,7 +24,13 @@ const FeaturedProperties = () => {
         Featured Properties
       </h2>
       <div className='grid grid-cols-2 gap-3 md:gap-4'>
-        {properties.map(property => (
+        {/* {properties.map(property => (
+          <div key={property._id} className=''>
+            <PropertyPreview property={property} showMore={true} />
+            <hr className='my-12 border-dark/20' />
+          </div>
+        ))} */}
+        {featuredProperties.slice(0, 2).map(property => (
           <div key={property._id} className=''>
             <PropertyPreview property={property} showMore={true} />
             <hr className='my-12 border-dark/20' />
@@ -32,7 +38,6 @@ const FeaturedProperties = () => {
         ))}
       </div>
 
-      {/* New in Town Section */}
       {/* New in Town Section */}
       <div className="mb-12">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-center leading-tight uppercase mb-4 md:mb-8">

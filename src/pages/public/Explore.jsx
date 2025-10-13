@@ -8,7 +8,7 @@ import { HiMiniListBullet } from "react-icons/hi2";
 import { PropertyContext } from '../../contexts/PropertyContext';
 
 const Explore = () => {
-  const [priceRange, setPriceRange] = useState({ min: 200, max: 760 });
+  const [priceRange, setPriceRange] = useState({ min: 200, max: 6000 });
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showLayout, setShowLayout] = useState('grid');
@@ -24,7 +24,7 @@ const Explore = () => {
   };
 
   const resetFilters = () => {
-    setPriceRange({ min: 200, max: 760 });
+    setPriceRange({ min: 200, max: 1000 });
     setSelectedTypes([]);
   };
 
@@ -69,7 +69,7 @@ const Explore = () => {
     });
 
   return (
-    <div className="flex min-h-screen bg-gray-100 relative container md:!p-0">
+    <div className="flex min-h-screen bg-dark/5 relative container md:!p-0">
       {showFilter && (
         <div
           onClick={() => setShowFilter(false)}
@@ -79,14 +79,16 @@ const Explore = () => {
 
       {/* Sidebar Filters */}
       <aside className={`md:block w-full md:w-1/4 bg-white p-6 pb-8 shadow-md left-0 md:sticky md:top-16 fixed h-100 md:min-h-screen md:h-full overflow-y-auto scrollbar-hidden md:overflow-y-visible rounded-t-2xl md:rounded-t-none z-2 bottom-0 md:opacity-100 md:translate-y-0 md:pointer-events-auto transition-all duration-400 ${showFilter ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-20 pointer-events-none"}`}>
-        <div className="sticky top-20 space-y-8">
+        <div className="sticky top-20 space-y-6">
           <h2 className="text-xl font-extrabold w-full flex items-center justify-between">
             Filter <span className='font-normal text-base'> ({filteredProperties.length} results) </span>
           </h2>
 
+          <hr className='md:hidden border-dark/10'/>
+
           {/* Price Filter - Dual Range */}
           <div className="space-y-2">
-            <h4 className="font-semibold"> Price </h4>
+            <h4 className="text-md font-semibold"> Price </h4>
 
             {/* Dual Range Slider Container */}
             <div className="relative">
@@ -97,8 +99,8 @@ const Explore = () => {
               <div 
                 className="h-1 bg-dark rounded-full absolute top-1/2 -translate-y-1/2"
                 style={{
-                  left: `${((priceRange.min - 100) / 900) * 100}%`,
-                  right: `${100 - ((priceRange.max - 100) / 900) * 100}%`
+                  left: `${((priceRange.min - 100) / 1000) * 10}%`,
+                  right: `${100 - ((priceRange.max - 100) / 1000) * 10}%`
                 }}
               ></div>
 
@@ -106,7 +108,7 @@ const Explore = () => {
               <input
                 type="range"
                 min="100"
-                max="1000"
+                max="10000"
                 value={priceRange.min}
                 onChange={handleMinPriceChange}
                 className="absolute top-1/2 left-0 right-0 w-full h-1 -translate-y-1/2 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-dark [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg"
@@ -116,7 +118,7 @@ const Explore = () => {
               <input
                 type="range"
                 min="100"
-                max="1000"
+                max="10000"
                 value={priceRange.max}
                 onChange={handleMaxPriceChange}
                 className="absolute top-1/2 left-0 right-0 w-full h-1 -translate-y-1/2 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-dark [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg"
@@ -139,14 +141,14 @@ const Explore = () => {
 
           {/* Type Filter */}
           <div className="flex flex-col items-start">
-            <h4 className="font-semibold mb-2">Real Estate Type</h4>
+            <h4 className="text-md font-semibold mb-1"> Real Estate Type </h4>
             {["House", "Apartment", "Land"].map(type => (
-              <label key={type} className="flex items-center space-x-3 mb-2 cursor-pointer group">
+              <label key={type} className="flex items-center space-x-2.5 mb-2 cursor-pointer group text-md">
                 <input
                   type="checkbox"
                   checked={selectedTypes.includes(type)}
                   onChange={() => handleTypeToggle(type)}
-                  className="w-4 h-4 text-dark border-gray-300 rounded focus:ring-dark cursor-pointer"
+                  className="w-4 h-4 text-dark rounded cursor-pointer"
                 />
                 <span className="text-gray-700 group-hover:text-dark transition-colors">{type + "s"}</span>
               </label>
@@ -156,12 +158,59 @@ const Explore = () => {
 
           {/* Cities Filter */}
           <div>
-            <h4 className="font-semibold"> Cities </h4>
+            <h4 className="text-md font-semibold mb-1"> Cities </h4>
+            <select 
+                className="w-full focus:outline-none cursor-pointer text-md text-dark font-medium p-1.5 py-2.5 rounded border border-dark/10 "
+                value={sortBy}
+                onChange={handleSortChange}
+              >
+                <option value="all"> All Cities </option>
+                <option value="lagos-m"> Lagos - Mainland </option>
+                <option value="lagos-i"> lagos - Island </option>
+                <option value="london"> London </option>
+                <option value="dubai"> Dubai </option>
+                <option value="shanghai"> Shanghai </option>
+              </select>
           </div>
+
 
           {/* Bedrooms Filter */}
           <div>
-            <h4 className="font-semibold"> Bedrooms </h4>
+            <h4 className="text-md font-semibold mb-1"> Bedrooms </h4>
+            <div className='flex items-center space-x-4'>
+
+            {["1", "2", "3","4 and more"].map(bedroom => (
+              <label key={bedroom} className="flex items-center space-x-1.5 cursor-pointer group text-md">
+                <input
+                  type="checkbox"
+                  checked={selectedTypes.includes(bedroom)}
+                  onChange={() => handleTypeToggle(bedroom)}
+                  className="w-4 h-4 text-dark rounded cursor-pointer"
+                  />
+                <span className="text-gray-700 group-hover:text-dark transition-colors">{bedroom}</span>
+              </label>
+            ))}
+            </div>
+          </div>
+
+
+          {/* Bathrooms Filter */}
+          <div>
+            <h4 className="text-md font-semibold mb-1"> Bathrooms </h4>
+            <div className='flex items-center space-x-4'>
+
+            {["Any", "Combined", "Separate"].map(bathroom => (
+              <label key={bathroom} className="flex items-center space-x-1.5 cursor-pointer group text-md">
+                <input
+                  type="checkbox"
+                  checked={selectedTypes.includes(bathroom)}
+                  onChange={() => handleTypeToggle(bathroom)}
+                  className="w-4 h-4 text-dark rounded cursor-pointer"
+                  />
+                <span className="text-gray-700 group-hover:text-dark transition-colors">{bathroom}</span>
+              </label>
+            ))}
+            </div>
           </div>
 
 
@@ -189,7 +238,7 @@ const Explore = () => {
         <div className="mb-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Search */}
           <div className='w-full flex items-center justify-between gap-3'>
-            <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-dark/10 focus:border-dark w-full rounded' />
+            <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-dark/10 focus:border-dark w-full rounded placeholder:text-sm' />
             <button type='button' className='btn py-1.5 border-0 px-4 w-fit'> Search </button>
           </div>
 
