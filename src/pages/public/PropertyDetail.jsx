@@ -207,13 +207,14 @@ const PropertyDetail = () => {
       </button>
 
       {/* Property images */}
-      <div className="property-images-grid">
+      <div className="property-images-grid relative bg-dark/5 rounded">
         {property.images.slice(0, 4).map((img, index) => (
           <div key={index} className={`grid-item-${index + 1}`}>
             {/* <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover" /> */}
             <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover cursor-pointer" onClick={() => openLightbox(index)} />
           </div>
         ))}
+        {/* <button className='block absolute bottom-2 right-2 btn w-fit' onClick={() => openLightbox}> more </button> */}
       </div>
 
       {isLightboxOpen && (
@@ -262,7 +263,7 @@ const PropertyDetail = () => {
         </div>
       )}
 
-      <button className='block md:hidden btn-tertiary' onClick={() => openLightbox}> more </button>
+     
 
       {/* Property details */}
       <div className='grid md:grid-cols-2 gap-4 space-y-8 pb-4'>
@@ -271,7 +272,7 @@ const PropertyDetail = () => {
           <p className="text-lg font-normal flex items-center gap-1"> <GrLocation /> {property.location} </p>
           <h3 className="text-4xl font-extrabold mt-4">
             ${property.price}
-            <span className='text-base font-normal text-dark/80'> /month </span>
+            <span className='text-base font-normal text-dark/80'> /month available for <span className='bgblue-200 p-1.5 rounded text-blue-600'>{property.propertyTransaction} </span></span>
           </h3>
           <button onClick={togglePricing} className="cursor-pointer font-semibold underline">Pricing details and terms</button>
 
@@ -286,15 +287,39 @@ const PropertyDetail = () => {
             </div>
           )}
 
-          <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-dark/5 border border-dark/5 rounded-sm mt-4">
-            <div className="text-center"><div className="font-semibold text-2xl">{property.size}<span className='text-sm'> m² </span></div></div>
+          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-6 p-6 bg-dark/5 border border-dark/5 rounded-sm mt-4">
+            <div className="text-center">
+              <div className="font-semibold text-2xl">
+                {property.propertyType}
+                <span className='text-sm font-normal mt-1 block'> Property Type </span>
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-2xl">
+                {property.size}m²
+                <span className='text-sm font-normal mt-1 block'> Property Size </span>
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-2xl">
+                {property.bedrooms}
+                <span className='text-sm font-normal mt-1 block'> Bedrooms </span>
+              </div>
+            </div>
+            <div className="text-center">
+              <div className="font-semibold text-2xl">
+                {property.bathrooms}
+                <span className='text-sm font-normal mt-1 block'> Bathrooms </span>
+              </div>
+            </div>
+            {/* <div className="text-center"><div className="font-semibold text-2xl">{property.size}<span className='text-sm'> m² </span></div></div>
             <div className="text-center"><div className="font-semibold text-2xl">{property.bedrooms}<span className='text-sm'> beds </span></div></div>
             <div className="text-center"><div className="font-semibold text-2xl">{property.bathrooms}<span className='text-sm'> baths </span></div></div>
-            <div className="text-center"><div className="font-semibold text-2xl">{property.floor}<span className='text-sm'> floor </span></div></div>
+            <div className="text-center"><div className="font-semibold text-2xl">{property.floor}<span className='text-sm'> floor </span></div></div> */}
           </div>
 
           <div className="w-full flex items-center justify-between gap-1.5">
-            <button className='btn-tertiary truncate' title={property.agent}>
+            <button className='btn-tertiary gap-1 truncate' title={property.agent}>
               <span className="text-gray-600">Agent:</span>
               <span className="font-semibold overflow-hidden truncate"> {property.agent} </span>
             </button>

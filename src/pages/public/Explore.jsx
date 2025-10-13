@@ -78,15 +78,15 @@ const Explore = () => {
       )}
 
       {/* Sidebar Filters */}
-      <aside className={`md:block w-full md:w-1/4 bg-white p-6 pb-8 shadow-md left-0 md:sticky md:top-16 fixed h-100 md:min-h-screen md:h-full overflow-y-auto md:overflow-y-visible rounded-t-2xl md:rounded-t-none z-2 bottom-0 md:opacity-100 md:translate-y-0 md:pointer-events-auto transition-all duration-400 ${showFilter ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-20 pointer-events-none"}`}>
+      <aside className={`md:block w-full md:w-1/4 bg-white p-6 pb-8 shadow-md left-0 md:sticky md:top-16 fixed h-100 md:min-h-screen md:h-full overflow-y-auto scrollbar-hidden md:overflow-y-visible rounded-t-2xl md:rounded-t-none z-2 bottom-0 md:opacity-100 md:translate-y-0 md:pointer-events-auto transition-all duration-400 ${showFilter ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-20 pointer-events-none"}`}>
         <div className="sticky top-20 space-y-8">
-          <h2 className="text-xl font-extrabold">
-            Filter Properties <span className='font-normal text-base'> ({filteredProperties.length} results) </span>
+          <h2 className="text-xl font-extrabold w-full flex items-center justify-between">
+            Filter <span className='font-normal text-base'> ({filteredProperties.length} results) </span>
           </h2>
 
           {/* Price Filter - Dual Range */}
           <div className="space-y-2">
-            <h4 className="font-semiboldbold"> Price </h4>
+            <h4 className="font-semibold"> Price </h4>
 
             {/* Dual Range Slider Container */}
             <div className="relative">
@@ -125,7 +125,7 @@ const Explore = () => {
 
             {/* Price Display */}
             <div className="flex justify-between items-center mt-6">
-              <div className="text-start px-2 py-1 w-full border border-dark/10" contentEditable={true}>
+              <div className="text-start px-2 py-1 w-full border border-dark/10">
                 {/* <span className="text-sm text-gray-600">Min Price</span> */}
                 <div className="font-semibold text-lg">${priceRange.min}</div>
               </div>
@@ -135,12 +135,6 @@ const Explore = () => {
                 <div className="font-semibold text-lg">${priceRange.max}</div>
               </div>
             </div>
-
-            {/* Price Labels */}
-            {/* <div className="flex justify-between text-xs text-gray-500 mt-2">
-              <span>$100</span>
-              <span>$1000</span>
-            </div> */}
           </div>
 
           {/* Type Filter */}
@@ -154,10 +148,22 @@ const Explore = () => {
                   onChange={() => handleTypeToggle(type)}
                   className="w-4 h-4 text-dark border-gray-300 rounded focus:ring-dark cursor-pointer"
                 />
-                <span className="text-gray-700 group-hover:text-dark transition-colors">{type}</span>
+                <span className="text-gray-700 group-hover:text-dark transition-colors">{type + "s"}</span>
               </label>
             ))}
           </div>
+
+
+          {/* Cities Filter */}
+          <div>
+            <h4 className="font-semibold"> Cities </h4>
+          </div>
+
+          {/* Bedrooms Filter */}
+          <div>
+            <h4 className="font-semibold"> Bedrooms </h4>
+          </div>
+
 
           {/* Filter Buttons */}
           <div className="flex items-center gap-3 mt-8">
@@ -180,47 +186,56 @@ const Explore = () => {
       {/* Main Content */}
       <main className="w-full md:w-3/4 h-fit p-4 pb-6 px-0 md:px-6">
         {/* Header Controls */}
-        <div className="mb-4 flex items-center justify-between">
-          <div className="text-dark/80 flex items-center gap-0">
-            Sort by
-            <span className="text-dark font-medium inline-flex items-center cursor-pointer">
+        <div className="mb-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          {/* Search */}
+          <div className='w-full flex items-center justify-between gap-3'>
+            <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-dark/10 focus:border-dark w-full rounded' />
+            <button type='button' className='btn py-1.5 border-0 px-4 w-fit'> Search </button>
+          </div>
+
+          <div className='w-full flex items-center justify-between sm:justify-end gap-2'>
+            {/* Sort */}
+            <div className="text-dark/80 flex items-center gap-1">
+              {/* Sort By */}
               <select 
-                className="cursor-pointer text-sm focus:outline-none"
+                className="focus:outline-none cursor-pointer text-sm text-dark/60 font-medium p-1.5 rounded border border-dark/10 "
                 value={sortBy}
                 onChange={handleSortChange}
               >
-                <option value="price">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="alphabet">Name: A to Z</option>
-                <option value="alphabet-desc">Name: Z to A</option>
-                <option value="date">Date: Oldest First</option>
-                <option value="date-desc">Date: Newest First</option>
+                <option value="price">Price - Low to High</option>
+                <option value="price-desc">Price - High to Low</option>
+                <option value="alphabet">Name - A to Z</option>
+                <option value="alphabet-desc">Name - Z to A</option>
+                <option value="date">Date - Oldest First</option>
+                <option value="date-desc">Date - Newest First</option>
               </select>
-              <MdOutlineKeyboardArrowDown className="flex sm:hidden" />
-            </span>
-          </div>
+            </div>
 
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setShowLayout("grid")}
-              title="Grid Layout"
-              className={`text-xl text-dark/50 p-1 border border-dark/5 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "grid" ? "bg-dark/10 text-dark/100" : ""}`}
-            >
-              <FiGrid />
-            </button>
-            <button
-              onClick={() => setShowLayout("list")}
-              title="List Layout"
-              className={`text-xl text-dark/50 p-1 border border-dark/5 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "list" ? "bg-dark/10 text-dark/100" : ""}`}
-            >
-              <HiMiniListBullet />
-            </button>
-            <button
-              onClick={toggleFilter}
-              className="flex md:hidden items-center gap-2 text-sm cursor-pointer hover:bg-dark/5 py-1 px-2 border border-dark/5 rounded"
-            >
-              Filters <MdOutlineFilterList />
-            </button>
+            {/* Layout */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowLayout("grid")}
+                title="Grid Layout"
+                className={`text-xl text-dark/50 p-1.5 border border-dark/10 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "grid" ? "bg-dark/10 text-dark/100" : ""}`}
+              >
+                <FiGrid />
+              </button>
+              <button
+                onClick={() => setShowLayout("list")}
+                title="List Layout"
+                className={`text-xl text-dark/50 p-1.5 border border-dark/10 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "list" ? "bg-dark/10 text-dark/100" : ""}`}
+              >
+                <HiMiniListBullet />
+              </button>
+              <button
+                onClick={toggleFilter}
+                title='Filters'
+                className="flex md:hidden items-center gap-2 p-1.5 text-xl text-dark/60 cursor-pointer hover:bg-dark/5 border border-dark/10 rounded"
+              >
+                {/* Filters  */}
+                <MdOutlineFilterList />
+              </button>
+            </div>
           </div>
         </div>
 

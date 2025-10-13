@@ -94,13 +94,13 @@ const Login = () => {
 
       {/* Error Message */}
       {error && (
-        <div className="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="mt-6 p-3 py-2 bg-red-100 border border-red-400 text-red-700 rounded">
           {error}
         </div>
       )}
 
       {/* Forms */}
-      <div className="relative h-[320px] mt-8">
+      <div className="relative h-[320px] mt-6">
         {/* Login Form */}
         <form
           onSubmit={handleSubmit}

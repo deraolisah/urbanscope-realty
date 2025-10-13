@@ -19,9 +19,16 @@ import ProtectedRoute from '../components/ProtectedRoute';
 // USER DASHBOARD
 import UserDashboard from '../pages/user/UserDashboard';
 
+// AGENT DASHBOARD
+import AgentDashboard from '../pages/agent/AgentDashboard';
+import AddProperty from '../pages/agent/AddProperty';
+import EditProperty from '../pages/agent/EditProperty';
+
+
 // ADMIN DASHBOARD
 import DashboardLayout from '../layouts/DashboardLayout';
 import AdminDashboard from '../pages/admin/AdminDashboard';
+import CreateAgent from '../pages/admin/CreateAgent';
 
 // ERROR 404
 import NotFound from '../pages/NotFound';
@@ -59,6 +66,21 @@ const AppRoutes = () => {
           {/* Add more user routes here later */}
         </Route>
 
+
+        {/* AGENT DHASBOARD ROUTES */}
+        <Route 
+          path="/agent/*" 
+          element={
+            <ProtectedRoute requiredRole="agent">
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AgentDashboard />} />
+          <Route path="add-property" element={<AddProperty />} />
+          <Route path="edit-property/:id" element={<EditProperty />} />
+        </Route>
+
         {/* ADMIN DASHBOARD ROUTES */}
         <Route 
           path="/admin/*" 
@@ -69,6 +91,7 @@ const AppRoutes = () => {
           }
         >
           <Route index element={<AdminDashboard />} />
+          <Route path="create-agent" element={<CreateAgent />} />
           {/* Add more admin routes here */}
         </Route>
 
