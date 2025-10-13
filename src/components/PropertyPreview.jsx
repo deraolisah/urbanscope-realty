@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { HiMiniArrowRight } from "react-icons/hi2";
 
-const PropertyPreview = ({ property, showMore = true }) => {
+const PropertyPreview = ({ property }) => {
 
 
   return (
@@ -18,17 +18,10 @@ const PropertyPreview = ({ property, showMore = true }) => {
               <p className="text-xl md:text-3xl font-extrabold mt-2"> ${property.price}<span className='text-dark/80 font-normal text-base'>/month</span></p>
             )}
           </div>
-          {showMore && (
-            <Link
-            to={`/property/${property._id}`}
-            className="hidden md:flex btn"
-            onClick={() => { scrollTo(0,0)}}
-            >
-              View details 
-              <HiMiniArrowRight />
-              {/* → */}
-            </Link>
-          )}
+          <Link to={`/property/${property._id}`}className="hidden md:flex btn" onClick={() => { scrollTo(0,0)}}>
+            View details 
+            <HiMiniArrowRight />
+          </Link>
         </div>
 
         {property.images && (

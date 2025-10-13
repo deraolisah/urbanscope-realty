@@ -26,13 +26,13 @@ const FeaturedProperties = () => {
       <div className='grid grid-cols-2 gap-3 md:gap-4'>
         {/* {properties.map(property => (
           <div key={property._id} className=''>
-            <PropertyPreview property={property} showMore={true} />
+            <PropertyPreview property={property} />
             <hr className='my-12 border-dark/20' />
           </div>
         ))} */}
         {featuredProperties.slice(0, 2).map(property => (
           <div key={property._id} className=''>
-            <PropertyPreview property={property} showMore={true} />
+            <PropertyPreview property={property} />
             <hr className='my-12 border-dark/20' />
           </div>
         ))}
@@ -46,7 +46,7 @@ const FeaturedProperties = () => {
         <div className='grid grid-cols-2 gap-3 md:gap-4'>
           {recentProperties.map(property => (
             <div key={property._id}>
-              <PropertyPreview property={property} showMore={true} />
+              <PropertyPreview property={property} />
               <hr className='my-12 border-dark/20' />
             </div>
           ))}

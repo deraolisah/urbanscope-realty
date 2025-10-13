@@ -77,12 +77,12 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <ul className={`z-1 relative md:hidden flex flex-col items-start space-y-4 p-4 bg-white border-t border-gray-200 transition-all duration-400 ${isMenuOpen ? "translate-y-0 pointer-events-auto" : "-translate-y-20 opacity-0 pointer-events-none" }`}>
-        <Link to="/" onClick={closeMenu} className="text-dark">Home</Link>
-        <Link to="/explore" onClick={closeMenu} className="text-dark">Explore</Link>
-        <Link to="/about" onClick={closeMenu} className="text-dark">About</Link>
-        <Link to="/contact" onClick={closeMenu} className="text-dark">Contact</Link>
-        <Link to="/services" onClick={closeMenu} className="text-dark">Services</Link>
+      <ul className={`z-1 relative w-full md:hidden flex flex-col items-start space-y-4 p-4 bg-white border-t border-gray-200 transition-all duration-400 ${isMenuOpen ? "translate-y-0 pointer-events-auto" : "-translate-y-20 opacity-0 pointer-events-none" }`}>
+        <Link to="/" onClick={closeMenu} className="text-dark hover:text-dark/60 w-full">Home</Link>
+        <Link to="/explore" onClick={closeMenu} className="text-dark hover:text-dark/60 w-full">Explore</Link>
+        <Link to="/about" onClick={closeMenu} className="text-dark hover:text-dark/60 w-full">About</Link>
+        <Link to="/contact" onClick={closeMenu} className="text-dark hover:text-dark/60 w-full">Contact</Link>
+        <Link to="/services" onClick={closeMenu} className="text-dark hover:text-dark/60 w-full">Services</Link>
         
         {/* Conditional mobile menu based on auth */}
         {user ? (

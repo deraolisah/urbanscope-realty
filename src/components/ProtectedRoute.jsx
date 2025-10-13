@@ -10,7 +10,19 @@ const ProtectedRoute = ({ children, requiredRole }) => {
 
   if (requiredRole && user.role !== requiredRole) {
     // Redirect to unauthorized page or their respective dashboard
-    return <Navigate to={user.role === 'admin' ? '/admin' : '/dashboard'} replace />;
+    return (
+      <Navigate
+        to={
+          user.role === 'admin'
+            ? '/admin'
+            : user.role === 'agent'
+            ? '/agent'
+            : '/dashboard'
+        }
+        replace
+      />
+    );
+    // return <Navigate to={user.role === 'admin' ? '/admin' || user.role === 'agent' ? '/agent' : '/dashboard'} replace />;
   }
   
   return children;

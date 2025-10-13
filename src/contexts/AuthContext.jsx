@@ -13,22 +13,6 @@ export const AuthProvider = ({ children }) => {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
-  useEffect(() => {
-    checkAuthStatus();
-  }, []);
-
-  const checkAuthStatus = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/auth/profile`, {
-        withCredentials: true
-      });
-      setUser(response.data);
-    } catch (error) {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const login = async (email, password) => {
     const response = await axios.post(`${API_URL}/auth/login`, 
@@ -52,6 +36,22 @@ export const AuthProvider = ({ children }) => {
     await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
     setUser(null);
   };
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/auth/profile`, {
+          withCredentials: true
+        });
+        setUser(response.data);
+      } catch (error) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    checkAuthStatus();
+  }, []);
 
   const value = {
     user,

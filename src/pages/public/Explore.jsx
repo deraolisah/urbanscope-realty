@@ -24,7 +24,7 @@ const Explore = () => {
   };
 
   const resetFilters = () => {
-    setPriceRange({ min: 200, max: 1000 });
+    setPriceRange({ min: 200, max: 6000 });
     setSelectedTypes([]);
   };
 
