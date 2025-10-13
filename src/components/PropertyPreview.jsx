@@ -13,7 +13,7 @@ const PropertyPreview = ({ property, showMore = true }) => {
             <h3 className="font-bold text-base md:text-xl uppercase whitespace-nowrap overflow-hidden text-ellipsis w-full">{property.title}</h3>
               
             <p className="font-medium text-xs"> {property.location} </p>
-            <p className="text-gray-600 text-sm"> {property.description.slice(0,80) + "..."} </p>
+            <p className="text-gray-600 text-sm"> {property.description.slice(0,68) + "..."} </p>
             {property.price && (
               <p className="text-xl md:text-3xl font-extrabold mt-2"> ${property.price}<span className='text-dark/80 font-normal text-base'>/month</span></p>
             )}
