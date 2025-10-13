@@ -44,7 +44,7 @@
     @apply w-full bg-dark text-white px-6 py-2.5 text-center rounded-sm hover:gap-2 hover:bg-dark border border-dark transition-all flex items-center justify-center gap-1.5 cursor-pointer;
   }
   
-  .btn-dark-2 {
+  .btn-2 {
     @apply bg-transparent text-dark w-full px-4 py-2 rounded-sm border-1 border-dark hover:bg-dark/50 hover:text-light transition-colors flex items-center justify-center gap-0.5 cursor-pointer;
   }
   

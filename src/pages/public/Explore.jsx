@@ -177,7 +177,7 @@ const Explore = () => {
           {/* Bedrooms Filter */}
           <div>
             <h4 className="text-md font-semibold mb-1"> Bedrooms </h4>
-            <div className='flex items-center space-x-4'>
+            <div className='flex items-center flex-wrap space-x-4'>
 
             {["1", "2", "3","4 and more"].map(bedroom => (
               <label key={bedroom} className="flex items-center space-x-1.5 cursor-pointer group text-md">
@@ -197,7 +197,7 @@ const Explore = () => {
           {/* Bathrooms Filter */}
           <div>
             <h4 className="text-md font-semibold mb-1"> Bathrooms </h4>
-            <div className='flex items-center space-x-4'>
+            <div className='flex items-center flex-wrap space-x-4'>
 
             {["Any", "Combined", "Separate"].map(bathroom => (
               <label key={bathroom} className="flex items-center space-x-1.5 cursor-pointer group text-md">
@@ -215,9 +215,9 @@ const Explore = () => {
 
 
           {/* Filter Buttons */}
-          <div className="flex items-center gap-3 mt-8">
+          <div className="flex items-center flex-wrap gap-3 mt-8">
             <button 
-              className="btn flex-1" 
+              className="btn flex-1 text-nowrap" 
               onClick={() => setShowFilter(false)}
             >
               Apply Filters
@@ -233,7 +233,7 @@ const Explore = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="w-full md:w-3/4 h-fit p-4 pb-6 px-0 md:px-6">
+      <main className="w-full md:w-3/4 h-fit p-4 pb-8 px-0 md:px-6">
         {/* Header Controls */}
         <div className="mb-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Search */}
@@ -293,19 +293,28 @@ const Explore = () => {
 
         {/* Property Display */}
         {!loading && (
-          showLayout === "grid" ? (
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4">
-              {filteredProperties.map(property => (
-                <PropertyCard key={property._id} property={property} />
-              ))}
+          <div className=''>
+            {showLayout === "grid" ? (
+              <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4">
+                {filteredProperties.map(property => (
+                  <PropertyCard key={property._id} property={property} />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {filteredProperties.map(property => (
+                  <PropertyList key={property._id} property={property} />
+                ))}
+              </div>
+            )}
+
+            {/* Pagination */}
+            <div className='rounded-md mt-4 text-center flex items-center justify-between'>
+              <button className='btn-tertiary w-fit'> Previous </button>
+              <span className='bg-light p-2.5 rounded-md'> Page 1 / 2 </span>
+              <button className='btn-tertiary w-fit'> Next </button>
             </div>
-          ) : (
-            <div className="flex flex-col gap-4">
-              {filteredProperties.map(property => (
-                <PropertyList key={property._id} property={property} />
-              ))}
-            </div>
-          )
+          </div>
         )}
 
         {/* No Results Message */}
