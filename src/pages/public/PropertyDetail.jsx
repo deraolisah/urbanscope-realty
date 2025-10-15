@@ -1,203 +1,265 @@
-// import React from 'react';
-// import { Link, useParams } from 'react-router-dom';
-// import { FiArrowLeft, FiCheck, FiMail } from 'react-icons/fi';
-// import picture1 from "../assets/1.png";
-// import picture2 from "../assets/2.png";
-// import picture3 from "../assets/3.png";
-// import "./PropertyDetail.css";
-// import { GrLocation } from "react-icons/gr";
-
-// const PropertyDetail = () => {
-//   const { id } = useParams();
-
-//   // Mock property data
-//   const property = {
-//     id: 1,
-//     title: "GRANDVIEW REALTY",
-//     location: "Lujiabang Road, No. 1054",
-//     price: 512,
-//     size: "74",
-//     bedrooms: 3,
-//     bathrooms: 3,
-//     floor: 16,
-//     agent: "Maddie Molina",
-//     description: "Discover your ideal urban retreat in this stunning 2-bedroom, 2-bathroom apartment, perfectly situated in the vibrant heart of downtown.",
-//     amenities: [
-//       "Equipped kitchen",
-//       "Wi-Fi",
-//       "Lake view",
-//       "Free parking",
-//       "Swimming pool",
-//       "Light",
-//       "Air conditioning",
-//       "Gym"
-//     ],
-//     images: [
-//       picture2,
-//       picture1,
-//       picture3,
-//       picture1, // Add one more image for the 4-grid layout
-//     ]
-//   };
-
-//   return (
-//     <div className="container py-4 space-y-8">
-//       {/* Back button */}
-//       <Link to="/" className="absolute z-2 ml-2 mt-2 text-sm btn-secondary bg-light/80 hover:bg-light">
-//         <FiArrowLeft className="mr-2" />
-//         Go back
-//       </Link>
-
-//       {/* Property images with custom grid layout */}
-//       <div className="property-images-grid">
-//         <div className="grid-item-1">
-//           <img
-//             src={property.images[0]}
-//             alt="Property main view"
-//             className="w-full h-full object-cover"
-//           />
-//         </div>
-//         <div className="grid-item-2">
-//           <img
-//             src={property.images[1]}
-//             alt="Property bedroom"
-//             className="w-full h-full object-cover"
-//           />
-//         </div>
-//         <div className="grid-item-3">
-//           <img
-//             src={property.images[2]}
-//             alt="Property kitchen"
-//             className="w-full h-full object-cover"
-//           />
-//         </div>
-//         <div className="grid-item-4">
-//           <img
-//             src={property.images[3]}
-//             alt="Property bathroom"
-//             className="w-full h-full object-cover"
-//           />
-//         </div>
-//       </div>
-//       <button className='block md:hidden btn-tertiary'> more </button>
-
-//       {/* Rest of your component remains the same */}
-//       <div className='grid md:grid-cols-2 gap-4 space-y-4'>
-//         <div className="flex flex-col items-start gap-4">
-//           {/* <h1 className="text-4xl font-bold mb-2">{property.title}</h1> */}
-//           <p className="text-lg flex items-center gap-1"> <GrLocation /> {property.location} </p>
-//           <h3 className="text-4xl font-extrabold"> 
-//             ${property.price} 
-//             <span className='text-base font-normal text-dark/80'> /month </span>
-//           </h3>
-//           <span className="cursor-pointer font-semibold underline">Pricing details and terms</span>
-       
-
-//           {/* Property specs */}
-//           <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-4 p-6 bg-dark/5 border border-dark/5 rounded-sm">
-//             <div className="text-center">
-//               <div className="font-semibold text-2xl"> {property.size}<span className='text-sm'> m² </span></div>
-//             </div>
-//             <div className="text-center">
-//               <div className="font-semibold text-2xl">{property.bedrooms}<span className='text-sm'> beds </span></div>
-//             </div>
-//             <div className="text-center">
-//               <div className="font-semibold text-2xl"> {property.bathrooms}<span className='text-sm'> baths </span></div>
-//             </div>
-//             <div className="text-center">
-//               <div className="font-semibold text-2xl"> {property.floor}<span className='text-sm'> floor </span></div>
-//             </div>
-//           </div>
-
-//           {/* Agent info */}
-//           <div className="w-full flex items-center justify-between gap-3 md:gap-4">
-//             <button className='btn-tertiary'>
-//               {/* <img src='' className='rounded-full w-5 h-5 bg-dark/80 inline-flex' /> */}
-//               <span className="text-gray-600">Agent:</span>
-//               <span className="font-semibold"> {property.agent} </span>
-//             </button>
-//             <button className="btn">
-//               {/* <FiMail className="mr-2" /> */}
-//               Send a request
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* About apartment */}
-//         <div className="flex flex-col items-start gap-4">
-//           <div>
-//             <h2 className="text-2xl font-bold mb-2">About apartment</h2>
-//             <p className="text-lg leading-relaxed mb-2">
-//               {property.description}
-//             </p>
-//             <button className="font-semibold underline cursor-pointer">
-//               Full description
-//             </button>
-//           </div>
-
-//           {/* Amenities */}
-//           <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-//             {property.amenities.map((amenity, index) => (
-//               <div key={index} className="flex items-center">
-//                 <FiCheck className="text-green-500 mr-2" />
-//                 <span>{amenity}</span>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default PropertyDetail;
-
-
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { FiArrowLeft, FiCheck, FiMail } from 'react-icons/fi';
+import { FiArrowLeft, FiCheck, FiMail, FiPlay } from 'react-icons/fi';
 import { AiOutlinePicture } from "react-icons/ai";
-import { HiMiniChevronLeft, HiOutlineHeart, HiMiniShare } from "react-icons/hi2";
+import { HiMiniChevronLeft, HiOutlineHeart, HiMiniShare, HiHeart } from "react-icons/hi2";
 import { GrLocation } from "react-icons/gr";
 import { PropertyContext } from "../../contexts/PropertyContext";
+import { FavoritesContext } from "../../contexts/FavoritesContext";
 import "./PropertyDetail.css";
 
 const PropertyDetail = () => {
   const [ pricing, setPricing ] = useState(false);
-  const [showFullDescription, setShowFullDescription] = useState(false);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [ agentDetails, setAgentDetails ] = useState(false);
+  const [ showFullDescription, setShowFullDescription ] = useState(false);
+  const [ isLightboxOpen, setIsLightboxOpen ] = useState(false);
+  const [ currentIndex, setCurrentIndex ] = useState(0);
+  const [ videoThumbnail, setVideoThumbnail ] = useState('');
   
   const { id } = useParams();
   const { properties, loading } = useContext(PropertyContext);
+  const { toggleFavorite, isFavorite } = useContext(FavoritesContext);
   
   const property = properties.find(p => p._id === id);
+
+  const hasVideo = property?.videoUrl && property.videoUrl.trim() !== '';
+
+  // Function to extract YouTube video ID
+  const getYouTubeVideoId = (url) => {
+    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[7].length === 11) ? match[7] : false;
+  };
+
+  // Function to extract Vimeo video ID
+  const getVimeoVideoId = (url) => {
+    const regExp = /(?:vimeo\.com\/|player\.vimeo\.com\/video\/)([0-9]+)/;
+    const match = url.match(regExp);
+    return match ? match[1] : false;
+  };
+
+  // Function to generate video thumbnail URL
+  const generateVideoThumbnail = (videoUrl) => {
+    if (!videoUrl) return '';
+
+    // YouTube thumbnails
+    if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+      const videoId = getYouTubeVideoId(videoUrl);
+      if (videoId) {
+        // Different quality options for YouTube thumbnails:
+        // maxresdefault.jpg - Highest quality (might not always be available)
+        // sddefault.jpg - Standard quality
+        // hqdefault.jpg - High quality
+        // mqdefault.jpg - Medium quality
+        // default.jpg - Low quality
+        
+        // Try maxresdefault first, fallback to hqdefault
+        return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+      }
+    }
+    
+    // Vimeo thumbnails
+    if (videoUrl.includes('vimeo.com')) {
+      const videoId = getVimeoVideoId(videoUrl);
+      if (videoId) {
+        // We'll need to fetch this from Vimeo's API, but for now return a placeholder
+        // You can implement Vimeo API call if needed
+        return `https://vumbnail.com/${videoId}.jpg`;
+      }
+    }
+    
+    // For direct video files or unsupported platforms, return the first property image
+    return property?.images[0] || '';
+  };
+
+  // Function to check if thumbnail exists
+  const checkThumbnailExists = (url) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve(true);
+      img.onerror = () => resolve(false);
+      img.src = url;
+    });
+  };
+
+  // Function to get best available YouTube thumbnail
+  const getBestYouTubeThumbnail = async (videoId) => {
+    const thumbnailQualities = [
+      `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+      `https://img.youtube.com/vi/${videoId}/sddefault.jpg`,
+      `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+      `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
+      `https://img.youtube.com/vi/${videoId}/default.jpg`
+    ];
+
+    for (const thumbnailUrl of thumbnailQualities) {
+      const exists = await checkThumbnailExists(thumbnailUrl);
+      if (exists) {
+        return thumbnailUrl;
+      }
+    }
+    
+    return thumbnailQualities[thumbnailQualities.length - 1]; // Return default as fallback
+  };
+
+  // Effect to generate and set video thumbnail
+  useEffect(() => {
+    const generateThumbnail = async () => {
+      if (!hasVideo || !property?.videoUrl) {
+        setVideoThumbnail(property?.images[0] || '');
+        return;
+      }
+
+      try {
+        const videoUrl = property.videoUrl;
+        
+        // If property already has a videoThumbnail, use it
+        if (property.videoThumbnail) {
+          setVideoThumbnail(property.videoThumbnail);
+          return;
+        }
+
+        // YouTube videos
+        if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+          const videoId = getYouTubeVideoId(videoUrl);
+          if (videoId) {
+            const bestThumbnail = await getBestYouTubeThumbnail(videoId);
+            setVideoThumbnail(bestThumbnail);
+          } else {
+            setVideoThumbnail(property.images[0] || '');
+          }
+        }
+        // Vimeo videos
+        else if (videoUrl.includes('vimeo.com')) {
+          const videoId = getVimeoVideoId(videoUrl);
+          if (videoId) {
+            // Using vumbnail.com service for Vimeo thumbnails
+            setVideoThumbnail(`https://vumbnail.com/${videoId}.jpg`);
+          } else {
+            setVideoThumbnail(property.images[0] || '');
+          }
+        }
+        // Direct video files or unsupported platforms
+        else {
+          setVideoThumbnail(property.images[0] || '');
+        }
+      } catch (error) {
+        console.error('Error generating video thumbnail:', error);
+        setVideoThumbnail(property?.images[0] || '');
+      }
+    };
+
+    generateThumbnail();
+  }, [property, hasVideo]);
 
   if (loading) return <div className="container py-4">Loading...</div>;
   if (!property) return <div className="container py-4">Property not found</div>;
 
+  // Create combined media array (video + images)
+  const mediaItems = [];
+  if (hasVideo) {
+    mediaItems.push({
+      type: 'video',
+      url: property.videoUrl,
+      thumbnail: videoThumbnail
+    });
+  }
 
+  // Add all images
+  property.images.forEach(img => {
+    mediaItems.push({
+      type: 'image',
+      url: img
+    });
+  });
 
-
+  const totalMediaItems = mediaItems.length;
+  
   const openLightbox = (index) => {
-    setCurrentImageIndex(index);
+    setCurrentIndex(index);
     setIsLightboxOpen(true);
   };
-
-  const closeLightbox = () => setIsLightboxOpen(false);
-
-  const nextImage = () => {
-    setCurrentImageIndex((currentImageIndex + 1) % property.images.length);
+  
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
   }
-
-  const prevImage = () => {
-    setCurrentImageIndex((currentImageIndex - 1 + property.images.length) % property.images.length);
+  
+  const nextMedia = () => {
+    setCurrentIndex((currentIndex + 1) % totalMediaItems);
   }
-
-
+  
+  const prevMedia = () => {
+    setCurrentIndex((currentIndex - 1 + totalMediaItems) % totalMediaItems);
+  }
+  
   const togglePricing = () => {
     setPricing(!pricing);
- }
+  }
+  
+  const toggleAgentDetails = () => {
+    setAgentDetails(!agentDetails);
+  }
+  
+  // Handle favorite toggle
+  const handleFavoriteToggle = async () => {
+    await toggleFavorite(property._id);
+  };
+
+  // Function to get embed URL for different video platforms
+  const getVideoEmbedUrl = (url) => {
+    if (!url) return '';
+    
+    // YouTube
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      const videoId = getYouTubeVideoId(url);
+      if (videoId) {
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      }
+    }
+    
+    // Vimeo
+    if (url.includes('vimeo.com')) {
+      const videoId = getVimeoVideoId(url);
+      if (videoId) {
+        return `https://player.vimeo.com/video/${videoId}?autoplay=1`;
+      }
+    }
+    
+    // Direct video URL (mp4, webm, etc.)
+    if (url.match(/\.(mp4|webm|ogg)$/i)) {
+      return url;
+    }
+    
+    return url;
+  }
+
+  // Function to render lightbox content
+  const renderLightboxContent = () => {
+    const currentMedia = mediaItems[currentIndex];
+    
+    if (currentMedia.type === 'video') {
+      return (
+        <div className="relative w-full h-0 pb-[56.25%]"> {/* 16:9 aspect ratio */}
+          <iframe
+            src={getVideoEmbedUrl(currentMedia.url)}
+            className="absolute top-0 left-0 w-full h-full rounded-lg"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title="Property video tour"
+          ></iframe>
+        </div>
+      );
+    } else {
+      return (
+        <img
+          src={currentMedia.url}
+          alt={`Slide ${currentIndex + 1}`}
+          className="rounded-lg w-full h-full object-cover max-h-[70vh]"
+        />
+      );
+    }
+  };
 
   return (
     <div className="container py-4 space-y-8 relative">
@@ -207,69 +269,110 @@ const PropertyDetail = () => {
         Go back
       </button>
 
-      {/* Property images */}
+      {/* Property images with video priority */}
       <div className={`property-images-grid relative rounded-md ${property.images.length < 4 ? "bg-dark/5" : "" }`}>
-        {property.images.slice(0, 4).map((img, index) => (
-          <div key={index} className={`grid-item-${index + 1}`}>
-            {/* <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover" /> */}
-            <img src={img} alt={`Property ${index}`} className="w-full h-full object-cover cursor-pointer" onClick={() => openLightbox(index)} />
+        {/* Video Thumbnail - Always first if video exists */}
+        {hasVideo && (
+          <div className="grid-item-1 relative group cursor-pointer" onClick={() => openLightbox(0)}>
+            <img 
+              src={videoThumbnail} 
+              alt="Property video tour" 
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                // Fallback if thumbnail fails to load
+                e.target.src = property.images[0] || '';
+              }}
+            />
+            <div className="absolute inset-0 bg-dark/40 flex items-center justify-center group-hover:bg-dark/50 transition-all duration-300">
+              <div className="bg-white/90 rounded-full p-4 transform group-hover:scale-110 transition-transform duration-300">
+                <FiPlay className="text-2xl text-dark ml-1" />
+              </div>
+            </div>
+            <div className="absolute bottom-3 left-3 bg-dark text-white px-2 py-1 rounded text-sm font-semibold">
+              Video Tour
+            </div>
+          </div>
+        )}
+
+        {/* Regular images - adjust starting index based on video presence */}
+        {property.images.slice(0, hasVideo ? 3 : 4).map((img, index) => (
+          <div 
+            key={index} 
+            className={`grid-item-${hasVideo ? index + 2 : index + 1}`}
+          >
+            <img 
+              src={img} 
+              alt={`Property ${index + 1}`} 
+              className="w-full h-full object-cover cursor-pointer" 
+              onClick={() => openLightbox(hasVideo ? index + 1 : index)} 
+            />
           </div>
         ))}
-        {property.images.length > 3 && (
-          <button className='flex items-center gap-1 absolute bottom-0 md:bottom-2 right-2 btn-tertiary py-1.5 w-fit cursor-pointer pointer-events-none rounded-full text-sm' onClick={() => openLightbox(index)}> 
+
+        {/* Show "More" button if there are more media items than displayed */}
+        {totalMediaItems > (hasVideo ? 4 : 4) && (
+          <button 
+            className='flex items-center gap-1 absolute z-4 bottom-0 md:bottom-2 right-2 btn-tertiary py-1.5 w-fit cursor-pointer pointer-events-none rounded-full text-sm' 
+            onClick={() => openLightbox(hasVideo ? 4 : 4)}
+          > 
             <AiOutlinePicture />
             More 
           </button>
         )}
       </div>
 
+      {/* Combined Lightbox for Video and Images */}
       {isLightboxOpen && (
-        <div className="fixed w-full h-full top-0 left-0 bg-dark/80 backdrop-blur-sm flex flex-col items-center justify-center z-50">
+        <div className="fixed w-full h-full top-0 left-0 bg-dark/90 backdrop-blur-sm flex flex-col items-center justify-center z-50 p-4">
           <button
-            className="absolute top-4 right-4 text-white text-4xl cursor-pointer"
+            className="absolute top-4 right-4 text-dark text-4xl cursor-pointer z-10 bg-light/70 rounded-full w-10 h-10 flex items-center justify-center hover:bg-light/80 transition-colors"
             onClick={closeLightbox}
           >
             &times;
           </button>
 
-          <div className="relative max-w-3xl mx-auto w-full max-h-[80%] px-4">
-            <img
-              src={property.images[currentImageIndex]}
-              alt={`Slide ${currentImageIndex + 1}`}
-              className="rounded-lg w-full h-full object-cover"
-            />
-            <div
-              className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl cursor-pointer"
-              onClick={prevImage}
+          <div className="relative max-w-4xl mx-auto w-full max-h-[80vh] px-4">
+            {renderLightboxContent()}
+            
+            {/* Navigation arrows */}
+            <button
+              className="absolute w-10 h-10 top-1/2 left-0 transform -translate-y-1/2 text-dark bg-light rounded-full shadow text-xl flex items-center justify-center cursor-pointer hover:bg-light/90 transition-colors"
+              onClick={prevMedia}
             >
               &#10094;
-            </div>
-            <div
-              className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white text-3xl cursor-pointer"
-              onClick={nextImage}
+            </button>
+            <button
+              className="absolute w-10 h-10 top-1/2 right-0 transform -translate-y-1/2 text-dark bg-light rounded-full shadow text-xl flex items-center justify-center cursor-pointer hover:bg-light/90 transition-colors"
+              onClick={nextMedia}
             >
               &#10095;
-            </div>
+            </button>
           </div>
 
+          {/* Media indicators */}
           <div className="flex items-center justify-center gap-3 mt-4">
-            {property.images.map((_, index) => (
+            {mediaItems.map((media, index) => (
               <span
                 key={index}
-                onClick={() => setCurrentImageIndex(index)}
-                className={`w-2.5 h-2.5 rounded-full cursor-pointer transition-all duration-300 ${
-                  currentImageIndex === index ? 'bg-white scale-125' : 'bg-light/80 hover:bg-light'
+                onClick={() => setCurrentIndex(index)}
+                className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
+                  currentIndex === index 
+                    ? media.type === 'video' ? 'bg-blue-600 scale-125' : 'bg-white scale-125'
+                    : 'bg-light/40 hover:bg-light'
                 }`}
+                title={media.type === 'video' ? 'Video Tour' : `Image ${index}`}
               ></span>
             ))}
           </div>
-          <p className="text-white mt-2 text-sm">
-            {currentImageIndex + 1} / {property.images.length}
-          </p>
+
+          {/* Media counter and type indicator */}
+          <div className="text-white mt-2 text-center">
+            <p className="text-sm">
+              {currentIndex + 1} / {totalMediaItems}
+            </p>
+          </div>
         </div>
       )}
-
-     
 
       {/* Property details */}
       <div className='grid md:grid-cols-2 gap-4 space-y-8 pb-4'>
@@ -286,7 +389,7 @@ const PropertyDetail = () => {
             <div className='bg-dark/80 w-full h-full fixed z-50 top-0 left-0 flex items-center justify-center px-4'> 
               <div className='bg-light h-68 w-lg mx-auto shadow-md rounded-sm p-6'>
                 <div className='flex items-center justify-between'>
-                  <h4 className='text-lg font-extrabold'> Pricing details </h4>
+                  <h4 className='text-lg font-extrabold'> Pricing Details </h4>
                   <button onClick={() => { setPricing(false)}} className='cursor-pointer hover:underline'> close </button>
                 </div>
               </div>
@@ -318,17 +421,24 @@ const PropertyDetail = () => {
                 <span className='text-sm font-normal mt-1 block'> Bathrooms </span>
               </div>
             </div>
-            {/* <div className="text-center"><div className="font-semibold text-2xl">{property.size}<span className='text-sm'> m² </span></div></div>
-            <div className="text-center"><div className="font-semibold text-2xl">{property.bedrooms}<span className='text-sm'> beds </span></div></div>
-            <div className="text-center"><div className="font-semibold text-2xl">{property.bathrooms}<span className='text-sm'> baths </span></div></div>
-            <div className="text-center"><div className="font-semibold text-2xl">{property.floor}<span className='text-sm'> floor </span></div></div> */}
           </div>
 
           <div className="w-full flex items-center justify-between gap-1.5">
-            <button className='btn-tertiary gap-1 truncate' title={property.agentName}>
+            <button className='btn-tertiary gap-1 truncate' title={property.agentName} onClick={toggleAgentDetails}>
               <span className="text-gray-600">Agent:</span>
               <span className="font-semibold overflow-hidden truncate"> {property?.agentName || "Realtor"} </span>
             </button>
+            {agentDetails && (
+              <div className='bg-dark/80 w-full h-full fixed z-50 top-0 left-0 flex items-center justify-center px-4'> 
+                <div className='bg-light h-68 w-lg mx-auto shadow-md rounded-sm p-6'>
+                  <div className='flex items-center justify-between'>
+                    <h4 className='text-lg font-extrabold'> Agent Details </h4>
+                    <button onClick={() => { setAgentDetails(false)}} className='cursor-pointer hover:underline'> close </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <button className="btn text-nowrap">Send a request</button>
           </div>
         </div>
@@ -336,7 +446,7 @@ const PropertyDetail = () => {
         <div className="flex flex-col items-start gap-4">
           <div>
             <h2 className="text-2xl font-bold mb-1"> About {property.propertyType} </h2>
-            <p className="text-lg leading-relaxed mb-2">
+            <p className="md:text-lg leading-relaxed mb-2">
               {showFullDescription
                 ? property.description
                 : property.description.slice(0, 130) + ".."}
@@ -344,7 +454,7 @@ const PropertyDetail = () => {
            {property.description.length > 130 && (
               <button
                 onClick={() => setShowFullDescription(prev => !prev)}
-                className="font-semibold underline cursor-pointer"
+                className="font-semibold text-sm text-blue-600 underline cursor-pointer"
               >
                 {showFullDescription ? "Show less" : "Full description"}
               </button>
@@ -361,7 +471,13 @@ const PropertyDetail = () => {
           </div>
 
           <div className='flex gap-1.5 mt-2'>
-            <button className='btn-tertiary'> <HiOutlineHeart /> Save </button>
+            <button 
+              className={`btn-tertiary flex items-center gap-2 ${isFavorite(property._id) ? 'text-red-500' : ''}`}
+              onClick={handleFavoriteToggle}
+            >
+              {isFavorite(property._id) ? <HiHeart className="text-red-500" /> : <HiOutlineHeart />}
+              {isFavorite(property._id) ? 'Saved' : 'Save'}
+            </button>
             <button className='btn-tertiary'> <HiMiniShare /> Share </button>
           </div>
         </div>

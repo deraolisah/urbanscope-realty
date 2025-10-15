@@ -39,7 +39,7 @@ const FeaturedProperties = () => {
       </div>
 
       {/* New in Town Section */}
-      <div className="mb-12">
+      <div className="mb-4">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-center leading-tight uppercase mb-4 md:mb-8">
           New in Town
         </h2>
@@ -47,7 +47,7 @@ const FeaturedProperties = () => {
           {recentProperties.map(property => (
             <div key={property._id}>
               <PropertyPreview property={property} />
-              <hr className='my-12 border-dark/20' />
+              {/* <hr className='my-12 border-dark/20' /> */}
             </div>
           ))}
         </div>

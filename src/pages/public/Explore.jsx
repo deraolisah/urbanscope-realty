@@ -8,11 +8,11 @@ import { HiMiniListBullet } from "react-icons/hi2";
 import { PropertyContext } from '../../contexts/PropertyContext';
 
 const Explore = () => {
-  const [priceRange, setPriceRange] = useState({ min: 200, max: 6000 });
-  const [selectedTypes, setSelectedTypes] = useState([]);
-  const [showFilter, setShowFilter] = useState(false);
-  const [showLayout, setShowLayout] = useState('grid');
-  const [sortBy, setSortBy] = useState('price');
+  const [ priceRange, setPriceRange ] = useState({ min: 200, max: 6000 });
+  const [ selectedTypes, setSelectedTypes ] = useState([]);
+  const [ showFilter, setShowFilter ] = useState(false);
+  const [ showLayout, setShowLayout ] = useState('grid');
+  const [ sortBy, setSortBy ] = useState('price');
   const { properties, loading } = useContext(PropertyContext);
 
   const toggleFilter = () => setShowFilter(!showFilter);
@@ -237,9 +237,9 @@ const Explore = () => {
         {/* Header Controls */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Search */}
-          <div className='w-full flex items-center justify-between gap-3'>
-            <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-dark/10 focus:border-dark w-full rounded placeholder:text-sm' />
-            <button type='button' className='btn py-1.5 border-0 px-4 w-fit'> Search </button>
+          <div className='w-full flex items-center justify-between gap-0'>
+            <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-r-0 border-dark/10 focus:border-dark w-full !rounded-l placeholder:text-sm' />
+            <button type='button' className='btn py-1.5 px-4 rounded-none rounded-r w-fit'> Search </button>
           </div>
 
           <div className='w-full flex items-center justify-between sm:justify-end gap-2'>

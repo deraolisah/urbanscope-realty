@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { MdPersonAdd, MdDelete, MdEdit } from 'react-icons/md';
+import { MdPersonAdd, MdDelete, MdEdit, MdAdd } from 'react-icons/md';
+import { PropertyContext } from "../../contexts/PropertyContext";
+import { AuthContext } from '../../contexts/AuthContext';
+
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
   const [users, setUsers] = useState([]);
-  const [properties, setProperties] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalAgents: 0,
@@ -16,35 +16,27 @@ const AdminDashboard = () => {
     totalAdmins: 0
   });
 
+  const { user } = useContext(AuthContext);
+  const { properties, loading, setLoading } = useContext(PropertyContext);
+
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem('user'));
-    setUser(userData);
     fetchDashboardData();
   }, []);
 
+  // Featch Dashboard Data
   const fetchDashboardData = async () => {
     try {
-      const [usersRes, propertiesRes] = await Promise.all([
-        axios.get(`${import.meta.env.VITE_API_URL}/users`, { 
-          withCredentials: true 
-        }),
-        axios.get(`${import.meta.env.VITE_API_URL}/properties`)
-      ]);
-
-      setUsers(usersRes.data.users);
-      setProperties(propertiesRes.data);
-
-      // Calculate stats
-      const totalUsers = usersRes.data.users.length;
-      const totalAgents = usersRes.data.users.filter(u => u.role === 'agent').length;
-      const totalAdmins = usersRes.data.users.filter(u => u.role === 'admin').length;
-      
-      setStats({
-        totalUsers,
-        totalAgents,
-        totalProperties: propertiesRes.data.length,
-        totalAdmins
+      const usersRes = await axios.get(`${API_URL}/admin/users`, { 
+        withCredentials: true 
       });
+      
+      const usersData = usersRes.data.users || usersRes.data;
+      setUsers(usersData);
+      
+      // Call updateStats with the actual data
+      updateStats(usersData, properties);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
@@ -52,9 +44,26 @@ const AdminDashboard = () => {
     }
   };
 
+  // Calculate stats
+  const updateStats = (usersData, propertiesData) => {
+    const totalUsers = usersData.length;
+    const totalAgents = usersData.filter(u => u.role === 'agent').length;
+    const totalAdmins = usersData.filter(u => u.role === 'admin').length;
+    
+    setStats({
+      totalUsers,
+      totalAgents,
+      totalProperties: propertiesData.length,
+      totalAdmins
+    });
+  };
+
+
+
+  // 
   const handleLogout = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`, {}, {
+      await axios.post(`${API_URL}/auth/logout`, {}, {
         withCredentials: true
       });
       localStorage.removeItem('user');
@@ -69,11 +78,13 @@ const AdminDashboard = () => {
     navigate('/admin/create-agent');
   };
 
+
+  // Delete A User
   const handleDeleteUser = async (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
         await axios.delete(
-          `${import.meta.env.VITE_API_URL}/users/${userId}`,
+          `${API_URL}/admin/${userId}`, // Fix the endpoint
           { withCredentials: true }
         );
         fetchDashboardData(); // Refresh data
@@ -84,26 +95,56 @@ const AdminDashboard = () => {
     }
   };
 
+
+  // 
   const toggleUserStatus = async (userId, currentStatus) => {
     try {
       await axios.put(
-        `${import.meta.env.VITE_API_URL}/users/${userId}`,
+        `${API_URL}/admin/${userId}`, // Fix the endpoint
         { isActive: !currentStatus },
         { withCredentials: true }
       );
-      fetchDashboardData(); // Refresh data
+      fetchDashboardData();
     } catch (error) {
       console.error('Error updating user status:', error);
     }
   };
+  
+
+
+  // Delete A Property
+  const handleDeleteProperty = async (propertyId) => {
+    if (window.confirm('Are you sure you want to delete this property? This action cannot be undone.')) {
+      try {
+        await axios.delete(
+          `${API_URL}/properties/${propertyId}`,
+          { withCredentials: true }
+        );
+        
+        // Refresh the properties data by calling fetchDashboardData
+        fetchDashboardData();
+        
+        // If you want immediate UI update without full refresh, you can also:
+        // Update the PropertyContext or local state
+      } catch (error) {
+        console.error('Error deleting property:', error);
+        alert(error.response?.data?.message || 'Failed to delete property');
+      }
+    }
+  };
+
 
   if (loading) {
-    return <div className="p-6">Loading dashboard...</div>;
+    return <div className="p-6"> Loading dashboard... </div>;
   }
+
+//   if (!user) {
+//   return <Navigate to="/login" replace />;
+// }
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex flex-wrap justify-between items-center gap-2 mb-8">
         <div>
           <h2 className="text-2xl font-bold">
             Admin Dashboard
@@ -114,11 +155,8 @@ const AdminDashboard = () => {
           <p className="text-gray-600">System administration panel</p>
         </div>
         <div className="flex gap-4">
-          <button 
-            onClick={handleCreateAgent}
-            className="btn flex items-center gap-2"
-          >
-            <MdPersonAdd /> Create Agent
+          <button onClick={() => navigate('/admin/add-property')} className="btn text-nowrap gap-2">
+            <MdAdd /> Add Property
           </button>
           <button onClick={handleLogout} className="btn-tertiary">
             Logout
@@ -127,36 +165,36 @@ const AdminDashboard = () => {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-2">Total Users</h3>
-          <p className="text-3xl font-bold text-blue-600">{stats.totalUsers}</p>
-          <p className="text-gray-600">Registered users</p>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="bg-white border border-dark/10 p-4 md:p-6 rounded-lg shadow-md flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Total Users</h3>
+          <p className="text-3xl font-extrabold">{stats.totalUsers}</p>
         </div>
+          {/* <p className="text-gray-600">Registered users</p> */}
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-2">Agents</h3>
-          <p className="text-3xl font-bold text-green-600">{stats.totalAgents}</p>
-          <p className="text-gray-600">Active agents</p>
+        <div className="bg-white border border-dark/10 p-4 md:p-6 rounded-lg shadow-md flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Agents</h3>
+          <p className="text-3xl font-extrabold">{stats.totalAgents}</p>
         </div>
+          {/* <p className="text-gray-600">Active agents</p> */}
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-2">Properties</h3>
-          <p className="text-3xl font-bold text-purple-600">{stats.totalProperties}</p>
-          <p className="text-gray-600">Listed properties</p>
+        <div className="bg-white border border-dark/10 p-4 md:p-6 rounded-lg shadow-md flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Properties</h3>
+          <p className="text-3xl font-extrabold">{stats.totalProperties}</p>
         </div>
+          {/* <p className="text-gray-600">Listed properties</p> */}
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h3 className="text-lg font-semibold mb-2">Admins</h3>
-          <p className="text-3xl font-bold text-red-600">{stats.totalAdmins}</p>
-          <p className="text-gray-600">System administrators</p>
+        <div className="bg-white border border-dark/10 p-4 md:p-6 rounded-lg shadow-md flex items-center justify-between">
+          <h3 className="text-lg font-semibold">Admins</h3>
+          <p className="text-3xl font-extrabold">{stats.totalAdmins}</p>
         </div>
+          {/* <p className="text-gray-600">System administrators</p> */}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-6">
         {/* Users Management */}
-        <div className="bg-white rounded-lg shadow-md">
-          <div className="p-6 border-b">
+        <div className="bg-white border border-dark/10 rounded-lg shadow-md">
+          <div className="p-4 border-b">
             <h3 className="text-xl font-semibold">User Management</h3>
           </div>
           <div className="divide-y max-h-96 overflow-y-auto">
@@ -183,16 +221,25 @@ const AdminDashboard = () => {
                 <div className="flex gap-2">
                   <button 
                     onClick={() => toggleUserStatus(user._id, user.isActive)}
-                    className={`px-3 py-1 rounded text-sm ${
+                    className={`px-3 py-1 rounded text-sm cursor-pointer ${
                       user.isActive ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
                     }`}
+                    disabled={user.role === "admin"}
                   >
                     {user.isActive ? 'Deactivate' : 'Activate'}
                   </button>
-                  <button 
+                  {/* <button 
                     onClick={() => handleDeleteUser(user._id)}
                     className="p-1 text-red-600 hover:bg-red-50 rounded"
                     disabled={user._id === JSON.parse(localStorage.getItem('user')).id}
+                  >
+                    <MdDelete size={18} />
+                  </button> */}
+                  <button 
+                    onClick={() => handleDeleteUser(user._id || user.id)}
+                    className="p-1 text-red-600 hover:bg-red-50 rounded cursor-pointer"
+                    // disabled={user._id === user?.id || user._id === user?._id}
+                    disabled={user.role === "admin"}
                   >
                     <MdDelete size={18} />
                   </button>
@@ -202,26 +249,98 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Recent Properties */}
-        <div className="bg-white rounded-lg shadow-md">
-          <div className="p-6 border-b">
-            <h3 className="text-xl font-semibold">Recent Properties</h3>
+
+        {/* Property Management */}
+        <div className="bg-white border border-dark/10 rounded-lg shadow-md">
+          <div className="p-4 border-b flex justify-between items-center">
+            <h3 className="text-xl font-semibold">Property Management</h3>
+            <span className="text-sm text-gray-500">{properties.length} total properties</span>
           </div>
           <div className="divide-y max-h-96 overflow-y-auto">
-            {properties.slice(0, 5).map((property) => (
-              <div key={property._id} className="p-4">
-                <h4 className="font-semibold">{property.title}</h4>
-                <p className="text-gray-600 text-sm">{property.location}</p>
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-sm font-medium">${property.price.toLocaleString()}</span>
-                  <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
-                    {property.propertyType}
-                  </span>
+            {properties.slice(0, 10).map((property) => (
+              <div key={property._id} className="p-4 flex justify-between items-start group">
+                <div className="flex-1">
+                  <h4 className="font-semibold">{property.title}</h4>
+                  <p className="text-gray-600 text-sm">{property.location}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-sm font-medium">${property.price.toLocaleString()}</span>
+                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                      {property.propertyType}
+                    </span>
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      property.status === 'active' ? 'bg-green-100 text-green-800' :
+                      property.status === 'sold' ? 'bg-blue-100 text-blue-800' :
+                      property.status === 'rented' ? 'bg-purple-100 text-purple-800' :
+                      'bg-gray-100 text-gray-800'
+                    }`}>
+                      {property.status}
+                    </span>
+                    {property.featured && (
+                      <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                        Featured
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="flex gap-1 ml-4">
+                  <button 
+                    onClick={() => navigate(`/admin/edit-property/${property._id}`)}
+                    className="p-2 text-blue-600 hover:bg-blue-50 rounded cursor-pointer transition-colors"
+                    title="Edit Property"
+                  >
+                    <MdEdit size={16} />
+                  </button>
+                  <button 
+                    onClick={() => handleDeleteProperty(property._id)}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded cursor-pointer transition-colors"
+                    title="Delete Property"
+                  >
+                    <MdDelete size={16} />
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
+        {/* Recent Properties */}
+        {/* <div className="bg-white border border-dark/10 rounded-lg shadow-md">
+          <div className="p-4 border-b">
+            <h3 className="text-xl font-semibold">Recent Properties</h3>
+          </div>
+          <div className="divide-y max-h-96 overflow-y-auto">
+            {properties.slice(0, 5).map((property) => (
+              <div key={property._id} className="p-4 flex justify-between items-start group">
+                <div className="flex-1">
+                  <h4 className="font-semibold">{property.title}</h4>
+                  <p className="text-gray-600 text-sm">{property.location}</p>
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="text-sm font-medium">${property.price.toLocaleString()}</span>
+                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                      {property.propertyType}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex gap-1 ml-4">
+                  <button 
+                    onClick={() => navigate(`/admin/edit-property/${property._id}`)}
+                    className="p-2 text-blue-600 hover:bg-blue-50 rounded cursor-pointer transition-colors"
+                    title="Edit Property"
+                  >
+                    <MdEdit size={16} />
+                  </button>
+                  <button 
+                    onClick={() => handleDeleteProperty(property._id)}
+                    className="p-2 text-red-600 hover:bg-red-50 rounded cursor-pointer transition-colors"
+                    title="Delete Property"
+                  >
+                    <MdDelete size={16} />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div> */}
       </div>
     </div>
   );

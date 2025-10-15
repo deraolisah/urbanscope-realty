@@ -1,30 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
+import { AuthContext } from '../contexts/AuthContext';
 
 const ProtectedRoute = ({ children, requiredRole }) => {
-  const user = JSON.parse(localStorage.getItem('user'));
-  
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) return <div>Loading...</div>;
+
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
   if (requiredRole && user.role !== requiredRole) {
-    // Redirect to unauthorized page or their respective dashboard
-    return (
-      <Navigate
-        to={
-          user.role === 'admin'
-            ? '/admin'
-            : user.role === 'agent'
-            ? '/agent'
-            : '/dashboard'
-        }
-        replace
-      />
-    );
-    // return <Navigate to={user.role === 'admin' ? '/admin' || user.role === 'agent' ? '/agent' : '/dashboard'} replace />;
+    return <Navigate to={user.role === 'admin' ? '/admin' : '/dashboard'} replace />;
   }
-  
+
   return children;
 };
 

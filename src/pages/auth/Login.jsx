@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -13,7 +13,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  const { login, register, user } = useContext(AuthContext);
 
   const handleChange = (e) => {
     setFormData({
@@ -28,29 +28,26 @@ const Login = () => {
     setError('');
 
     try {
-      const endpoint = isLogin ? '/auth/login' : '/auth/register';
-      const payload = isLogin 
-        ? { email: formData.email, password: formData.password }
-        : formData;
-
-      const response = await axios.post(`${API_URL}${endpoint}`, payload, {
-        withCredentials: true
-      });
-
-      // In handleSubmit function, after successful login:
-      if (response.status === 200 || response.status === 201) {
-        // Store user data
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+      if (isLogin) {
+        // Use AuthContext login
+        const result = await login(formData.email, formData.password);
         
         // Redirect based on user role
-        if (response.data.user.role === 'admin') {
+        if (result.user.role === 'admin') {
           navigate('/admin');
         } else {
           navigate('/dashboard');
         }
+      } else {
+        // Use AuthContext register
+        const result = await register(formData.username, formData.email, formData.password);
         
-        // Optional: soft refresh instead of full reload
-        window.dispatchEvent(new Event('authChange'));
+        // Redirect after registration (you might want different logic here)
+        if (result.user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/dashboard');
+        }
       }
     } catch (error) {
       setError(error.response?.data?.message || 'Something went wrong');
@@ -127,9 +124,9 @@ const Login = () => {
             required
           />
           <small className="text-left w-full">
-            <a href="#" className="text-dark/80 underline">
+            <Link to="/forgot-password" className="text-dark/80 underline">
               forgot your password?
-            </a>
+            </Link>
           </small>
           <button 
             type="submit" 
@@ -154,7 +151,7 @@ const Login = () => {
             value={formData.username}
             onChange={handleChange}
             className="border border-gray-300 px-4 py-2 w-full input-field"
-            required
+            required={!isLogin}
           />
           <input
             type="email"

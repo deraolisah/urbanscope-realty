@@ -45,7 +45,7 @@ const Hero = () => {
             <input
               type='search'
               placeholder='Enter country, city or region'
-              className='flex-1 px-4 py-3 border border-gray-300 border-r-0 rounded-l-lg focus:outline-none focus:border-dark'
+              className='flex-1 px-4 py-3 border border-dark/20 border-r-0 rounded-l-lg focus:outline-none focus:border-dark'
             />
             <button className='btn w-fit rounded-l-none rounded-r-lg'>
               <HiMiniArrowRight />
@@ -67,11 +67,11 @@ const Hero = () => {
       {/* LIGHTBOX MODAL */}
       {isOpen && (
         <div className="fixed inset-0 bg-dark/80 backdrop-blur-xs flex flex-col items-center justify-center z-50">
-          <button className="absolute top-4 right-4 text-white text-4xl cursor-pointer" onClick={closeLightbox}>&times;</button>
+          <button className="absolute top-4 right-4 text-dark text-4xl cursor-pointer z-10 bg-light/70 rounded-full w-10 h-10 flex items-center justify-center hover:bg-light/80 transition-colors" onClick={closeLightbox}>&times;</button>
           <div className="relative max-w-3xl mx-auto w-full px-4">
             <img src={images[currentIndex]} alt={`Slide ${currentIndex + 1}`} className="rounded-lg w-full" />
-            <div className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl cursor-pointer" onClick={prevSlide}>&#10094;</div>
-            <div className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white text-3xl cursor-pointer" onClick={nextSlide}>&#10095;</div>
+            <div className="absolute w-8 h-8 top-1/2 left-0 transform -translate-y-1/2 text-dark bg-light rounded-full shadow text-xl flex items-center justify-center cursor-pointer" onClick={prevSlide}>&#10094;</div>
+            <div className="absolute w-8 h-8 top-1/2 right-0 transform -translate-y-1/2 text-dark bg-light rounded-full shadow text-xl flex items-center justify-center cursor-pointer" onClick={nextSlide}>&#10095;</div>
           </div>
           <div className='flex items-center justify-center gap-3 my-4'>
             {images.map((_, index) => (
@@ -79,7 +79,7 @@ const Hero = () => {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`w-2.5 h-2.5 rounded-full cursor-pointer transition-all duration-300 ${
-                  currentIndex === index ? 'bg-white scale-125' : 'bg-light/80 hover:bg-light'
+                  currentIndex === index ? 'bg-white scale-125' : 'bg-light/40 hover:bg-light'
                 }`}
               ></span>
             ))}

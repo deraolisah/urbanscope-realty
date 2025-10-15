@@ -42,7 +42,7 @@ const PropertyProvider = ({ children }) => {
   }, []);
 
   return (
-    <PropertyContext.Provider value={{ properties, featuredProperties, loading }}>
+    <PropertyContext.Provider value={{ properties, setProperties, featuredProperties, loading, setLoading }}>
       {children}
     </PropertyContext.Provider>
   );

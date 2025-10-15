@@ -1,11 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
-const AuthContext = createContext();
-
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -37,6 +33,8 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
+
+  // 
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
@@ -51,19 +49,14 @@ export const AuthProvider = ({ children }) => {
       }
     };
     checkAuthStatus();
-  }, []);
+  }, [API_URL]);
 
-  const value = {
-    user,
-    login,
-    register,
-    logout,
-    loading
-  };
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export default AuthProvider;

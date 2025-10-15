@@ -18,20 +18,18 @@ import ProtectedRoute from '../components/ProtectedRoute';
 
 // USER DASHBOARD
 import UserDashboard from '../pages/user/UserDashboard';
-
-// AGENT DASHBOARD
-import AgentDashboard from '../pages/agent/AgentDashboard';
-import AddProperty from '../pages/agent/AddProperty';
-import EditProperty from '../pages/agent/EditProperty';
-
+import Favorites from '../pages/user/Favorites';
 
 // ADMIN DASHBOARD
 import DashboardLayout from '../layouts/DashboardLayout';
 import AdminDashboard from '../pages/admin/AdminDashboard';
+import AddProperty from '../pages/admin/AddProperty';
+import EditProperty from '../pages/admin/EditProperty';
 import CreateAgent from '../pages/admin/CreateAgent';
 
 // ERROR 404
 import NotFound from '../pages/NotFound';
+import ForgotPassword from '../pages/auth/ForgotPassword';
 
 
 const AppRoutes = () => {
@@ -50,6 +48,7 @@ const AppRoutes = () => {
           <Route path='/terms' element={<Terms />} />
           {/* AUTH */}
           <Route path='/login' element={<Login />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
         </Route>
         
         
@@ -63,23 +62,10 @@ const AppRoutes = () => {
           }
         >
           <Route index element={<UserDashboard />} />
+          <Route path='favorites' element={<Favorites />} />
           {/* Add more user routes here later */}
         </Route>
 
-
-        {/* AGENT DHASBOARD ROUTES */}
-        <Route 
-          path="/agent/*" 
-          element={
-            <ProtectedRoute requiredRole="agent">
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<AgentDashboard />} />
-          <Route path="add-property" element={<AddProperty />} />
-          <Route path="edit-property/:id" element={<EditProperty />} />
-        </Route>
 
         {/* ADMIN DASHBOARD ROUTES */}
         <Route 
@@ -91,6 +77,8 @@ const AppRoutes = () => {
           }
         >
           <Route index element={<AdminDashboard />} />
+          <Route path="add-property" element={<AddProperty />} />
+          <Route path="edit-property/:id" element={<EditProperty />} />
           <Route path="create-agent" element={<CreateAgent />} />
           {/* Add more admin routes here */}
         </Route>
