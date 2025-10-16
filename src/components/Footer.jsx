@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from "../assets/logo-white.png";
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
@@ -7,8 +8,10 @@ const Footer = () => {
       <div className="container">
         <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
           <div className="mb-4 md:mb-0">
-            <h3 className="text-xl font-bold uppercase text-start"> Niarobi Apartments </h3>
-            <p className="text-gray-400">Find your perfect home</p>
+            <Link to="/" onClick={() => { window.scrollTo(0,0); closeMenu(); }} className=""> 
+              <img src={logo} alt='UrbanScope Logo' className='h-8' />
+            </Link>
+            <p className="text-gray-400 mt-4">Find your perfect home</p>
           </div>
           <div className="flex space-x-6">
             <Link to="/privacy" className="hover:text-light/80 text-light/40 transition-colors">Privacy Policy</Link>
@@ -17,7 +20,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 Niarobi Apartments. All rights reserved.</p>
+          <p>&copy; 2024 UrbanScope Realty. All rights reserved.</p>
         </div>
       </div>
     </footer>
