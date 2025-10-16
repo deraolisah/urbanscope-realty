@@ -73,12 +73,12 @@ const Navbar = () => {
               >
                 {user.role === 'admin' ? 'Admin Dashboard' : 'My Dashboard'}
               </Link>
-              <button 
+              {/* <button 
                 onClick={handleLogout}
                 className="btn-tertiary"
               >
                 Logout
-              </button>
+              </button> */}
             </div>
           ) : (
             <Link to="/login" className="btn">Sign In</Link>
