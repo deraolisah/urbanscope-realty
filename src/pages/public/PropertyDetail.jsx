@@ -387,11 +387,21 @@ const PropertyDetail = () => {
 
           {pricing && (
             <div className='bg-dark/80 w-full h-full fixed z-50 top-0 left-0 flex items-center justify-center px-4'> 
-              <div className='bg-light h-68 w-lg mx-auto shadow-md rounded-sm p-6'>
-                <div className='flex items-center justify-between'>
+              <div className='bg-light h-68 w-lg mx-auto shadow-md rounded-sm p-6 flex flex-col items-start justify-between'>
+                <div className='w-full flex items-center justify-between'>
                   <h4 className='text-lg font-extrabold'> Pricing Details </h4>
-                  <button onClick={() => { setPricing(false)}} className='cursor-pointer hover:underline'> close </button>
+                  <button onClick={() => { setPricing(false)}} className="cursor-pointer text-dark text-2xl font-bold bg-dark/5 w-8 h-8 rounded-full shadow flex items-center justify-center">
+                    &times;
+                  </button>
                 </div>
+                <hr className='w-full my-2 border-dark/20' />
+                <div>
+                  <p> <strong> Price: </strong> {property?.price} </p>
+                  <p> <strong> Inspection Fee: </strong> ${property?.price} </p>
+                  <p> <strong> Contract: </strong> {property?.price} </p>
+                </div>
+                <hr className='w-full my-2 border-dark/20' />
+                <p className='text-sm'> ⚠️ Disclaimer: Price mentioned on property is not subject to any changes. </p>
               </div>
             </div>
           )}
@@ -430,11 +440,22 @@ const PropertyDetail = () => {
             </button>
             {agentDetails && (
               <div className='bg-dark/80 w-full h-full fixed z-50 top-0 left-0 flex items-center justify-center px-4'> 
-                <div className='bg-light h-68 w-lg mx-auto shadow-md rounded-sm p-6'>
-                  <div className='flex items-center justify-between'>
+                <div className='bg-light h-68 w-lg mx-auto shadow-md rounded-sm p-6 flex flex-col items-start justify-between'>
+                  <div className='w-full flex items-center justify-between'>
                     <h4 className='text-lg font-extrabold'> Agent Details </h4>
-                    <button onClick={() => { setAgentDetails(false)}} className='cursor-pointer hover:underline'> close </button>
+                    <button onClick={() => { setAgentDetails(false)}} className="cursor-pointer text-dark text-2xl font-bold bg-dark/5 w-8 h-8 rounded-full shadow flex items-center justify-center">
+                      &times;
+                    </button>
                   </div>
+                  <hr className='w-full my-2 border-dark/20' />
+                  <div>
+                    <p> <strong>Name: </strong> {property?.agentName} </p>
+                    <p> <strong>Contact: </strong> {property?.agentNumber} </p>
+                    <p> <strong>Email: </strong> {property?.agentEmail} </p>
+                    <p> <strong>Social: </strong> {property?.social} </p>
+                  </div>
+                  <hr className='w-full my-2 border-dark/20' />
+                  <p className='text-sm'> Trusted by 100's of satisfied clients. </p>
                 </div>
               </div>
             )}
