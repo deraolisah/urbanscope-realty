@@ -13,17 +13,30 @@ const Navbar = () => {
 
   // Get user from localStorage
   // const user = JSON.parse(localStorage.getItem('user'));
-   const { user } = useContext(AuthContext);
+   const { user, logout } = useContext(AuthContext);
+
+  // const handleLogout = async () => {
+  //   try {
+  //     await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`, {}, {
+  //       withCredentials: true
+  //     });
+  //     localStorage.removeItem('user');
+  //     setIsMenuOpen(false);
+  //     navigate('/');
+  //     window.location.reload();
+  //   } catch (error) {
+  //     console.error('Logout failed:', error);
+  //   }
+  // };
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`, {}, {
-        withCredentials: true
-      });
-      localStorage.removeItem('user');
+      await logout(); // Use AuthContext logout
+      if (setFavorites) {
+        setFavorites([]); // Clear favorites
+      }
       setIsMenuOpen(false);
       navigate('/');
-      window.location.reload();
     } catch (error) {
       console.error('Logout failed:', error);
     }
@@ -60,12 +73,12 @@ const Navbar = () => {
               >
                 {user.role === 'admin' ? 'Admin Dashboard' : 'My Dashboard'}
               </Link>
-              {/* <button 
+              <button 
                 onClick={handleLogout}
                 className="btn-tertiary"
               >
                 Logout
-              </button> */}
+              </button>
             </div>
           ) : (
             <Link to="/login" className="btn">Sign In</Link>

@@ -9,7 +9,7 @@ const UserDashboard = () => {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
-   const { user } = useContext(AuthContext);
+   const { user, logout } = useContext(AuthContext);
 
   useEffect(() => {
     // const userData = JSON.parse(localStorage.getItem('user'));
@@ -31,16 +31,17 @@ const UserDashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`, {}, {
-        withCredentials: true
-      });
-      localStorage.removeItem('user');
+      await logout(); // Use the logout function from AuthContext
+      if (setFavorites) {
+        setFavorites([]); // Clear favorites state
+      }
       navigate('/');
-      window.location.reload();
+      // No need for window.location.reload() - the AuthContext update will trigger re-render
     } catch (error) {
       console.error('Logout failed:', error);
     }
   };
+
 
   if (loading) {
     return <div className="p-6">Loading...</div>;

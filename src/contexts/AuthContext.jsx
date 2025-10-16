@@ -29,8 +29,16 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await axios.post(`${API_URL}/auth/logout`, {}, { withCredentials: true });
-    setUser(null);
+    try {
+      await axios.post(`${API_URL}/auth/logout`, {}, { 
+        withCredentials: true 
+      });
+      setUser(null); // Clear user state
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Even if the API call fails, clear the user state locally
+      setUser(null);
+    }
   };
 
 
@@ -48,7 +56,7 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     };
-    checkAuthStatus();
+    checkAuthStatus();    
   }, [API_URL]);
 
 

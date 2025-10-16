@@ -275,12 +275,12 @@ const PropertyDetail = () => {
         {hasVideo && (
           <div className="grid-item-1 relative group cursor-pointer" onClick={() => openLightbox(0)}>
             <img 
-              src={videoThumbnail} 
+              src={videoThumbnail || null} 
               alt="Property video tour" 
               className="w-full h-full object-cover"
               onError={(e) => {
                 // Fallback if thumbnail fails to load
-                e.target.src = property.images[0] || '';
+                e.target.src = property.images[0] || null;
               }}
             />
             <div className="absolute inset-0 bg-dark/40 flex items-center justify-center group-hover:bg-dark/50 transition-all duration-300">

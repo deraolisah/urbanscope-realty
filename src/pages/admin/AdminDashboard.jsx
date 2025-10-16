@@ -16,7 +16,7 @@ const AdminDashboard = () => {
     totalAdmins: 0
   });
 
-  const { user } = useContext(AuthContext);
+  const { user, logout, checkAuthStatus } = useContext(AuthContext);
   const { properties, loading, setLoading } = useContext(PropertyContext);
 
   const API_URL = import.meta.env.VITE_API_URL;
@@ -68,11 +68,10 @@ const AdminDashboard = () => {
       });
       localStorage.removeItem('user');
       navigate('/');
-      window.location.reload();
     } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
+        console.error('Logout failed:', error);
+      }
+    };
 
   const handleCreateAgent = () => {
     navigate('/admin/create-agent');
