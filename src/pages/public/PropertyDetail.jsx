@@ -291,7 +291,7 @@ const PropertyDetail = () => {
                 <FiPlay className="text-2xl text-dark ml-1" />
               </div>
             </div>
-            <div className="absolute bottom-3 left-3 bg-dark text-white px-2 py-1 rounded text-sm font-semibold">
+            <div className="absolute bottom-3 left-3 bg-dark text-white px-2 py-1 rounded text-xs font-semibold">
               Video Tour
             </div>
           </div>
@@ -315,7 +315,7 @@ const PropertyDetail = () => {
         {/* Show "More" button if there are more media items than displayed */}
         {totalMediaItems > (hasVideo ? 4 : 4) && (
           <button 
-            className='flex items-center gap-1 absolute z-4 bottom-0 md:bottom-2 right-2 btn-tertiary py-1.5 w-fit cursor-pointer pointer-events-none rounded-full text-sm' 
+            className='flex items-center gap-1 absolute z-4 bottom-0 md:bottom-2 right-2 btn-tertiary py-1.5 w-fit cursor-pointer pointer-events-none rounded-full text-xs' 
             onClick={() => openLightbox(hasVideo ? 4 : 4)}
           > 
             <AiOutlinePicture />
@@ -390,7 +390,7 @@ const PropertyDetail = () => {
           </div>
         </div> */}
           <h3 className='text-xl font-extrabold uppercase'> {property.title} </h3>
-          <p className="text-lg font-normal flex items-center gap-1"> <GrLocation /> {property.location} </p>
+          <p className="text-sm font-normal flex items-center gap-1"> <GrLocation /> {property.location} </p>
           {/* Updated Price Display */}
           <h3 className="text-4xl font-extrabold mt-4">
             {priceInfo.formatted}

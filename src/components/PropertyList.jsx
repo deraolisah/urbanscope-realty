@@ -44,9 +44,9 @@ const PropertyList = ({ property }) => {
         <p className='text-sm text-dark/60 font-semibold'> {property.location} </p>
         <p className='text-dark/80 text-xs mt-2 hidden sm:flex'> {property.description.slice(0,60) + "..."} </p>
         <p className='space-x-2 text-dark/80 flex items-center'>
-          <span className='text-sm flex items-center gap-2'> {property.bedrooms} beds <LiaBedSolid /> </span>
+          <span className='text-sm flex items-center gap-2'> {property.bedrooms} beds <LiaBedSolid className='hidden sm:flex' /> </span>
           <span> • </span>
-          <span className='text-sm flex items-center gap-2'> {property.bathrooms} baths <LiaBathSolid /> </span>
+          <span className='text-sm flex items-center gap-2'> {property.bathrooms} baths <LiaBathSolid className='hidden sm:flex' /> </span>
         </p>
       </div>
     </div>
