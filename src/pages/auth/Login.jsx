@@ -133,7 +133,7 @@ const Login = () => {
             className="btn mt-2"
             disabled={loading}
           >
-            {loading ? 'Loading...' : 'Login'}
+            {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 

@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { HiMiniArrowRight } from "react-icons/hi2";
+import { PropertyContext } from '../contexts/PropertyContext';
 
 const PropertyPreview = ({ property }) => {
-
+  const { getFormattedPrice } = useContext(PropertyContext);
+  const priceInfo = getFormattedPrice(property);
 
   return (
     <div className="bg-dark/5 w-full hover:bg-dark/10 hover:shadow-md transition-colors duration-200 rounded-lg m-0">
@@ -15,7 +17,12 @@ const PropertyPreview = ({ property }) => {
             <p className="font-medium text-xs"> {property.location} </p>
             <p className="text-gray-600 text-sm"> {property.description.slice(0,68) + "..."} </p>
             {property.price && (
-              <p className="text-xl md:text-3xl font-extrabold mt-2"> ${property.price}<span className='text-dark/80 font-normal text-base'>/month</span></p>
+              <p className="text-xl md:text-3xl font-extrabold mt-2"> 
+                {priceInfo.formatted}
+                {priceInfo.suffix && (
+                  <span className='text-dark/80 font-normal text-base'>{priceInfo.suffix}</span>
+                )}
+              </p>
             )}
           </div>
           <Link to={`/property/${property._id}`}className="hidden md:flex btn" onClick={() => { scrollTo(0,0)}}>

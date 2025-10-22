@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { FiArrowLeft, FiCheck, FiMail, FiPlay } from 'react-icons/fi';
+import { FiCheck, FiMail, FiPlay } from 'react-icons/fi';
 import { AiOutlinePicture } from "react-icons/ai";
 import { HiMiniChevronLeft, HiOutlineHeart, HiMiniShare, HiHeart } from "react-icons/hi2";
 import { GrLocation } from "react-icons/gr";
@@ -9,18 +9,19 @@ import { FavoritesContext } from "../../contexts/FavoritesContext";
 import "./PropertyDetail.css";
 
 const PropertyDetail = () => {
-  const [ pricing, setPricing ] = useState(false);
-  const [ agentDetails, setAgentDetails ] = useState(false);
-  const [ showFullDescription, setShowFullDescription ] = useState(false);
-  const [ isLightboxOpen, setIsLightboxOpen ] = useState(false);
-  const [ currentIndex, setCurrentIndex ] = useState(0);
-  const [ videoThumbnail, setVideoThumbnail ] = useState('');
+  const [pricing, setPricing] = useState(false);
+  const [agentDetails, setAgentDetails] = useState(false);
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [videoThumbnail, setVideoThumbnail] = useState('');
   
   const { id } = useParams();
-  const { properties, loading } = useContext(PropertyContext);
+  const { properties, loading, getFormattedPrice } = useContext(PropertyContext);
   const { toggleFavorite, isFavorite } = useContext(FavoritesContext);
   
   const property = properties.find(p => p._id === id);
+  const priceInfo = property ? getFormattedPrice(property) : null;
 
   const hasVideo = property?.videoUrl && property.videoUrl.trim() !== '';
 
@@ -152,8 +153,10 @@ const PropertyDetail = () => {
     generateThumbnail();
   }, [property, hasVideo]);
 
+
   if (loading) return <div className="container py-4">Loading...</div>;
   if (!property) return <div className="container py-4">Property not found</div>;
+
 
   // Create combined media array (video + images)
   const mediaItems = [];
@@ -377,11 +380,23 @@ const PropertyDetail = () => {
       {/* Property details */}
       <div className='grid md:grid-cols-2 gap-4 space-y-8 pb-4'>
         <div className="flex flex-col items-start gap-1.5">
+        {/* Property Header with Transaction Badge */}
+        {/* <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <h3 className='text-xl font-extrabold uppercase'> {property.title} </h3>
+            <span className={`px-3 py-1 rounded-full text-sm font-semibold border ${priceInfo.badge}`}>
+              For {priceInfo.transactionType}
+            </span>
+          </div>
+        </div> */}
           <h3 className='text-xl font-extrabold uppercase'> {property.title} </h3>
           <p className="text-lg font-normal flex items-center gap-1"> <GrLocation /> {property.location} </p>
+          {/* Updated Price Display */}
           <h3 className="text-4xl font-extrabold mt-4">
-            ${property.price}
-            <span className='text-base font-normal text-dark/80'> /month, available for <span className='text-blue-600 lowercase'>{property?.propertyTransaction} </span></span>
+            {priceInfo.formatted}
+            <span className='text-base font-normal text-dark/80'> 
+              {priceInfo.description}
+            </span>
           </h3>
           <button onClick={togglePricing} className="cursor-pointer font-semibold underline">Pricing details and terms</button>
 
@@ -396,9 +411,9 @@ const PropertyDetail = () => {
                 </div>
                 <hr className='w-full my-2 border-dark/20' />
                 <div>
-                  <p> <strong> Price: </strong> {property?.price} </p>
-                  <p> <strong> Inspection Fee: </strong> ${property?.price} </p>
-                  <p> <strong> Contract: </strong> {property?.price} </p>
+                  <p> <strong> Price: </strong> ₦{property?.price} </p>
+                  <p> <strong> Inspection Fee: </strong> ₦{property?.price} </p>
+                  <p> <strong> Contract: </strong> ₦{property?.price} </p>
                 </div>
                 <hr className='w-full my-2 border-dark/20' />
                 <p className='text-sm'> ⚠️ Disclaimer: Price mentioned on property is not subject to any changes. </p>

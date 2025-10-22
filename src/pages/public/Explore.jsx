@@ -7,12 +7,50 @@ import { FiGrid } from "react-icons/fi";
 import { HiMiniListBullet } from "react-icons/hi2";
 import { PropertyContext } from '../../contexts/PropertyContext';
 
+// Skeleton Loader Components
+const SkeletonPropertyCard = () => (
+  <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="h-48 bg-gray-300"></div>
+    <div className="p-4 space-y-3">
+      <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+      <div className="h-3 bg-gray-300 rounded w-1/2"></div>
+      <div className="h-3 bg-gray-300 rounded w-2/3"></div>
+      <div className="flex justify-between items-center pt-2">
+        <div className="h-6 bg-gray-300 rounded w-20"></div>
+        <div className="h-8 bg-gray-300 rounded w-24"></div>
+      </div>
+    </div>
+  </div>
+);
+
+const SkeletonPropertyList = () => (
+  <div className="bg-white rounded-lg shadow-md p-4">
+    <div className="flex gap-4">
+      <div className="w-40 h-32 bg-gray-300 rounded-lg flex-shrink-0"></div>
+      <div className="flex-1 space-y-3">
+        <div className="h-5 bg-gray-300 rounded w-3/4"></div>
+        <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+        <div className="h-4 bg-gray-300 rounded w-2/3"></div>
+        <div className="flex gap-2">
+          <div className="h-6 bg-gray-300 rounded w-16"></div>
+          <div className="h-6 bg-gray-300 rounded w-16"></div>
+          <div className="h-6 bg-gray-300 rounded w-16"></div>
+        </div>
+        <div className="flex justify-between items-center pt-2">
+          <div className="h-6 bg-gray-300 rounded w-20"></div>
+          <div className="h-8 bg-gray-300 rounded w-24"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
 const Explore = () => {
-  const [ priceRange, setPriceRange ] = useState({ min: 200, max: 6000 });
-  const [ selectedTypes, setSelectedTypes ] = useState([]);
-  const [ showFilter, setShowFilter ] = useState(false);
-  const [ showLayout, setShowLayout ] = useState('grid');
-  const [ sortBy, setSortBy ] = useState('price');
+  const [priceRange, setPriceRange] = useState({ min: 10, max: 1000000000 });
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
+  const [showLayout, setShowLayout] = useState('grid');
+  const [sortBy, setSortBy] = useState('price');
   const { properties, loading } = useContext(PropertyContext);
 
   const toggleFilter = () => setShowFilter(!showFilter);
@@ -24,7 +62,7 @@ const Explore = () => {
   };
 
   const resetFilters = () => {
-    setPriceRange({ min: 200, max: 6000 });
+    setPriceRange({ min: 10, max: 100000000 });
     setSelectedTypes([]);
   };
 
@@ -98,9 +136,13 @@ const Explore = () => {
               {/* Active Range */}
               <div 
                 className="h-1 bg-dark rounded-full absolute top-1/2 -translate-y-1/2"
+                // style={{
+                //   left: `${((priceRange.min - 100) / 100000000) * 10}%`,
+                //   right: `${100 - ((priceRange.max - 100) / 100000000) * 10}%`
+                // }}
                 style={{
-                  left: `${((priceRange.min - 100) / 1000) * 10}%`,
-                  right: `${100 - ((priceRange.max - 100) / 1000) * 10}%`
+                  left: `${((priceRange.min - 100) / (1000000000 - 100)) * 100}%`,
+                  right: `${100 - ((priceRange.max - 100) / (1000000000 - 100)) * 100}%`
                 }}
               ></div>
 
@@ -108,7 +150,7 @@ const Explore = () => {
               <input
                 type="range"
                 min="100"
-                max="10000"
+                max="1000000000"
                 value={priceRange.min}
                 onChange={handleMinPriceChange}
                 className="absolute top-1/2 left-0 right-0 w-full h-1 -translate-y-1/2 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-dark [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg"
@@ -118,7 +160,7 @@ const Explore = () => {
               <input
                 type="range"
                 min="100"
-                max="10000"
+                max="1000000000"
                 value={priceRange.max}
                 onChange={handleMaxPriceChange}
                 className="absolute top-1/2 left-0 right-0 w-full h-1 -translate-y-1/2 appearance-none bg-transparent pointer-events-none [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-dark [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg"
@@ -129,12 +171,12 @@ const Explore = () => {
             <div className="flex justify-between items-center mt-6">
               <div className="text-start px-2 py-1 w-full border border-dark/10">
                 {/* <span className="text-sm text-gray-600">Min Price</span> */}
-                <div className="font-semibold text-lg">${priceRange.min}</div>
+                <div className="font-semibold text-lg">₦{priceRange.min}</div>
               </div>
               <div className="text-dark/80 mx-3"> - </div>
               <div className="text-start px-2 py-1 w-full border border-dark/10">
                 {/* <span className="text-sm text-gray-600">Max Price</span> */}
-                <div className="font-semibold text-lg">${priceRange.max}</div>
+                <div className="font-semibold text-lg">₦{priceRange.max}</div>
               </div>
             </div>
           </div>
@@ -236,60 +278,100 @@ const Explore = () => {
       <main className="w-full md:w-3/4 h-fit p-4 pb-8 px-0 md:px-6 space-y-4">
         {/* Header Controls */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Search */}
-          <div className='w-full flex items-center justify-between gap-0'>
-            <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-r-0 border-dark/10 focus:border-dark w-full !rounded-l placeholder:text-sm' />
-            <button type='button' className='btn py-1.5 px-4 rounded-none rounded-r w-fit'> Search </button>
-          </div>
+          {/* Loading Search */}
+          {loading ? (
+            <div className='w-full flex items-center justify-between gap-0'>
+              <div className='py-1.5 px-3 border border-r-0 border-dark/10 bg-gray-200 w-full rounded-l placeholder:text-sm h-9'></div>
+              <div className='btn border-0 py-1.5 px-4 rounded-none rounded-r bg-gray-400 h-9 w-20'></div>
+            </div>
+            ) : (
+            <div className='w-full flex items-center justify-between gap-0'>
+              <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-r-0 border-dark/10 focus:border-dark w-full !rounded-l placeholder:text-sm' />
+              <button type='button' className='btn py-1.5 px-4 rounded-none rounded-r w-fit'> Search </button>
+            </div>
+          )}
 
           <div className='w-full flex items-center justify-between sm:justify-end gap-2'>
             {/* Sort */}
-            <div className="text-dark/80 flex items-center gap-1">
-              {/* Sort By */}
-              <select 
-                className="focus:outline-none cursor-pointer text-sm text-dark/60 font-medium p-1.5 rounded border border-dark/10 "
-                value={sortBy}
-                onChange={handleSortChange}
-              >
-                <option value="price">Price - Low to High</option>
-                <option value="price-desc">Price - High to Low</option>
-                <option value="alphabet">Name - A to Z</option>
-                <option value="alphabet-desc">Name - Z to A</option>
-                <option value="date">Date - Oldest First</option>
-                <option value="date-desc">Date - Newest First</option>
-              </select>
-            </div>
+            {loading ? (
+              <div className="text-dark/80 flex items-center gap-1">
+                <div className="w-40 h-9 bg-gray-200 rounded border border-dark/10"></div>
+              </div>
+              ) : (
+              <div className="text-dark/80 flex items-center gap-1">
+                {/* Sort By */}
+                <select 
+                  className="focus:outline-none cursor-pointer text-sm text-dark/60 font-medium p-1.5 rounded border border-dark/10 "
+                  value={sortBy}
+                  onChange={handleSortChange}
+                >
+                  <option value="price">Price - Low to High</option>
+                  <option value="price-desc">Price - High to Low</option>
+                  <option value="alphabet">Name - A to Z</option>
+                  <option value="alphabet-desc">Name - Z to A</option>
+                  <option value="date">Date - Oldest First</option>
+                  <option value="date-desc">Date - Newest First</option>
+                </select>
+              </div>
+            )}
 
             {/* Layout */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setShowLayout("grid")}
-                title="Grid Layout"
-                className={`text-xl text-dark/50 p-1.5 border border-dark/10 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "grid" ? "bg-dark/10 text-dark/100" : ""}`}
-              >
-                <FiGrid />
-              </button>
-              <button
-                onClick={() => setShowLayout("list")}
-                title="List Layout"
-                className={`text-xl text-dark/50 p-1.5 border border-dark/10 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "list" ? "bg-dark/10 text-dark/100" : ""}`}
-              >
-                <HiMiniListBullet />
-              </button>
-              <button
-                onClick={toggleFilter}
-                title='Filters'
-                className="flex md:hidden items-center gap-2 p-1.5 text-xl text-dark/60 cursor-pointer hover:bg-dark/5 border border-dark/10 rounded"
-              >
-                {/* Filters  */}
-                <MdOutlineFilterList />
-              </button>
+            {loading ? (
+              <div className="flex items-center gap-2">
+              <div className="w-9 h-9 bg-gray-200 rounded border border-dark/10"></div>
+              <div className="w-9 h-9 bg-gray-200 rounded border border-dark/10"></div>
+              <div className="w-9 h-9 bg-gray-200 rounded border border-dark/10 md:hidden"></div>
             </div>
+
+            ) : (
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setShowLayout("grid")}
+                  title="Grid Layout"
+                  className={`text-xl text-dark/50 p-1.5 border border-dark/10 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "grid" ? "bg-dark/10 text-dark/100" : ""}`}
+                >
+                  <FiGrid />
+                </button>
+                <button
+                  onClick={() => setShowLayout("list")}
+                  title="List Layout"
+                  className={`text-xl text-dark/50 p-1.5 border border-dark/10 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "list" ? "bg-dark/10 text-dark/100" : ""}`}
+                >
+                  <HiMiniListBullet />
+                </button>
+                <button
+                  onClick={toggleFilter}
+                  title='Filters'
+                  className="flex md:hidden items-center gap-2 p-1.5 text-xl text-dark/60 cursor-pointer hover:bg-dark/5 border border-dark/10 rounded"
+                >
+                  {/* Filters  */}
+                  <MdOutlineFilterList />
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
+
         {/* Loading State */}
-        {loading && <div className="text-center py-8">Loading properties...</div>}
+        {loading && (
+          <div className=''>
+            {showLayout === "grid" ? (
+              <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4">
+                {[...Array(8)].map((_, index) => (
+                  <SkeletonPropertyCard key={index} />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                {[...Array(6)].map((_, index) => (
+                  <SkeletonPropertyList key={index} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Property Display */}
         {!loading && (

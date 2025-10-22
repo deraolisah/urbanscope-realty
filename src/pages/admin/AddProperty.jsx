@@ -9,6 +9,7 @@ const AddProperty = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [newAmenity, setNewAmenity] = useState('');
 
   const [formData, setFormData] = useState({
     propertyType: '',
@@ -37,11 +38,11 @@ const AddProperty = () => {
   const propertyTypes = ['Apartment', 'Land', 'House'];
   const transactions = ['Sale', 'Rent'];
   const statusOptions = ['active', 'inactive'];
-  const amenityOptions = [
-    "Equipped kitchen", "Wi-Fi", "Lake view", "Free parking", 
-    "Swimming pool", "Light", "Air conditioning", "Gym",
-    "Fully Fitted Kitchen", "Balcony", "Water Heater", "CCTV"
-  ];
+  // const amenityOptions = [
+  //   "Wi-Fi", "Lake view", "Free parking", 
+  //   "Swimming pool", "Light", "Air conditioning", "Gym",
+  //   "Balcony", "Water Heater", "CCTV"
+  // ];
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -51,12 +52,30 @@ const AddProperty = () => {
     }));
   };
 
-  const handleAmenityChange = (amenity) => {
+  // const handleAmenityChange = (amenity) => {
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     amenities: prev.amenities.includes(amenity)
+  //       ? prev.amenities.filter(a => a !== amenity)
+  //       : [...prev.amenities, amenity]
+  //   }));
+  // };
+
+  // Add these functions with your other handlers
+  const handleAddAmenity = () => {
+    if (newAmenity.trim() && !formData.amenities.includes(newAmenity.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        amenities: [...prev.amenities, newAmenity.trim()]
+      }));
+      setNewAmenity('');
+    }
+  };
+
+  const handleRemoveAmenity = (index) => {
     setFormData(prev => ({
       ...prev,
-      amenities: prev.amenities.includes(amenity)
-        ? prev.amenities.filter(a => a !== amenity)
-        : [...prev.amenities, amenity]
+      amenities: prev.amenities.filter((_, i) => i !== index)
     }));
   };
 
@@ -174,13 +193,8 @@ const AddProperty = () => {
       <div className="max-w-4xl mx-auto px-4">
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">Add New Property</h1>
-            <button
-              onClick={() => navigate('/admin')}
-              className="btn-tertiary"
-            >
-              Back to Dashboard
-            </button>
+            <h1 className="text-2xl font-bold text-gray-800"> Add New Property </h1>
+            <button onClick={() => navigate('/admin')} className="w-fit btn-tertiary"> Back to Dashboard </button>
           </div>
 
           {error && (
@@ -371,26 +385,57 @@ const AddProperty = () => {
               </div>
             </div>
 
-            {/* Amenities */}
+            {/* Amenities - Manual Entry */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Amenities
               </label>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                {amenityOptions.map(amenity => (
-                  <label key={amenity} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={formData.amenities.includes(amenity)}
-                      onChange={() => handleAmenityChange(amenity)}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <span className="text-sm text-gray-700">{amenity}</span>
-                  </label>
-                ))}
+              
+              {/* Input for adding new amenities */}
+              <div className="flex gap-2 mb-3">
+                <input
+                  type="text"
+                  value={newAmenity}
+                  onChange={(e) => setNewAmenity(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleAddAmenity();
+                    }
+                  }}
+                  className="flex-1 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter an amenity (e.g., Fully Equipped Kitchen)"
+                />
+                <button
+                  type="button"
+                  onClick={handleAddAmenity}
+                  className="btn w-fit"
+                >
+                  Add Amenity
+                </button>
               </div>
+              
+              {/* Display amenities as chips */}
+              {formData.amenities.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {formData.amenities.map((amenity, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-1 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                    >
+                      <span>{amenity}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveAmenity(index)}
+                        className="text-blue-600 hover:text-blue-800 ml-1"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

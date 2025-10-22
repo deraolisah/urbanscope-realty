@@ -5,21 +5,18 @@ import { useNavigate } from 'react-router-dom';
 
 const UserDashboard = () => {
   const navigate = useNavigate();
-  // const [user, setUser] = useState(null);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
-   const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   useEffect(() => {
-    // const userData = JSON.parse(localStorage.getItem('user'));
-    // setUser(userData);
     fetchUserFavorites();
   }, []);
 
   const fetchUserFavorites = async () => {
     try {
-      // This would connect to your favorites API
+      // Example: if you have a favorites endpoint
       // const response = await axios.get(`${import.meta.env.VITE_API_URL}/favorites`);
       // setFavorites(response.data);
       setLoading(false);
@@ -31,12 +28,8 @@ const UserDashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await logout(); // Use the logout function from AuthContext
-      if (setFavorites) {
-        setFavorites([]); // Clear favorites state
-      }
+      await logout(); // Use AuthContext logout
       navigate('/');
-      // No need for window.location.reload() - the AuthContext update will trigger re-render
     } catch (error) {
       console.error('Logout failed:', error);
     }

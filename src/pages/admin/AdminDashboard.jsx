@@ -5,7 +5,6 @@ import { MdPersonAdd, MdDelete, MdEdit, MdAdd } from 'react-icons/md';
 import { PropertyContext } from "../../contexts/PropertyContext";
 import { AuthContext } from '../../contexts/AuthContext';
 
-
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
@@ -16,8 +15,8 @@ const AdminDashboard = () => {
     totalAdmins: 0
   });
 
-  const { user, logout, checkAuthStatus } = useContext(AuthContext);
-  const { properties, loading, setLoading } = useContext(PropertyContext);
+  const { user, logout } = useContext(AuthContext);
+  const { properties, loading, setLoading, getFormattedPrice } = useContext(PropertyContext);
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -25,17 +24,15 @@ const AdminDashboard = () => {
     fetchDashboardData();
   }, []);
 
-  // Featch Dashboard Data
+  // Fetch Dashboard Data
   const fetchDashboardData = async () => {
     try {
-      const usersRes = await axios.get(`${API_URL}/admin/users`, { 
-        withCredentials: true 
-      });
+      const usersRes = await axios.get(`${API_URL}/admin/users`);
+      // Remove withCredentials: true
       
       const usersData = usersRes.data.users || usersRes.data;
       setUsers(usersData);
       
-      // Call updateStats with the actual data
       updateStats(usersData, properties);
       setLoading(false);
     } catch (error) {
@@ -58,34 +55,21 @@ const AdminDashboard = () => {
     });
   };
 
-
-
-  // 
   const handleLogout = async () => {
     try {
-      await axios.post(`${API_URL}/auth/logout`, {}, {
-        withCredentials: true
-      });
-      localStorage.removeItem('user');
+      await logout(); // Use AuthContext logout
       navigate('/');
     } catch (error) {
-        console.error('Logout failed:', error);
-      }
-    };
-
-  const handleCreateAgent = () => {
-    navigate('/admin/create-agent');
+      console.error('Logout failed:', error);
+    }
   };
-
 
   // Delete A User
   const handleDeleteUser = async (userId) => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        await axios.delete(
-          `${API_URL}/admin/${userId}`, // Fix the endpoint
-          { withCredentials: true }
-        );
+        await axios.delete(`${API_URL}/admin/${userId}`);
+        // Remove withCredentials: true
         fetchDashboardData(); // Refresh data
       } catch (error) {
         console.error('Error deleting user:', error);
@@ -94,37 +78,27 @@ const AdminDashboard = () => {
     }
   };
 
-
-  // 
+  // Toggle User Status
   const toggleUserStatus = async (userId, currentStatus) => {
     try {
       await axios.put(
-        `${API_URL}/admin/${userId}`, // Fix the endpoint
-        { isActive: !currentStatus },
-        { withCredentials: true }
+        `${API_URL}/admin/${userId}`,
+        { isActive: !currentStatus }
+        // Remove withCredentials: true
       );
       fetchDashboardData();
     } catch (error) {
       console.error('Error updating user status:', error);
     }
   };
-  
-
 
   // Delete A Property
   const handleDeleteProperty = async (propertyId) => {
-    if (window.confirm('Are you sure you want to delete this property? This action cannot be undone.')) {
+    if (window.confirm('Are you sure you want to delete this property?')) {
       try {
-        await axios.delete(
-          `${API_URL}/properties/${propertyId}`,
-          { withCredentials: true }
-        );
-        
-        // Refresh the properties data by calling fetchDashboardData
+        await axios.delete(`${API_URL}/properties/${propertyId}`);
+        // Remove withCredentials: true
         fetchDashboardData();
-        
-        // If you want immediate UI update without full refresh, you can also:
-        // Update the PropertyContext or local state
       } catch (error) {
         console.error('Error deleting property:', error);
         alert(error.response?.data?.message || 'Failed to delete property');
@@ -255,91 +229,60 @@ const AdminDashboard = () => {
             <h3 className="text-xl font-semibold">Property Management</h3>
             <span className="text-sm text-gray-500">{properties.length} total properties</span>
           </div>
-          <div className="divide-y max-h-96 overflow-y-auto">
-            {properties.slice(0, 10).map((property) => (
-              <div key={property._id} className="p-4 flex justify-between items-start group">
-                <div className="flex-1">
-                  <h4 className="font-semibold">{property.title}</h4>
-                  <p className="text-gray-600 text-sm">{property.location}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-sm font-medium">${property.price.toLocaleString()}</span>
-                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
-                      {property.propertyType}
-                    </span>
-                    <span className={`text-xs px-2 py-1 rounded ${
-                      property.status === 'active' ? 'bg-green-100 text-green-800' :
-                      property.status === 'sold' ? 'bg-blue-100 text-blue-800' :
-                      property.status === 'rented' ? 'bg-purple-100 text-purple-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
-                      {property.status}
-                    </span>
-                    {property.featured && (
-                      <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
-                        Featured
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="flex gap-1 ml-4">
-                  <button 
-                    onClick={() => navigate(`/admin/edit-property/${property._id}`)}
-                    className="p-2 text-blue-600 hover:bg-blue-50 rounded cursor-pointer transition-colors"
-                    title="Edit Property"
-                  >
-                    <MdEdit size={16} />
-                  </button>
-                  <button 
-                    onClick={() => handleDeleteProperty(property._id)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded cursor-pointer transition-colors"
-                    title="Delete Property"
-                  >
-                    <MdDelete size={16} />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Recent Properties */}
-        {/* <div className="bg-white border border-dark/10 rounded-lg shadow-md">
-          <div className="p-4 border-b">
-            <h3 className="text-xl font-semibold">Recent Properties</h3>
-          </div>
           <div className="divide-y max-h-96 overflow-y-auto">
-            {properties.slice(0, 5).map((property) => (
-              <div key={property._id} className="p-4 flex justify-between items-start group">
-                <div className="flex-1">
-                  <h4 className="font-semibold">{property.title}</h4>
-                  <p className="text-gray-600 text-sm">{property.location}</p>
-                  <div className="flex justify-between items-center mt-2">
-                    <span className="text-sm font-medium">${property.price.toLocaleString()}</span>
-                    <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
-                      {property.propertyType}
-                    </span>
+            {properties.slice(0, 10).map((property) => {
+              const priceInfo = getFormattedPrice(property);
+              
+              return (
+                <div key={property._id} className="p-4 flex justify-between items-start group">
+                  <div className="flex-1">
+                    <h4 className="font-semibold">{property.title}</h4>
+                    <p className="text-gray-600 text-sm">{property.location}</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-sm font-medium">
+                        {priceInfo.formatted}{priceInfo.suffix}
+                      </span>
+                      <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                        {property.propertyType}
+                      </span>
+                      <span className={`text-xs px-2 py-1 rounded ${
+                        property.status === 'active' ? 'bg-green-100 text-green-800' :
+                        property.status === 'sold' ? 'bg-blue-100 text-blue-800' :
+                        property.status === 'rented' ? 'bg-purple-100 text-purple-800' :
+                        'bg-gray-100 text-gray-800'
+                      }`}>
+                        {property.status}
+                      </span>
+                      {property.featured && (
+                        <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
+                          Featured
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-1 ml-4">
+                    <button 
+                      onClick={() => navigate(`/admin/edit-property/${property._id}`)}
+                      className="p-2 text-blue-600 hover:bg-blue-50 rounded cursor-pointer transition-colors"
+                      title="Edit Property"
+                    >
+                      <MdEdit size={16} />
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteProperty(property._id)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded cursor-pointer transition-colors"
+                      title="Delete Property"
+                    >
+                      <MdDelete size={16} />
+                    </button>
                   </div>
                 </div>
-                <div className="flex gap-1 ml-4">
-                  <button 
-                    onClick={() => navigate(`/admin/edit-property/${property._id}`)}
-                    className="p-2 text-blue-600 hover:bg-blue-50 rounded cursor-pointer transition-colors"
-                    title="Edit Property"
-                  >
-                    <MdEdit size={16} />
-                  </button>
-                  <button 
-                    onClick={() => handleDeleteProperty(property._id)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded cursor-pointer transition-colors"
-                    title="Delete Property"
-                  >
-                    <MdDelete size={16} />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div> */}
+              );
+            })}
+        </div>
+        </div>
       </div>
     </div>
   );
