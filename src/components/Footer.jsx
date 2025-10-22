@@ -90,6 +90,8 @@
 import React from 'react';
 import logo from "../assets/logo-white.png";
 import { Link } from 'react-router-dom';
+import { RiTwitterXFill, RiLinkedinBoxFill  } from "react-icons/ri";
+import { FaInstagram, FaFacebook } from "react-icons/fa6";
 
 const Footer = () => {
   return (
@@ -106,15 +108,21 @@ const Footer = () => {
               Empowering home seekers with smart insights to find the perfect property and elevate their living experience. 
             </p>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-gray-800 hover:bg-gray-700 p-2 rounded transition-colors">
-                <span className="sr-only">Facebook</span>
-                {/* Add your icon here */}
+              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="bg-gray-800 hover:bg-gray-700 p-1.5 text-lg rounded transition-colors">
+                <span className="sr-only">x</span>
+                <RiTwitterXFill />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-gray-800 hover:bg-gray-700 p-2 rounded transition-colors">
-                <span className="sr-only">Instagram</span>
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="bg-gray-800 hover:bg-gray-700 p-2 rounded transition-colors">
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="bg-gray-800 hover:bg-gray-700 p-1.5 text-lg rounded transition-colors">
                 <span className="sr-only">LinkedIn</span>
+                <RiLinkedinBoxFill />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-gray-800 hover:bg-gray-700 p-1.5 text-lg rounded transition-colors">
+                <span className="sr-only">Instagram</span>
+                <FaInstagram />
+              </a>
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-gray-800 hover:bg-gray-700 p-1.5 text-lg rounded transition-colors">
+                <span className="sr-only">Facebook</span>
+                <FaFacebook />
               </a>
             </div>
           </div>
