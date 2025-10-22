@@ -421,7 +421,7 @@ const PropertyDetail = () => {
             </div>
           )}
 
-          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-6 p-6 bg-dark/5 border border-dark/5 rounded-sm mt-4">
+          <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-4 p-6 bg-dark/5 border border-dark/5 rounded-sm mt-4">
             <div className="text-center">
               <div className="font-semibold text-2xl">
                 {property.propertyType}
@@ -448,7 +448,7 @@ const PropertyDetail = () => {
             </div>
           </div>
 
-          <div className="w-full flex items-center justify-between gap-1.5">
+          <div className="w-full flex flex-wrap sm:flex-nowrap items-center justify-between gap-1.5">
             <button className='btn-tertiary gap-1 truncate' title={property.agentName} onClick={toggleAgentDetails}>
               <span className="text-gray-600">Agent:</span>
               <span className="font-semibold overflow-hidden truncate"> {property?.agentName || "Realtor"} </span>
@@ -475,7 +475,7 @@ const PropertyDetail = () => {
               </div>
             )}
 
-            <button className="btn text-nowrap">Send a request</button>
+            <button className="btn">Send a request</button>
           </div>
         </div>
 
