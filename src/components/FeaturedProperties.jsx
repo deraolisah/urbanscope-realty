@@ -23,7 +23,7 @@ const FeaturedProperties = () => {
       <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-center leading-tight uppercase mb-4 md:mb-8">
         Featured Properties
       </h2>
-      <div className='grid grid-cols-2 gap-3 md:gap-4'>
+      <div className='w-full h-full flex gap-4 overflow-x-scroll sm:grid sm:grid-cols-2 sm:gap-4 scrollbar-hidden'>
         {/* {properties.map(property => (
           <div key={property._id} className=''>
             <PropertyPreview property={property} />
@@ -43,7 +43,7 @@ const FeaturedProperties = () => {
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-center leading-tight uppercase mb-4 md:mb-8">
           New in Town
         </h2>
-        <div className='grid grid-cols-2 gap-3 md:gap-4'>
+        <div className='w-full h-full flex gap-4 overflow-x-scroll sm:grid sm:grid-cols-2 sm:gap-4 scrollbar-hidden'>
           {recentProperties.map(property => (
             <div key={property._id}>
               <PropertyPreview property={property} />
