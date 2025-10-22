@@ -21,35 +21,36 @@ const Footer = () => {
       <div className="bg-black py-16 px-4 md:px-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-sm">
           {/* Logo */}
-          <div className="mb-4 md:mb-0">
+          <div className="mb-2 md:mb-0">
             <Link to="/" onClick={() => { window.scrollTo(0,0); closeMenu(); }} className=""> 
               <img src={logo} alt='UrbanScope Logo' className='h-8' />
             </Link>
-            <p className="text-gray-400 mt-4"> Find your perfect home </p>
+            {/* <p className="text-gray-400 mt-4"> Find your perfect home </p> */}
+            <p className="text-gray-300 mt-4"> Empowering home seekers with smart insights to find the perfect property and elevate their living experience. </p>
           </div>
 
           
           {/* Get in Touch */}
           <div>
-            <h4 className="text-lg font-semibold mb-2"> Get in touch </h4>
-            <p> business@urbanscope.com </p>
-            <p> +1-(902)-2330-456 </p>
+            <h4 className="text-lg font-semibold mb-1 md:mb-2"> Get in touch </h4>
+            <p className='text-gray-300 mb-1'> business@urbanscope.com </p>
+            <p className='text-gray-300'> +1-(902)-2330-456 </p>
             {/* <p> hello@piazzapizza.io </p> */}
           </div>
 
           {/* Connect */}
           <div>
-            <h4 className="text-lg font-semibold mb-2"> Connect </h4>
-            <p><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"> LinkedIn </a></p>
-            <p><a href="https://instagram.com" target="_blank" rel="noopener noreferrer"> Instagram </a></p>
+            <h4 className="text-lg font-semibold mb-1 md:mb-2"> Connect </h4>
+            <p className='text-gray-300 mb-1'><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"> LinkedIn </a></p>
+            <p className='text-gray-300'><a href="https://instagram.com" target="_blank" rel="noopener noreferrer"> Instagram </a></p>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="text-lg font-semibold mb-2"> Services </h4>
-            <p> Piazza Pizza Design Services GmbH </p>
-            <p> Dresdener Str. 22 </p>
-            <p> 10999 Berlin, Germany </p>
+            <h4 className="text-lg font-semibold mb-1 md:mb-2"> Services </h4>
+            <p className='text-gray-300 mb-1'> Piazza Pizza Design Services GmbH </p>
+            <p className='text-gray-300 mb-1'> Dresdener Str. 22 </p>
+            <p className='text-gray-300'> 10999 Berlin, Germany </p>
           </div>
 
           {/* Ventures */}
