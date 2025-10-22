@@ -1,16 +1,49 @@
-# UrbanScope Realty
+# UrbanScope Realty 🏠
 
-This project provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, full-stack real estate platform built with React.js and Node.js that connects property buyers, and agents with an intuitive interface and powerful features.
 
-Currently, two official plugins are available:
+![UrbanScope Realty](https://img.shields.io/badge/UrbanScope-Realty-blue) ![React](https://img.shields.io/badge/React-18.2.0-61dafb) ![Node.js](https://img.shields.io/badge/Node.js-Express-green) ![MongoDB](https://img.shields.io/badge/MongoDB-Database-green)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 Features
 
-## React Compiler
+### 🏘️ Property Management
+- **Advanced Property Listings** with high-quality images and video tours
+- **Smart Filtering & Search** by price, location, property type, and amenities
+- **Dual Transaction Types** - Sale and Rent with appropriate pricing display
+- **Favorite Properties** - Save and track properties you love
+- **Property Comparison** - Side-by-side property comparisons
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 👥 User System
+- **Multi-role Authentication** (Users, Admin)
+- **JWT-based Security** with protected routes
+- **User Profiles & Dashboard**
+- **Favorite Properties Management**
+- **Secure Password Handling**
 
-## Expanding the ESLint configuration
+### 🎨 Modern UI/UX
+- **Responsive Design** - Works perfectly on all devices
+<!-- - **Dark/Light Mode** (optional - add if you have it) -->
+<!-- - **Interactive Maps** for property locations -->
+- **Image Galleries & Lightbox**
+- **Skeleton Loading** for better user experience
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 🔧 Admin Features
+- **Complete Dashboard** with analytics and statistics
+- **User Management** - Activate/deactivate users
+- **Property Moderation** - Create, edit, or remove listings
+<!-- - **Agent Management** - Create and manage agent accounts -->
+- **Content Management** - Featured properties and promotions
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js (v16 or higher)
+- MongoDB (v4.4 or higher)
+- npm or yarn
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/deraolisah/urbanscope-realty.git
+   cd urbanscope-realty
