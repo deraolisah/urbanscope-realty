@@ -27,7 +27,7 @@ const PropertyList = ({ property }) => {
       <Link to={`/property/${property._id}`} className='w-fit'>
         <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover aspect-8/10 md:aspect-5/4" />
       </Link>
-      <div className='p-4 py-3 w-full space-y-1'>
+      <div className='p-4 py-3 w-full space-y-1.5'>
         <div className='w-full flex items-center justify-between'>
           <h3 className="text-lg font-extrabold"> 
             {priceInfo.formatted}
@@ -42,8 +42,8 @@ const PropertyList = ({ property }) => {
         </div>
         <p className='text-sm uppercase font-bold'> {property.title} </p>
         <p className='text-sm text-dark/60 font-semibold'> {property.location} </p>
-        <p className='text-dark/80 text-xs mt-2'> {property.description.slice(0,100) + "..."} </p>
-        <p className='space-x-4 text-dark/80 flex items-center'>
+        <p className='text-dark/80 text-xs mt-2 hidden sm:flex'> {property.description.slice(0,60) + "..."} </p>
+        <p className='space-x-2 text-dark/80 flex items-center'>
           <span className='text-sm flex items-center gap-2'> {property.bedrooms} beds <LiaBedSolid /> </span>
           <span> • </span>
           <span className='text-sm flex items-center gap-2'> {property.bathrooms} baths <LiaBathSolid /> </span>
