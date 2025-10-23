@@ -8,7 +8,11 @@ const PropertyPreview = ({ property }) => {
   const priceInfo = getFormattedPrice(property);
 
   return (
-    <div className="bg-dark/5 min-w-[320px] w-full hover:bg-dark/10  transition-colors duration-200 rounded-lg m-0">
+    <div className="bg-dark/5 min-w-[320px] w-full hover:bg-dark/10  transition-colors duration-200 rounded-lg m-0 relative">
+      {/* Transaction Type Badge */}
+      <div className={`absolute bottom-2 md:top-2 right-2 z-10 px-2 py-1 rounded text-xs font-semibold pointer-events-none h-fit ${priceInfo.badge}`}>
+        {priceInfo.transactionType}
+      </div>
       <div className="flex flex-col md:flex-row md:justify-between md:items-start md:h-[320px] gap-0">
         <div className="flex flex-col items-start justify-between space-y-2 h-full w-full md:max-w-md p-4 md:p-6 overflow-hidden">
           <div className='space-y-1 w-full'>

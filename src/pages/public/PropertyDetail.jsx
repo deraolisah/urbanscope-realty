@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FiCheck, FiMail, FiPlay } from 'react-icons/fi';
 import { AiOutlinePicture } from "react-icons/ai";
-import { HiMiniChevronLeft, HiOutlineHeart, HiMiniShare, HiHeart } from "react-icons/hi2";
+import { HiMiniChevronLeft, HiMiniChevronDown, HiOutlineHeart, HiMiniShare, HiHeart } from "react-icons/hi2";
 import { GrLocation } from "react-icons/gr";
 import { PropertyContext } from "../../contexts/PropertyContext";
 import { FavoritesContext } from "../../contexts/FavoritesContext";
@@ -398,7 +398,10 @@ const PropertyDetail = () => {
               {priceInfo.description}
             </span>
           </h3>
-          <button onClick={togglePricing} className="cursor-pointer font-semibold underline">Pricing details and terms</button>
+          <button onClick={togglePricing} className="cursor-pointer font-semibold underline flex items-center gap-0">
+            Pricing details and terms 
+            <HiMiniChevronDown className='text-sm' />
+          </button>
 
           {pricing && (
             <div className='bg-dark/80 w-full h-full fixed z-50 top-0 left-0 flex items-center justify-center px-4'> 
@@ -452,6 +455,7 @@ const PropertyDetail = () => {
             <button className='btn-tertiary gap-1 truncate' title={property.agentName} onClick={toggleAgentDetails}>
               <span className="text-gray-600">Agent:</span>
               <span className="font-semibold overflow-hidden truncate"> {property?.agentName || "Realtor"} </span>
+              <HiMiniChevronDown className='text-sm -ml-1' />
             </button>
             {agentDetails && (
               <div className='bg-dark/80 w-full h-full fixed z-50 top-0 left-0 flex items-center justify-center px-4'> 
