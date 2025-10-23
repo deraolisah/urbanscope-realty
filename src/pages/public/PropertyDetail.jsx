@@ -267,8 +267,8 @@ const PropertyDetail = () => {
   return (
     <div className="container py-4 space-y-8 relative">
       {/* Back button */}
-      <button onClick={() => window.history.back()} className="absolute z-2 ml-2 mt-2 text-sm btn-secondary bg-light/90 hover:bg-light">
-        <HiMiniChevronLeft className='text-lg' />
+      <button onClick={() => window.history.back()} className="absolute z-2 ml-2 mt-2 text-xs md:text-sm btn-secondary bg-light/90 hover:bg-light">
+        <HiMiniChevronLeft className='text-md' />
         Go back
       </button>
 

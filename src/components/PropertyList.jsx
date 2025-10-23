@@ -21,7 +21,7 @@ const PropertyList = ({ property }) => {
   return (
     <div className='w-full flex items-center hover:shadow-md rounded-sm overflow-hidden bg-light relative'>
       {/* Transaction Type Badge */}
-      <div className={`absolute top-2 left-2 z-10 px-2 py-1 rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
+      <div className={`absolute top-2 left-2 px-2 py-1 rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
         {priceInfo.transactionType}
       </div>
       <Link to={`/property/${property._id}`} className='w-fit'>

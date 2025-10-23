@@ -22,11 +22,11 @@ const PropertyCard = ({ property }) => {
   return (
     <div className='w-full flex flex-col items-start hover:shadow-md rounded-sm overflow-hidden bg-light relative group'>
       {/* Transaction Type Badge */}
-      <div className={`absolute top-2 left-2 z-10 px-2 py-1 rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
+      <div className={`absolute top-2 left-2 px-2 py-1 rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
         {priceInfo.transactionType}
       </div>
 
-      <div className={`absolute top-2 right-2 z-10 px-2 py-1 rounded text-sm font-semibold pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300 ${priceInfo.badge}`}>
+      <div className={`absolute top-2 right-2 px-2 py-1 rounded text-sm font-semibold pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300 ${priceInfo.badge}`}>
         <BsArrowUpRight />
       </div>
 
