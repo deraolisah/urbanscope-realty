@@ -40,7 +40,7 @@ const PropertyPreview = ({ property }) => {
             <img 
               src={property.images[0]} 
               alt={property.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover aspect-4/3"
             />
           </Link>
         )}
