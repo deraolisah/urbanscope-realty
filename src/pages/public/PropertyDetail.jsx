@@ -258,7 +258,7 @@ const PropertyDetail = () => {
         <img
           src={currentMedia.url}
           alt={`Slide ${currentIndex + 1}`}
-          className="rounded-lg w-full h-full object-cover max-h-[70vh]"
+          className="rounded-lg w-fit mx-auto h-full object-cover max-h-[70vh]"
         />
       );
     }

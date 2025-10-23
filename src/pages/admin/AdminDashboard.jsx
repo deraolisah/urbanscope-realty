@@ -116,8 +116,8 @@ const AdminDashboard = () => {
 // }
 
   return (
-    <div className="p-6">
-      <div className="flex flex-wrap justify-between items-center gap-2 mb-8">
+    <div className="container">
+      <div className="flex flex-wrap justify-between items-center gap-2 my-8">
         <div>
           <h2 className="text-2xl font-bold">
             Admin Dashboard
@@ -237,8 +237,13 @@ const AdminDashboard = () => {
               return (
                 <div key={property._id} className="p-4 flex justify-between items-start group">
                   <div className="flex-1">
-                    <h4 className="font-semibold">{property.title}</h4>
-                    <p className="text-gray-600 text-sm">{property.location}</p>
+                    <div className='flex items-start gap-2'>
+                      <img src={property.images[0]} className='w-16 h-16 rounded' />
+                      <div>
+                        <h4 className="font-semibold">{property.title}</h4>
+                        <p className="text-gray-600 text-sm">{property.location}</p>
+                      </div>
+                    </div>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="text-sm font-medium">
                         {priceInfo.formatted}{priceInfo.suffix}

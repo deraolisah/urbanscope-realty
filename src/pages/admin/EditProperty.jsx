@@ -12,6 +12,7 @@ const EditProperty = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [newAmenity, setNewAmenity] = useState('');
+  const [imagesToDelete, setImagesToDelete] = useState([]);
 
   const [formData, setFormData] = useState({
     propertyType: '',
@@ -123,15 +124,28 @@ const EditProperty = () => {
     setNewImages(Array.from(e.target.files));
   };
 
+  // const removeImage = (index) => {
+  //   setImages(prev => prev.filter((_, i) => i !== index));
+  // };
   const removeImage = (index) => {
+    const imageToRemove = images[index];
+    
+    // If it's an existing image (has URL), add to deletion list
+    if (imageToRemove.startsWith('http')) {
+      setImagesToDelete(prev => [...prev, imageToRemove]);
+    }
+    
+    // Remove from current images display
     setImages(prev => prev.filter((_, i) => i !== index));
   };
 
+  
+  // 
   const removeNewImage = (index) => {
     setNewImages(prev => prev.filter((_, i) => i !== index));
   };
 
-  // In your handleSubmit function in EditProperty.jsx
+  // Update handleSubmit to send images to delete
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
@@ -144,15 +158,21 @@ const EditProperty = () => {
       // Append all form fields
       Object.keys(formData).forEach(key => {
         if (key === 'amenities') {
-          // Ensure amenities is always sent as JSON string
           submitData.append(key, JSON.stringify(formData[key] || []));
         } else if (key === 'featured') {
-          // Convert boolean to string
           submitData.append(key, formData[key].toString());
         } else {
           submitData.append(key, formData[key] || '');
         }
       });
+
+      // Append current images (the ones that remain after deletions)
+      submitData.append('currentImages', JSON.stringify(images));
+
+      // Append images to delete
+      if (imagesToDelete.length > 0) {
+        submitData.append('imagesToDelete', JSON.stringify(imagesToDelete));
+      }
 
       // Append new images
       newImages.forEach(image => {
@@ -181,6 +201,8 @@ const EditProperty = () => {
       setSaving(false);
     }
   };
+
+
 
   if (loading) {
     return (
