@@ -88,48 +88,34 @@ The application is fully responsive with breakpoints:
 
 
 ## 🔧 Development
-Running in Development Mode
-bash
 ### Frontend with hot reload
-npm run dev
+- npm run dev
 
 ### Backend with nodemon
-npm run dev
-Building for Production
-bash
+- npm run server
+
 ### Build frontend
 npm run build
 
-### Start production server
-npm start
-Code Quality
-bash
-### Lint code
-npm run lint
-
-### Format code
-npm run format
-
 
 ## 🚀 Deployment
-Frontend (Netlify)
-Build the project: npm run build
+### Frontend (Netlify)
+- Build the project: npm run build
+- Deploy the dist folder to your preferred hosting service
 
-Deploy the dist folder to your preferred hosting service
+### Backend (Vercel)
+- Set environment variables in your hosting platform
+- Deploy the server directory
+- Ensure MongoDB connection string is configured
 
-Backend (Vercel)
-Set environment variables in your hosting platform
-
-Deploy the server directory
-
-Ensure MongoDB connection string is configured
 
 ## 🤝 Contributing
-Fork the repository
-Create a feature branch: git checkout -b feature/amazing-feature
-Commit your changes: git commit -m 'Add amazing feature'
-Push to the branch: git push origin feature/amazing-feature
-Open a Pull Request
+- Fork the repository
+- Create a feature branch: git checkout -b feature/amazing-feature
+- Commit your changes: git commit -m 'Add amazing feature'
+- Push to the branch: git push origin feature/amazing-feature
+- Open a Pull Request
+
 
 ## 📝 License
 This project is licensed under the MIT License - see the LICENSE file for details.
@@ -138,8 +124,8 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 Chidera Olisah (Nathan) [https://github.com/deraolisah/] - Lead Developer - GitHub
 
 ## 🙏 Acknowledgments
-React community for excellent documentation.
-Deepseek for debugging.
-Vite team for fast build tooling.
-MongoDB for reliable database solutions.
-Tailwind CSS for utility-first CSS framework.
+- React with Vite community for excellent documentation.
+- Deepseek for debugging.
+- Vite team for fast build tooling.
+- MongoDB for reliable database solutions.
+- Tailwind CSS for utility-first CSS framework.
