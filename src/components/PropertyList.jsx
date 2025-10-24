@@ -24,7 +24,7 @@ const PropertyList = ({ property }) => {
       <div className={`absolute top-2 left-2 px-2 py-1 rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
         {priceInfo.transactionType}
       </div>
-      <Link to={`/property/${property._id}`} className='w-[50%] h-full'>
+      <Link to={`/property/${property._id}`} onClick={() => { scrollTo(0,0); }} className='w-[50%] h-full'>
         <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover aspect-8/10 md:aspect-5/4" loading='lazy' />
       </Link>
       <div className='p-4 py-3 w-full space-y-1'>

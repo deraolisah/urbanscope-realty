@@ -33,7 +33,7 @@ const PropertyCard = ({ property }) => {
       {/* <div className={`absolute top-0 right-0 w-full h-full z-1 bg-dark/15 px-2 py-1 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300`}>
       </div> */}
       
-      <Link to={`/property/${property._id}`} className='w-full'>
+      <Link to={`/property/${property._id}`} onClick={() => { scrollTo(0,0); }} className='w-full'>
         <img src={property.images[0]} alt={property.title} className="w-full object-cover aspect-16/8 md:aspect-16/9" loading='lazy' />
       </Link>
       <div className='p-4 py-3 w-full space-y-1'>
