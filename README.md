@@ -88,22 +88,22 @@ The application is fully responsive with breakpoints:
 
 
 ## 🔧 Development
-### Frontend with hot reload
+#### Frontend with hot reload
 - npm run dev
 
-### Backend with nodemon
+#### Backend with nodemon
 - npm run server
 
-### Build frontend
-npm run build
+#### Build frontend
+- npm run build
 
 
 ## 🚀 Deployment
-### Frontend (Netlify)
+#### Frontend (Netlify)
 - Build the project: npm run build
 - Deploy the dist folder to your preferred hosting service
 
-### Backend (Vercel)
+#### Backend (Vercel)
 - Set environment variables in your hosting platform
 - Deploy the server directory
 - Ensure MongoDB connection string is configured

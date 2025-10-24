@@ -51,8 +51,8 @@ const Explore = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showLayout, setShowLayout] = useState('grid');
   const [sortBy, setSortBy] = useState('price');
-  const { properties, fetchProperties } = useContext(PropertyContext);
-  const { loading } = useContext(PreloaderContext); // Use global loading state
+  const { properties, loading, fetchProperties } = useContext(PropertyContext);
+  // const { loading } = useContext(PreloaderContext); // Use global loading state
 
   const toggleFilter = () => setShowFilter(!showFilter);
 
@@ -394,7 +394,7 @@ const Explore = () => {
 
         {/* No Results Message */}
         {!loading && filteredProperties.length === 0 && (
-          <div className="text-center bg-light rounded-lg py-12">
+          <div className="text-center bg-light rounded-lg py-20">
             <div className="text-gray-500 text-xl mb-2"> No properties found </div>
             <p className="text-gray-400 text-sm"> Adjust your filters to see more results. </p>
             <div className='flex items-center justify-center space-x-2 mt-4'>

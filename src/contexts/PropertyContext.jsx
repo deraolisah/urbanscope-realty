@@ -1,15 +1,15 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { PreloaderContext } from './PreloaderContext'; // Import PreloaderContext
+// import { PreloaderContext } from './PreloaderContext'; // Import PreloaderContext
 
 export const PropertyContext = createContext();
 
 const PropertyProvider = ({ children }) => {
   const [ properties, setProperties ] = useState([]);
   const [ featuredProperties, setFeaturedProperties ] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  const [localLoading, setLocalLoading] = useState(true); // Rename to avoid conflict
-  const { setLoading } = useContext(PreloaderContext); // Get setLoading from PreloaderContext
+  const [loading, setLoading] = useState(true);
+  // const [localLoading, setLocalLoading] = useState(true); // Rename to avoid conflict
+  // const { setLoading } = useContext(PreloaderContext); // Get setLoading from PreloaderContext
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -74,7 +74,7 @@ const PropertyProvider = ({ children }) => {
   const fetchProperties = async () => {
     try {
       // setLoading(true);
-      setLocalLoading(true);
+      // setLocalLoading(true);
       setLoading(true); // Also set global preloader
       const res = await axios.get(`${API_URL}/properties`);
       setProperties(res.data);
@@ -82,7 +82,7 @@ const PropertyProvider = ({ children }) => {
       console.error("Failed to fetch properties:", error);
     } finally {
       // setLoading(false);
-      setLocalLoading(false);
+      // setLocalLoading(false);
       setLoading(false); // Also turn off global preloader
     }
   };
@@ -90,7 +90,7 @@ const PropertyProvider = ({ children }) => {
   const fetchFeaturedProperties = async () => {
     try{
       // setLoading(true);
-      setLocalLoading(true);
+      // setLocalLoading(true);
       setLoading(true); // Also set global preloader
       const res = await axios.get(`${API_URL}/properties/featured`);
       setFeaturedProperties(res.data);
@@ -98,7 +98,7 @@ const PropertyProvider = ({ children }) => {
       console.log("Failed to fetch featured properties:", error);
     } finally{
       // setLoading(false);
-      setLocalLoading(false);
+      // setLocalLoading(false);
       setLoading(false); // Also turn off global preloader
     }
   }
@@ -115,10 +115,10 @@ const PropertyProvider = ({ children }) => {
       featuredProperties, 
       fetchProperties,
       fetchFeaturedProperties,
-      // loading, 
-      // setLoading,
-      loading: localLoading, // Keep local loading for component-specific states
-      setLoading: setLocalLoading,
+      loading, 
+      setLoading,
+      // loading: localLoading, // Keep local loading for component-specific states
+      // setLoading: setLocalLoading,
       // Price formatting utilities
       formatPrice,
       getPriceSuffix,

@@ -116,7 +116,7 @@ const AdminDashboard = () => {
 // }
 
   return (
-    <div className="container">
+    <div className="container pb-8">
       <div className="flex flex-wrap justify-between items-center gap-2 my-8">
         <div>
           <h2 className="text-2xl font-bold">
@@ -167,8 +167,9 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-6">
         {/* Users Management */}
         <div className="bg-white border border-dark/10 rounded-lg shadow-md">
-          <div className="p-4 border-b">
-            <h3 className="text-xl font-semibold">User Management</h3>
+          <div className="p-4 border-b flex justify-between items-center">
+            <h3 className="text-xl font-semibold"> User Management </h3>
+            <span className="text-sm text-gray-500"> ({users.length}) users </span>
           </div>
           <div className="divide-y max-h-96 overflow-y-auto">
             {users.map((user) => (
@@ -226,8 +227,8 @@ const AdminDashboard = () => {
         {/* Property Management */}
         <div className="bg-white border border-dark/10 rounded-lg shadow-md">
           <div className="p-4 border-b flex justify-between items-center">
-            <h3 className="text-xl font-semibold">Property Management</h3>
-            <span className="text-sm text-gray-500">{properties.length} total properties</span>
+            <h3 className="text-xl font-semibold"> Property Management </h3>
+            <span className="text-sm text-gray-500"> ({properties.length}) properties</span>
           </div>
 
           <div className="divide-y max-h-96 overflow-y-auto">

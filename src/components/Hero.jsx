@@ -62,6 +62,7 @@ const Hero = () => {
           src={hero}
           alt='Modern apartment building'
           className='w-full cursor-pointer hover:scale-[1.008] transition-all duration-300'
+          loading='lazy'
           onClick={() => openLightbox(0)}
           />
       </div>

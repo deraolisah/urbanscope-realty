@@ -24,10 +24,10 @@ const PropertyList = ({ property }) => {
       <div className={`absolute top-2 left-2 px-2 py-1 rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
         {priceInfo.transactionType}
       </div>
-      <Link to={`/property/${property._id}`} className='w-fit'>
+      <Link to={`/property/${property._id}`} className='w-[50%] h-full'>
         <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover aspect-8/10 md:aspect-5/4" loading='lazy' />
       </Link>
-      <div className='p-4 py-3 w-full space-y-1.5'>
+      <div className='p-4 py-3 w-full space-y-1'>
         <div className='w-full flex items-center justify-between'>
           <h3 className="text-lg font-extrabold"> 
             {priceInfo.formatted}
@@ -44,9 +44,9 @@ const PropertyList = ({ property }) => {
         <p className='text-sm text-dark/60 font-semibold'> {property.location} </p>
         <p className='text-dark/80 text-xs mt-2 hidden sm:flex'> {property.description.slice(0,60) + "..."} </p>
         <p className='space-x-2 text-dark/80 flex items-center'>
-          <span className='text-sm flex items-center gap-2'> {property.bedrooms} beds <LiaBedSolid className='hidden sm:flex' /> </span>
+          <span className='text-xs md:text-sm flex items-center gap-2'> {property.bedrooms} beds <LiaBedSolid className='hidden sm:flex' /> </span>
           <span> • </span>
-          <span className='text-sm flex items-center gap-2'> {property.bathrooms} baths <LiaBathSolid className='hidden sm:flex' /> </span>
+          <span className='text-xs md:text-sm flex items-center gap-2'> {property.bathrooms} baths <LiaBathSolid className='hidden sm:flex' /> </span>
         </p>
       </div>
     </div>

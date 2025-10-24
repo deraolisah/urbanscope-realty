@@ -5,24 +5,24 @@ import AppRoutes from "./routes/AppRoutes";
 import PropertyProvider from "./contexts/PropertyContext";
 import AuthProvider from "./contexts/AuthContext";
 import FavoritesProvider from "./contexts/FavoritesContext";
-import { PreloaderProvider } from './contexts/PreloaderContext';
-import PreloaderWrapper from './layouts/PreloaderWrapper';
+// import { PreloaderProvider } from './contexts/PreloaderContext';
+// import PreloaderWrapper from './layouts/PreloaderWrapper';
 
 function App() {
   return (
-    <PreloaderProvider>
+    // <PreloaderProvider>
       <PropertyProvider>
         <AuthProvider>
           <FavoritesProvider>
             <BrowserRouter>
-              <PreloaderWrapper>
+              {/* <PreloaderWrapper> */}
                 <AppRoutes />
-              </PreloaderWrapper>
+              {/* </PreloaderWrapper> */}
             </BrowserRouter>
           </FavoritesProvider>
         </AuthProvider>
       </PropertyProvider>
-    </PreloaderProvider>
+    // </PreloaderProvider>
   );
 }  
 

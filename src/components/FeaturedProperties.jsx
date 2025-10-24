@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { PropertyContext } from '../contexts/PropertyContext';
-import { PreloaderContext } from '../contexts/PreloaderContext';
+// import { PreloaderContext } from '../contexts/PreloaderContext';
 import PropertyPreview from './PropertyPreview';
 
 const FeaturedProperties = () => {
-  const { featuredProperties, properties, fetchFeaturedProperties } = useContext(PropertyContext);
-   const { loading } = useContext(PreloaderContext);
+  const { featuredProperties, properties, loading, fetchFeaturedProperties } = useContext(PropertyContext);
+  //  const { loading } = useContext(PreloaderContext);
 
   if (loading) return <div className="container py-8">Loading properties...</div>;
 
@@ -29,7 +29,7 @@ const FeaturedProperties = () => {
   return (
     <section className="container py-8 md:py-12">
       {/* Featured Properties Section */}
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-center leading-tight uppercase mb-4 md:mb-8">
+      <h2 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-center leading-tight uppercase mb-4 md:mb-8">
         Featured Properties
       </h2>
       <div className='w-full h-full flex gap-4 overflow-x-scroll sm:grid sm:grid-cols-2 sm:gap-4 scrollbar-hidden'>
