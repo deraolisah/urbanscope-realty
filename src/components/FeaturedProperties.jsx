@@ -1,13 +1,22 @@
 import React, { useContext } from 'react';
 import { PropertyContext } from '../contexts/PropertyContext';
+import { PreloaderContext } from '../contexts/PreloaderContext';
 import PropertyPreview from './PropertyPreview';
 
 const FeaturedProperties = () => {
-  const { featuredProperties, properties, loading } = useContext(PropertyContext);
+  const { featuredProperties, properties, fetchFeaturedProperties } = useContext(PropertyContext);
+   const { loading } = useContext(PreloaderContext);
 
   if (loading) return <div className="container py-8">Loading properties...</div>;
+
+
   if (!Array.isArray(featuredProperties) || featuredProperties.length === 0) {
-    return <div className="container py-8 text-center">No featured properties available.</div>;
+    return (
+      <div className="container py-8 text-center"> 
+        No featured properties available.
+        <button onClick={() => { fetchFeaturedProperties(); } } className='btn w-fit mx-auto mt-4'> Refresh </button>
+      </div>
+    );
   }
 
   // Recently added: sort by createdAt descending, take first 2

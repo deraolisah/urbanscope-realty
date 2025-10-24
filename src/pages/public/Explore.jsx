@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import PropertyCard from '../../components/PropertyCard';
 import PropertyList from '../../components/PropertyList';
 import { MdOutlineFilterList, MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { FiGrid } from "react-icons/fi";
 import { HiMiniListBullet } from "react-icons/hi2";
 import { PropertyContext } from '../../contexts/PropertyContext';
+import { PreloaderContext } from '../../contexts/PreloaderContext';
 
 // Skeleton Loader Components
 const SkeletonPropertyCard = () => (
@@ -51,7 +51,8 @@ const Explore = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showLayout, setShowLayout] = useState('grid');
   const [sortBy, setSortBy] = useState('price');
-  const { properties, loading } = useContext(PropertyContext);
+  const { properties, fetchProperties } = useContext(PropertyContext);
+  const { loading } = useContext(PreloaderContext); // Use global loading state
 
   const toggleFilter = () => setShowFilter(!showFilter);
 
@@ -105,6 +106,12 @@ const Explore = () => {
           return 0;
       }
     });
+
+
+  // useEffect(() => {
+  //   fetchProperties();
+  // }, []);
+
 
   return (
     <div className="flex min-h-screen bg-dark/5 relative container md:!p-0">
@@ -275,144 +282,137 @@ const Explore = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="w-full md:w-3/4 h-fit p-4 pb-8 px-0 md:px-6 space-y-4">
-        {/* Header Controls */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          {/* Loading Search */}
-          {loading ? (
+      {/* Loading State - Show skeletons while properties are loading */}
+      {loading && (
+        <main className="w-full md:w-3/4 h-fit p-4 pb-8 px-0 md:px-6 space-y-4">
+          {/* Skeleton for header controls */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className='w-full flex items-center justify-between gap-0'>
               <div className='py-1.5 px-3 border border-r-0 border-dark/10 bg-gray-200 w-full rounded-l placeholder:text-sm h-9'></div>
               <div className='btn border-0 py-1.5 px-4 rounded-none rounded-r bg-gray-400 h-9 w-20'></div>
             </div>
-            ) : (
-            <div className='w-full flex items-center justify-between gap-0'>
-              <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-r-0 border-dark/10 focus:border-dark w-full !rounded-l placeholder:text-sm' />
-              <button type='button' className='btn py-1.5 px-4 rounded-none rounded-r w-fit'> Search </button>
+            <div className='w-full flex items-center justify-between sm:justify-end gap-2'>
+              <div className="w-40 h-9 bg-gray-200 rounded border border-dark/10"></div>
+              <div className="flex items-center gap-2">
+                <div className="w-9 h-9 bg-gray-200 rounded border border-dark/10"></div>
+                <div className="w-9 h-9 bg-gray-200 rounded border border-dark/10"></div>
+                <div className="w-9 h-9 bg-gray-200 rounded border border-dark/10 md:hidden"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Skeleton for property cards */}
+          {showLayout === "grid" ? (
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4">
+              {[...Array(8)].map((_, index) => (
+                <SkeletonPropertyCard key={index} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {[...Array(6)].map((_, index) => (
+                <SkeletonPropertyList key={index} />
+              ))}
             </div>
           )}
+        </main>
+      )}
+
+      {/* Content when not loading */}
+      {!loading && (
+      <main className="w-full md:w-3/4 h-fit p-4 pb-8 px-0 md:px-6 space-y-4">
+        {/* Header Controls */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className='w-full flex items-center justify-between gap-0'>
+            <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-r-0 border-dark/10 focus:border-dark w-full !rounded-l placeholder:text-sm' />
+            <button type='button' className='btn py-1.5 px-4 rounded-none rounded-r w-fit'> Search </button>
+          </div>
 
           <div className='w-full flex items-center justify-between sm:justify-end gap-2'>
             {/* Sort */}
-            {loading ? (
-              <div className="text-dark/80 flex items-center gap-1">
-                <div className="w-40 h-9 bg-gray-200 rounded border border-dark/10"></div>
-              </div>
-              ) : (
-              <div className="text-dark/80 flex items-center gap-1">
-                {/* Sort By */}
-                <select 
-                  className="focus:outline-none cursor-pointer text-sm text-dark/60 font-medium p-1.5 rounded border border-dark/10 "
-                  value={sortBy}
-                  onChange={handleSortChange}
-                >
-                  <option value="price">Price - Low to High</option>
-                  <option value="price-desc">Price - High to Low</option>
-                  <option value="alphabet">Name - A to Z</option>
-                  <option value="alphabet-desc">Name - Z to A</option>
-                  <option value="date">Date - Oldest First</option>
-                  <option value="date-desc">Date - Newest First</option>
-                </select>
-              </div>
-            )}
-
-            {/* Layout */}
-            {loading ? (
-              <div className="flex items-center gap-2">
-              <div className="w-9 h-9 bg-gray-200 rounded border border-dark/10"></div>
-              <div className="w-9 h-9 bg-gray-200 rounded border border-dark/10"></div>
-              <div className="w-9 h-9 bg-gray-200 rounded border border-dark/10 md:hidden"></div>
+            <div className="text-dark/80 flex items-center gap-1">
+              {/* Sort By */}
+              <select 
+                className="focus:outline-none cursor-pointer text-sm text-dark/60 font-medium p-1.5 rounded border border-dark/10 "
+                value={sortBy}
+                onChange={handleSortChange}
+              >
+                <option value="price">Price - Low to High</option>
+                <option value="price-desc">Price - High to Low</option>
+                <option value="alphabet">Name - A to Z</option>
+                <option value="alphabet-desc">Name - Z to A</option>
+                <option value="date">Date - Oldest First</option>
+                <option value="date-desc">Date - Newest First</option>
+              </select>
             </div>
 
-            ) : (
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setShowLayout("grid")}
-                  title="Grid Layout"
-                  className={`text-xl text-dark/50 p-1.5 border border-dark/10 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "grid" ? "bg-dark/10 text-dark/100" : ""}`}
-                >
-                  <FiGrid />
-                </button>
-                <button
-                  onClick={() => setShowLayout("list")}
-                  title="List Layout"
-                  className={`text-xl text-dark/50 p-1.5 border border-dark/10 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "list" ? "bg-dark/10 text-dark/100" : ""}`}
-                >
-                  <HiMiniListBullet />
-                </button>
-                <button
-                  onClick={toggleFilter}
-                  title='Filters'
-                  className="flex md:hidden items-center gap-2 p-1.5 text-xl text-dark/60 cursor-pointer hover:bg-dark/5 border border-dark/10 rounded"
-                >
-                  {/* Filters  */}
-                  <MdOutlineFilterList />
-                </button>
-              </div>
-            )}
+            {/* Layout */}
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowLayout("grid")}
+                title="Grid Layout"
+                className={`text-xl text-dark/50 p-1.5 border border-dark/10 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "grid" ? "bg-dark/10 text-dark/100" : ""}`}
+              >
+                <FiGrid />
+              </button>
+              <button
+                onClick={() => setShowLayout("list")}
+                title="List Layout"
+                className={`text-xl text-dark/50 p-1.5 border border-dark/10 hover:bg-dark/5 cursor-pointer rounded ${showLayout === "list" ? "bg-dark/10 text-dark/100" : ""}`}
+              >
+                <HiMiniListBullet />
+              </button>
+              <button
+                onClick={toggleFilter}
+                title='Filters'
+                className="flex md:hidden items-center gap-2 p-1.5 text-xl text-dark/60 cursor-pointer hover:bg-dark/5 border border-dark/10 rounded"
+              >
+                {/* Filters  */}
+                <MdOutlineFilterList />
+              </button>
+            </div>
           </div>
         </div>
 
-
-        {/* Loading State */}
-        {loading && (
-          <div className=''>
-            {showLayout === "grid" ? (
-              <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4">
-                {[...Array(8)].map((_, index) => (
-                  <SkeletonPropertyCard key={index} />
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                {[...Array(6)].map((_, index) => (
-                  <SkeletonPropertyList key={index} />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
         {/* Property Display */}
-        {!loading && (
-          <div className=''>
-            {showLayout === "grid" ? (
-              <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4">
-                {filteredProperties.map(property => (
-                  <PropertyCard key={property._id} property={property} />
-                ))}
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                {filteredProperties.map(property => (
-                  <PropertyList key={property._id} property={property} />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+        <div className=''>
+          {showLayout === "grid" ? (
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4">
+              {filteredProperties.map(property => (
+                <PropertyCard key={property._id} property={property} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col gap-4">
+              {filteredProperties.map(property => (
+                <PropertyList key={property._id} property={property} />
+              ))}
+            </div>
+          )}
+        </div>
+
 
         {/* No Results Message */}
         {!loading && filteredProperties.length === 0 && (
           <div className="text-center bg-light rounded-lg py-12">
             <div className="text-gray-500 text-xl mb-2"> No properties found </div>
             <p className="text-gray-400 text-sm"> Adjust your filters to see more results. </p>
-            <button 
-              onClick={resetFilters}
-              className="btn w-fit mx-auto mt-4"
-            >
-              Reset All Filters
-            </button>
+            <div className='flex items-center justify-center space-x-2 mt-4'>
+              <button onClick={resetFilters} className="btn w-fit"> Reset All Filters </button>
+              <button onClick={() => { scrollTo(0, 0); fetchProperties(); }} className="btn w-fit"> Refresh </button>
+            </div>
           </div>
         )}
 
-         {/* Pagination */}
+
+        {/* Pagination */}
         <div className='rounded-md text-center flex items-center justify-between'>
           <button className='btn-tertiary w-fit'> Previous </button>
           <span className='bg-light p-2.5 px-4 rounded-md'> Page 1 / 2 </span>
           <button className='btn-tertiary w-fit'> Next </button>
         </div>
       </main>
+      )}
     </div>
   );
 };
