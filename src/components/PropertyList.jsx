@@ -25,7 +25,7 @@ const PropertyList = ({ property }) => {
         {priceInfo.transactionType}
       </div>
       <Link to={`/property/${property._id}`} className='w-fit'>
-        <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover aspect-8/10 md:aspect-5/4" />
+        <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover aspect-8/10 md:aspect-5/4" loading='lazy' />
       </Link>
       <div className='p-4 py-3 w-full space-y-1.5'>
         <div className='w-full flex items-center justify-between'>

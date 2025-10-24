@@ -259,6 +259,7 @@ const PropertyDetail = () => {
           src={currentMedia.url}
           alt={`Slide ${currentIndex + 1}`}
           className="rounded-lg w-fit mx-auto h-full object-cover max-h-[70vh]"
+          loading='lazy'
         />
       );
     }
@@ -281,6 +282,7 @@ const PropertyDetail = () => {
               src={videoThumbnail || null} 
               alt="Property video tour" 
               className="w-full h-full object-cover"
+              loading='lazy'
               onError={(e) => {
                 // Fallback if thumbnail fails to load
                 e.target.src = property.images[0] || null;
@@ -307,6 +309,7 @@ const PropertyDetail = () => {
               src={img} 
               alt={`Property ${index + 1}`} 
               className="w-full h-full object-cover cursor-pointer" 
+              loading='lazy'
               onClick={() => openLightbox(hasVideo ? index + 1 : index)} 
             />
           </div>

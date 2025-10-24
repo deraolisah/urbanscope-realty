@@ -34,7 +34,7 @@ const PropertyCard = ({ property }) => {
       </div> */}
       
       <Link to={`/property/${property._id}`} className='w-full'>
-        <img src={property.images[0]} alt={property.title} className="w-full object-cover aspect-16/8 md:aspect-16/9" />
+        <img src={property.images[0]} alt={property.title} className="w-full object-cover aspect-16/8 md:aspect-16/9" loading='lazy' />
       </Link>
       <div className='p-4 py-3 w-full space-y-1'>
         <div className='w-full flex items-center justify-between'>
