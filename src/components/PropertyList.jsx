@@ -21,7 +21,7 @@ const PropertyList = ({ property }) => {
   return (
     <div className='w-full flex items-center hover:shadow-md rounded-sm overflow-hidden bg-light relative group'>
       {/* Transaction Type Badge */}
-      <div className={`absolute top-2 left-2 px-2 py-1 shadow rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
+      <div className={`absolute z-1 top-2 left-2 px-2 py-1 shadow rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
         {priceInfo.transactionType}
       </div>
       <Link to={`/property/${property._id}`} onClick={() => { scrollTo(0,0); }} className='w-[50%] h-full overflow-hidden'>

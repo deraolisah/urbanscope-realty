@@ -6,7 +6,7 @@ import { FiGrid } from "react-icons/fi";
 import { HiMiniListBullet } from "react-icons/hi2";
 import { PropertyContext } from '../../contexts/PropertyContext';
 
-// Skeleton Loader Components
+// Skeleton Loader Components (unchanged)
 const SkeletonPropertyCard = () => (
   <div className="bg-white rounded-lg shadow-md overflow-hidden">
     <div className="h-48 bg-gray-300"></div>
@@ -50,6 +50,7 @@ const Explore = () => {
   const [showFilter, setShowFilter] = useState(false);
   const [showLayout, setShowLayout] = useState('grid');
   const [sortBy, setSortBy] = useState('price');
+  const [searchQuery, setSearchQuery] = useState(''); // New search state
   const { properties, loading, fetchProperties } = useContext(PropertyContext);
 
   const toggleFilter = () => setShowFilter(!showFilter);
@@ -63,25 +64,36 @@ const Explore = () => {
   const resetFilters = () => {
     setPriceRange({ min: 100, max: 1000000000 });
     setSelectedTypes([]);
+    setSearchQuery(''); // Reset search on filter reset
   };
 
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
   };
 
+  // Search handler
+  const handleSearch = (e) => {
+    if (e.type === 'keydown' && e.key !== 'Enter') return;
+    setSearchQuery(e.target.value.trim());
+  };
 
+  // Clear search
+  const clearSearch = () => {
+    setSearchQuery('');
+  };
 
   // Range slider handlers
   const handleMinPriceChange = (e) => {
     const value = Math.min(Number(e.target.value), priceRange.max - 10);
     setPriceRange(prev => ({ ...prev, min: value }));
   };
+
   const handleMaxPriceChange = (e) => {
     const value = Math.max(Number(e.target.value), priceRange.min + 10);
     setPriceRange(prev => ({ ...prev, max: value }));
   };
 
-   // Input field handlers
+  // Input field handlers
   const handleMinPriceInputChange = (e) => {
     const rawValue = e.target.value.replace(/,/g, '');
     const value = Number(rawValue);
@@ -89,6 +101,7 @@ const Explore = () => {
       setPriceRange(prev => ({ ...prev, min: value }));
     }
   };
+
   const handleMaxPriceInputChange = (e) => {
     const rawValue = e.target.value.replace(/,/g, '');
     const value = Number(rawValue);
@@ -119,15 +132,25 @@ const Explore = () => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   };
 
-
-
-  // Filter and sort properties
+  // Filter and sort properties with search
   const filteredProperties = properties
     .filter(p => {
-      const isActive = p.status === 'active'; // ✅ Only include active
+      const isActive = p.status === 'active';
       const matchesPrice = p.price >= priceRange.min && p.price <= priceRange.max;
       const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
-      return isActive && matchesPrice && matchesType;
+      
+      // Search filter - check multiple fields
+      const matchesSearch = searchQuery === '' || 
+        (p.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         p.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         p.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         p.city?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         p.propertyType?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+         p.features?.some(feature => 
+           feature.toLowerCase().includes(searchQuery.toLowerCase())
+         ));
+
+      return isActive && matchesPrice && matchesType && matchesSearch;
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -147,7 +170,6 @@ const Explore = () => {
           return 0;
       }
     });
-
 
   return (
     <div className="flex min-h-screen bg-dark/5 relative container md:!p-0">
@@ -240,7 +262,7 @@ const Explore = () => {
             </div>
           </div>
 
-
+          {/* Rest of your filters remain the same */}
           {/* Type Filter */}
           <div className="flex flex-col items-start">
             <h4 className="text-md font-semibold mb-1"> Real Estate Type </h4>
@@ -256,7 +278,6 @@ const Explore = () => {
               </label>
             ))}
           </div>
-
 
           {/* Cities Filter */}
           <div>
@@ -275,46 +296,41 @@ const Explore = () => {
               </select>
           </div>
 
-
           {/* Bedrooms Filter */}
           <div>
             <h4 className="text-md font-semibold mb-1"> Bedrooms </h4>
             <div className='flex items-center flex-wrap space-x-4'>
-
-            {["1", "2", "3","4 and more"].map(bedroom => (
-              <label key={bedroom} className="flex items-center space-x-1.5 cursor-pointer group text-md">
-                <input
-                  type="checkbox"
-                  checked={selectedTypes.includes(bedroom)}
-                  onChange={() => handleTypeToggle(bedroom)}
-                  className="w-4 h-4 text-dark rounded cursor-pointer"
-                  />
-                <span className="text-gray-700 group-hover:text-dark transition-colors">{bedroom}</span>
-              </label>
-            ))}
+              {["1", "2", "3","4 and more"].map(bedroom => (
+                <label key={bedroom} className="flex items-center space-x-1.5 cursor-pointer group text-md">
+                  <input
+                    type="checkbox"
+                    checked={selectedTypes.includes(bedroom)}
+                    onChange={() => handleTypeToggle(bedroom)}
+                    className="w-4 h-4 text-dark rounded cursor-pointer"
+                    />
+                  <span className="text-gray-700 group-hover:text-dark transition-colors">{bedroom}</span>
+                </label>
+              ))}
             </div>
           </div>
-
 
           {/* Bathrooms Filter */}
           <div>
             <h4 className="text-md font-semibold mb-1"> Bathrooms </h4>
             <div className='flex items-center flex-wrap space-x-4'>
-
-            {["Any", "Combined", "Separate"].map(bathroom => (
-              <label key={bathroom} className="flex items-center space-x-1.5 cursor-pointer group text-md">
-                <input
-                  type="checkbox"
-                  checked={selectedTypes.includes(bathroom)}
-                  onChange={() => handleTypeToggle(bathroom)}
-                  className="w-4 h-4 text-dark rounded cursor-pointer"
-                  />
-                <span className="text-gray-700 group-hover:text-dark transition-colors">{bathroom}</span>
-              </label>
-            ))}
+              {["Any", "Combined", "Separate"].map(bathroom => (
+                <label key={bathroom} className="flex items-center space-x-1.5 cursor-pointer group text-md">
+                  <input
+                    type="checkbox"
+                    checked={selectedTypes.includes(bathroom)}
+                    onChange={() => handleTypeToggle(bathroom)}
+                    className="w-4 h-4 text-dark rounded cursor-pointer"
+                    />
+                  <span className="text-gray-700 group-hover:text-dark transition-colors">{bathroom}</span>
+                </label>
+              ))}
             </div>
           </div>
-
 
           {/* Filter Buttons */}
           <div className="flex items-center flex-wrap gap-3 mt-8">
@@ -335,9 +351,8 @@ const Explore = () => {
       </aside>
 
       {/* Main Content */}
-      {/* Loading State - Show skeletons while properties are loading */}
       {loading && (
-        <main className="w-full md:min-w-3/4 h-fit p-4 pb-8 px-0 md:px-6 space-y-4">
+        <main className="w-full md:w-3/4 h-fit p-4 pb-8 px-0 md:px-6 space-y-4">
           {/* Skeleton for header controls */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className='w-full flex items-center justify-between gap-0'>
@@ -377,8 +392,21 @@ const Explore = () => {
         {/* Header Controls */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className='w-full flex items-center justify-between gap-0'>
-            <input type='search' placeholder='Enter Keyword..' className='py-1.5 px-3 border border-r-0 border-dark/10 focus:border-dark w-full !rounded-l placeholder:text-sm' />
-            <button type='button' className='btn py-1.5 px-4 rounded-none rounded-r w-fit'> Search </button>
+            <input 
+              type='search' 
+              placeholder='Enter Keyword..' 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearch}
+              className='py-1.5 px-3 border border-r-0 border-dark/10 focus:border-dark w-full !rounded-l placeholder:text-sm' 
+            />
+            <button 
+              type='button' 
+              onClick={handleSearch}
+              className='btn py-1.5 px-4 rounded-none rounded-r w-fit'
+            >
+              Search 
+            </button>
           </div>
 
           <div className='w-full flex items-center justify-between sm:justify-end gap-2'>
@@ -420,12 +448,27 @@ const Explore = () => {
                 title='Filters'
                 className="flex md:hidden items-center gap-2 p-1.5 text-xl text-dark/60 cursor-pointer hover:bg-dark/5 border border-dark/10 rounded"
               >
-                {/* Filters  */}
                 <MdOutlineFilterList />
               </button>
             </div>
           </div>
         </div>
+
+        {/* Search Results Info */}
+        {searchQuery && (
+          <div className="flex items-center justify-between bg-light p-3 rounded-lg">
+            <div className="text-sm text-dark/70">
+              Search results for: <span className="font-semibold">"{searchQuery}"</span> 
+              <span className="ml-2">({filteredProperties.length} properties found)</span>
+            </div>
+            <button 
+              onClick={clearSearch}
+              className="text-xs text-dark/50 hover:text-dark cursor-pointer"
+            >
+              Clear search
+            </button>
+          </div>
+        )}
 
         {/* Property Display */}
         <div className=''>
@@ -444,19 +487,27 @@ const Explore = () => {
           )}
         </div>
 
-
         {/* No Results Message */}
         {!loading && filteredProperties.length === 0 && (
           <div className="text-center bg-light rounded-lg py-20">
-            <div className="text-gray-500 text-xl mb-2"> No properties found </div>
-            <p className="text-gray-400 text-sm"> Adjust your filters to see more results. </p>
+            <div className="text-gray-500 text-xl mb-2">
+              {searchQuery ? 'No properties found matching your search' : 'No properties found'}
+            </div>
+            <p className="text-gray-400 text-sm">
+              {searchQuery ? 'Try different keywords or adjust your filters' : 'Adjust your filters to see more results.'}
+            </p>
             <div className='flex items-center justify-center space-x-2 mt-4'>
-              <button onClick={resetFilters} className="btn w-fit"> Reset All Filters </button>
-              <button onClick={() => { scrollTo(0, 0); fetchProperties(); }} className="btn w-fit"> Refresh </button>
+              <button onClick={resetFilters} className="btn w-fit">
+                {searchQuery ? 'Clear Search & Filters' : 'Reset All Filters'}
+              </button>
+              {!searchQuery && (
+                <button onClick={() => { scrollTo(0, 0); fetchProperties(); }} className="btn w-fit">
+                  Refresh
+                </button>
+              )}
             </div>
           </div>
         )}
-
 
         {/* Pagination */}
         <div className='rounded-md text-center flex items-center justify-between'>

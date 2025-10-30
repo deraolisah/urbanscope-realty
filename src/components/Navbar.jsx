@@ -51,8 +51,6 @@ const Navbar = () => {
     <nav className="w-full h-16 border-b border-dark/10 bg-white sticky top-0 z-50">
       <div className='container h-full flex items-center justify-between relative bg-light z-2'>
         <Link to="/" onClick={() => { window.scrollTo(0,0); closeMenu(); }} className="text-base font-extrabold uppercase flex items-center gap-2"> 
-          {/* <GiAmethyst className='text-xl -mt-0.5' />
-          Niarobi Apartments */}
           <img src={logo} alt='UrbanScope Logo' className='h-8' />
         </Link>
 

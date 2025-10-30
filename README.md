@@ -19,8 +19,6 @@ A modern, full-stack real estate platform built with React.js and Node.js that c
 - **Responsive Design** - Works perfectly on all devices
 - **Image Galleries & Lightbox**
 - **Skeleton Loading** for better user experience
-<!-- - **Dark/Light Mode** (optional - add if you have it) -->
-<!-- - **Interactive Maps** for property locations -->
 
 ### 👥 User System
 - **Multi-role Authentication** (Users, Admin)
@@ -86,7 +84,7 @@ The application is fully responsive with breakpoints:
 - Desktop: > 1024px
 
 
-
+<!-- 
 ## 🔧 Development
 #### Frontend with hot reload
 - npm run dev
@@ -95,7 +93,7 @@ The application is fully responsive with breakpoints:
 - npm run server
 
 #### Build frontend
-- npm run build
+- npm run build -->
 
 
 ## 🚀 Deployment
@@ -109,12 +107,12 @@ The application is fully responsive with breakpoints:
 - Ensure MongoDB connection string is configured
 
 
-## 🤝 Contributing
+<!-- ## 🤝 Contributing
 - Fork the repository
 - Create a feature branch: git checkout -b feature/amazing-feature
 - Commit your changes: git commit -m 'Add amazing feature'
 - Push to the branch: git push origin feature/amazing-feature
-- Open a Pull Request
+- Open a Pull Request -->
 
 
 ## 📝 License
@@ -129,3 +127,20 @@ Chidera Olisah (Nathan) [https://github.com/deraolisah/] - Lead Developer - GitH
 - Vite team for fast build tooling.
 - MongoDB for reliable database solutions.
 - Tailwind CSS for utility-first CSS framework.
+
+
+
+### Key Search Features:
+- **Search State**: searchQuery state to track the search term
+- **Search Handler**: handleSearch function that triggers on button click or Enter key
+- **Enhanced Filtering**: Search looks through multiple property fields:
+ - - title
+ - - description
+ - - location
+ - - city
+ - - propertyType
+- **Search Results Info**: Shows what you're searching for and result count
+- **Clear Search**: Easy way to clear the search term
+- **Improved No Results**: Different messages for search vs. filter no results
+- **Real-time Search**: Updates as you type (or use Enter/search button) 
+*You can search for properties by keywords like "luxury", "pool", "Lagos", "3 bedroom", etc.!*

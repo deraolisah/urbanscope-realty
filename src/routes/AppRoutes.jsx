@@ -23,9 +23,12 @@ import Favorites from '../pages/user/Favorites';
 // ADMIN DASHBOARD
 import DashboardLayout from '../layouts/DashboardLayout';
 import AdminDashboard from '../pages/admin/AdminDashboard';
+import AllProperties from '../pages/admin/AllProperties';
+import AllUsers from '../pages/admin/AllUsers';
 import AddProperty from '../pages/admin/AddProperty';
+import AddAgent from '../pages/admin/AddAgent';
 import EditProperty from '../pages/admin/EditProperty';
-import CreateAgent from '../pages/admin/CreateAgent';
+import Settings from '../pages/admin/Settings';
 
 // ERROR 404
 import NotFound from '../pages/NotFound';
@@ -77,11 +80,15 @@ const AppRoutes = () => {
           }
         >
           <Route index element={<AdminDashboard />} />
+          <Route path="properties" element={<AllProperties />} />
+          <Route path="users" element={<AllUsers />} />
           <Route path="add-property" element={<AddProperty />} />
+          <Route path="add-agent" element={<AddAgent />} />
           <Route path="edit-property/:id" element={<EditProperty />} />
-          <Route path="create-agent" element={<CreateAgent />} />
+          <Route path="settings" element={<Settings />} />
           {/* Add more admin routes here */}
         </Route>
+        
 
 
         <Route path="*" element={<NotFound />} />
