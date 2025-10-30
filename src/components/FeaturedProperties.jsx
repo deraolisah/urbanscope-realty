@@ -27,7 +27,7 @@ const FeaturedProperties = () => {
     });
   }, []);
 
-  if (loading) return <div className="container text-center py-8"> Loading Featured properties... </div>;
+  if (loading) return <div className="container text-center py-8"> Loading Featured Properties... </div>;
 
 
   if (!Array.isArray(featuredProperties) || featuredProperties.length === 0) {
