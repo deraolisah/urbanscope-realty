@@ -5,7 +5,6 @@ import { MdOutlineFilterList, MdOutlineKeyboardArrowDown } from "react-icons/md"
 import { FiGrid } from "react-icons/fi";
 import { HiMiniListBullet } from "react-icons/hi2";
 import { PropertyContext } from '../../contexts/PropertyContext';
-import { PreloaderContext } from '../../contexts/PreloaderContext';
 
 // Skeleton Loader Components
 const SkeletonPropertyCard = () => (
@@ -46,13 +45,12 @@ const SkeletonPropertyList = () => (
 );
 
 const Explore = () => {
-  const [priceRange, setPriceRange] = useState({ min: 10, max: 1000000000 });
+  const [priceRange, setPriceRange] = useState({ min: 100, max: 1000000000 });
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const [showLayout, setShowLayout] = useState('grid');
   const [sortBy, setSortBy] = useState('price');
   const { properties, loading, fetchProperties } = useContext(PropertyContext);
-  // const { loading } = useContext(PreloaderContext); // Use global loading state
 
   const toggleFilter = () => setShowFilter(!showFilter);
 
@@ -63,7 +61,7 @@ const Explore = () => {
   };
 
   const resetFilters = () => {
-    setPriceRange({ min: 10, max: 100000000 });
+    setPriceRange({ min: 100, max: 1000000000 });
     setSelectedTypes([]);
   };
 
@@ -71,22 +69,65 @@ const Explore = () => {
     setSortBy(e.target.value);
   };
 
+
+
+  // Range slider handlers
   const handleMinPriceChange = (e) => {
     const value = Math.min(Number(e.target.value), priceRange.max - 10);
     setPriceRange(prev => ({ ...prev, min: value }));
   };
-
   const handleMaxPriceChange = (e) => {
     const value = Math.max(Number(e.target.value), priceRange.min + 10);
     setPriceRange(prev => ({ ...prev, max: value }));
   };
 
+   // Input field handlers
+  const handleMinPriceInputChange = (e) => {
+    const rawValue = e.target.value.replace(/,/g, '');
+    const value = Number(rawValue);
+    if (!isNaN(value) && value >= 100 && value <= priceRange.max - 10) {
+      setPriceRange(prev => ({ ...prev, min: value }));
+    }
+  };
+  const handleMaxPriceInputChange = (e) => {
+    const rawValue = e.target.value.replace(/,/g, '');
+    const value = Number(rawValue);
+    if (!isNaN(value) && value <= 1000000000 && value >= priceRange.min + 10) {
+      setPriceRange(prev => ({ ...prev, max: value }));
+    }
+  };
+
+  // Handle input blur to validate and clamp values
+  const handleMinPriceBlur = (e) => {
+    const rawValue = e.target.value.replace(/,/g, '');
+    let value = Number(rawValue);
+    if (isNaN(value)) value = 100;
+    value = Math.max(100, Math.min(value, priceRange.max - 10));
+    setPriceRange(prev => ({ ...prev, min: value }));
+  };
+
+  const handleMaxPriceBlur = (e) => {
+    const rawValue = e.target.value.replace(/,/g, '');
+    let value = Number(rawValue);
+    if (isNaN(value)) value = 1000000000;
+    value = Math.min(1000000000, Math.max(value, priceRange.min + 10));
+    setPriceRange(prev => ({ ...prev, max: value }));
+  };
+
+  // Format number with commas for display
+  const formatNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+
+
   // Filter and sort properties
   const filteredProperties = properties
     .filter(p => {
+      const isActive = p.status === 'active'; // ✅ Only include active
       const matchesPrice = p.price >= priceRange.min && p.price <= priceRange.max;
       const matchesType = selectedTypes.length === 0 || selectedTypes.includes(p.propertyType);
-      return matchesPrice && matchesType;
+      return isActive && matchesPrice && matchesType;
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -108,22 +149,17 @@ const Explore = () => {
     });
 
 
-  // useEffect(() => {
-  //   fetchProperties();
-  // }, []);
-
-
   return (
     <div className="flex min-h-screen bg-dark/5 relative container md:!p-0">
       {showFilter && (
         <div
           onClick={() => setShowFilter(false)}
-          className="cursor-pointer fixed z-1 inset-0 bg-dark/80 backdrop-blur-xs"
+          className="cursor-pointer fixed z-3 inset-0 bg-dark/80 backdrop-blur-xs"
         ></div>
       )}
 
       {/* Sidebar Filters */}
-      <aside className={`md:block w-full md:w-1/4 bg-white p-6 pb-8 shadow-md left-0 md:sticky md:top-16 fixed h-[68%] md:min-h-screen md:h-full overflow-y-auto scrollbar-hidden md:overflow-y-visible rounded-t-2xl md:rounded-t-none z-2 bottom-0 md:opacity-100 md:translate-y-0 md:pointer-events-auto transition-all duration-400 ${showFilter ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-20 pointer-events-none"}`}>
+      <aside className={`md:block w-full md:w-1/4 bg-white p-6 pb-8 shadow-md left-0 md:sticky z-10 md:top-16 fixed h-[68%] md:min-h-screen md:h-full overflow-y-auto scrollbar-hidden md:overflow-y-visible rounded-t-2xl md:rounded-t-none bottom-0 md:opacity-100 md:translate-y-0 md:pointer-events-auto transition-all duration-400 ${showFilter ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 translate-y-20 pointer-events-none"}`}>
         <div className="sticky top-20 space-y-6">
           <h2 className="text-xl font-extrabold w-full flex items-center justify-between">
             Filter <span className='font-normal text-base'> ({filteredProperties.length} results) </span>
@@ -131,22 +167,18 @@ const Explore = () => {
 
           <hr className='md:hidden border-dark/10'/>
 
-          {/* Price Filter - Dual Range */}
-          <div className="space-y-2">
+          {/* Price Filter Section */}
+          <div className="space-y-4">
             <h4 className="text-md font-semibold"> Price </h4>
 
             {/* Dual Range Slider Container */}
-            <div className="relative">
+            <div className="relative mb-8">
               {/* Track */}
               <div className="h-1 bg-gray-300 rounded-full absolute top-1/2 left-0 right-0 -translate-y-1/2"></div>
               
               {/* Active Range */}
               <div 
                 className="h-1 bg-dark rounded-full absolute top-1/2 -translate-y-1/2"
-                // style={{
-                //   left: `${((priceRange.min - 100) / 100000000) * 10}%`,
-                //   right: `${100 - ((priceRange.max - 100) / 100000000) * 10}%`
-                // }}
                 style={{
                   left: `${((priceRange.min - 100) / (1000000000 - 100)) * 100}%`,
                   right: `${100 - ((priceRange.max - 100) / (1000000000 - 100)) * 100}%`
@@ -174,19 +206,40 @@ const Explore = () => {
               />
             </div>
 
-            {/* Price Display */}
-            <div className="flex justify-between items-center mt-6">
-              <div className="text-start px-2 py-1 w-full border border-dark/10">
-                {/* <span className="text-sm text-gray-600">Min Price</span> */}
-                <div className="font-semibold text-lg">₦{priceRange.min}</div>
+            {/* Price Input Fields */}
+            <div className="flex justify-between items-center gap-2">
+              <div className="flex-1">
+                {/* <label className="text-xs text-gray-600 block mb-1">Min Price</label> */}
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₦</span>
+                  <input
+                    type="text"
+                    value={formatNumber(priceRange.min)}
+                    onChange={handleMinPriceInputChange}
+                    onBlur={handleMinPriceBlur}
+                    className="w-full pl-8 pr-3 py-2 border border-dark/10 rounded focus:outline-none focus:border-dark text-xs font-semibold"
+                  />
+                </div>
               </div>
-              <div className="text-dark/80 mx-3"> - </div>
-              <div className="text-start px-2 py-1 w-full border border-dark/10">
-                {/* <span className="text-sm text-gray-600">Max Price</span> */}
-                <div className="font-semibold text-lg">₦{priceRange.max}</div>
+              
+              <div className="text-dark/80"> - </div>
+              
+              <div className="flex-1">
+                {/* <label className="text-xs text-gray-600 block mb-1">Max Price</label> */}
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₦</span>
+                  <input
+                    type="text"
+                    value={formatNumber(priceRange.max)}
+                    onChange={handleMaxPriceInputChange}
+                    onBlur={handleMaxPriceBlur}
+                    className="w-full pl-8 pr-3 py-2 border border-dark/10 rounded focus:outline-none focus:border-dark text-xs font-semibold"
+                  />
+                </div>
               </div>
             </div>
           </div>
+
 
           {/* Type Filter */}
           <div className="flex flex-col items-start">
@@ -284,7 +337,7 @@ const Explore = () => {
       {/* Main Content */}
       {/* Loading State - Show skeletons while properties are loading */}
       {loading && (
-        <main className="w-full md:w-3/4 h-fit p-4 pb-8 px-0 md:px-6 space-y-4">
+        <main className="w-full md:min-w-3/4 h-fit p-4 pb-8 px-0 md:px-6 space-y-4">
           {/* Skeleton for header controls */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className='w-full flex items-center justify-between gap-0'>

@@ -175,10 +175,10 @@ const AdminDashboard = () => {
             {users.map((user) => (
               <div key={user._id} className="p-4 flex items-center justify-between">
                 <div>
-                  <h4 className="font-semibold">{user.username}</h4>
-                  <p className="text-gray-600 text-sm">{user.email}</p>
+                  <h4 className="font-semibold capitalize">{user.username}</h4>
+                  <p className="text-gray-600 text-sm lowercase">{user.email}</p>
                   <div className="flex gap-2 mt-1">
-                    <span className={`text-xs px-2 py-1 rounded ${
+                    <span className={`text-xs px-2 py-1 rounded capitalize ${
                       user.role === 'admin' ? 'bg-red-100 text-red-800' :
                       user.role === 'agent' ? 'bg-green-100 text-green-800' :
                       'bg-blue-100 text-blue-800'
@@ -186,9 +186,9 @@ const AdminDashboard = () => {
                       {user.role}
                     </span>
                     <span className={`text-xs px-2 py-1 rounded ${
-                      user.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                      user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                     }`}>
-                      {user.isActive ? 'Active' : 'Inactive'}
+                      {user.isActive ? 'active' : 'inactive'}
                     </span>
                   </div>
                 </div>
@@ -256,7 +256,7 @@ const AdminDashboard = () => {
                         property.status === 'active' ? 'bg-green-100 text-green-800' :
                         property.status === 'sold' ? 'bg-blue-100 text-blue-800' :
                         property.status === 'rented' ? 'bg-purple-100 text-purple-800' :
-                        'bg-gray-100 text-gray-800'
+                        'bg-red-100 text-red-800'
                       }`}>
                         {property.status}
                       </span>

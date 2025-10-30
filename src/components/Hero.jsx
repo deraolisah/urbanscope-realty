@@ -34,20 +34,20 @@ const Hero = () => {
   }, [currentIndex]);
 
   return (
-    <section className="container py-8 md:py-12">
+    <section className="container py-8 md:py-12 overflow-x-hidden">
       <div className='flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-8'>
         <h1 className='text-4xl md:text-5xl lg:text-7xl font-extrabold -mb-2'>
           FIND YOUR<br />PERFECT HOME
         </h1>
         <div className='flex flex-col gap-4 md:max-w-md'>
-          <p className='text-md md:pr-[28%]'>
-            We offer over 100 apartments, houses and lands, for every request... you are guaranteed to find a property that suits you.
+          <p className='text-md md:pr-[20%]'>
+            UrbanScope provides investors and innovators with the opportunity to grow... You are guaranteed to find a property that suits you.
           </p>
           <Link to="/explore" className='flex gap-0'>
             <input
               type='search'
               placeholder='Enter country, city or region'
-              className='flex-1 px-4 py-3 border border-dark/20 border-r-0 rounded-l-lg focus:outline-none focus:border-dark'
+              className='w-fit flex-1 px-4 py-3 border border-dark/20 border-r-0 rounded-l-lg focus:outline-none focus:border-dark'
             />
             <button className='btn w-fit rounded-l-none rounded-r-lg'>
               <HiMiniArrowRight />

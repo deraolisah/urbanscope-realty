@@ -71,7 +71,7 @@ const Navbar = () => {
               {/* <span className="text-dark/80">Welcome, {user.username}!</span> */}
               <Link 
                 to={user.role === 'admin' ? '/admin' : '/dashboard'} 
-                className="btn"
+                className="btn text-nowrap truncate"
               >
                 {user.role === 'admin' ? 'Admin Dashboard' : 'My Dashboard'}
               </Link>
@@ -83,7 +83,7 @@ const Navbar = () => {
               </button> */}
             </div>
           ) : (
-            <Link to="/login" className="btn">Sign In</Link>
+            <Link to="/login" className="btn" onClick={() => { scrollTo(0,0) }}>Sign In</Link>
           )}
         </ul>
 
@@ -109,7 +109,7 @@ const Navbar = () => {
               <Link 
                 to={user.role === 'admin' ? '/admin' : '/user'} 
                 onClick={closeMenu}
-                className="block w-full text-center btn mb-2"
+                className="block w-full text-center btn mb-2 text-nowrap truncate"
               >
                 {user.role === 'admin' ? 'Admin Dashboard' : 'My Dashboard'}
               </Link>

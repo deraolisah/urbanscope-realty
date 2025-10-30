@@ -19,22 +19,28 @@ const PropertyCard = ({ property }) => {
 
   const priceInfo = getFormattedPrice(property);
 
+  {property.status === "inactive" ? (
+    ""
+  ) : (
+    ""
+  )}
+
   return (
     <div className='w-full flex flex-col items-start hover:shadow-md rounded-sm overflow-hidden bg-light relative group'>
       {/* Transaction Type Badge */}
-      <div className={`absolute top-2 left-2 px-2 py-1 rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
+      <div className={`absolute z-1 top-2 left-2 px-2 py-1 shadow rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
         {priceInfo.transactionType}
       </div>
 
-      <div className={`absolute top-2 right-2 px-2 py-1 rounded text-sm font-semibold pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300 ${priceInfo.badge}`}>
+      <div className={`absolute z-1 top-2 right-2 px-2 py-1 shadow rounded text-sm font-semibold pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300 ${priceInfo.badge}`}>
         <BsArrowUpRight />
       </div>
 
       {/* <div className={`absolute top-0 right-0 w-full h-full z-1 bg-dark/15 px-2 py-1 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300`}>
       </div> */}
       
-      <Link to={`/property/${property._id}`} onClick={() => { scrollTo(0,0); }} className='w-full'>
-        <img src={property.images[0]} alt={property.title} className="w-full object-cover aspect-16/8 md:aspect-16/9" loading='lazy' />
+      <Link to={`/property/${property._id}`} onClick={() => { scrollTo(0,0); }} className='w-full aspect-16/8 md:aspect-16/9 overflow-hidden'>
+        <img src={property.images[0]} alt={property.title} className="w-full object-cover object-center scale-[1.04] group-hover:scale-[1] transition-transform duration-500 ease-in-out" loading='lazy' />
       </Link>
       <div className='p-4 py-3 w-full space-y-1'>
         <div className='w-full flex items-center justify-between'>

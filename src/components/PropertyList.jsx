@@ -19,13 +19,13 @@ const PropertyList = ({ property }) => {
   const priceInfo = getFormattedPrice(property);
 
   return (
-    <div className='w-full flex items-center hover:shadow-md rounded-sm overflow-hidden bg-light relative'>
+    <div className='w-full flex items-center hover:shadow-md rounded-sm overflow-hidden bg-light relative group'>
       {/* Transaction Type Badge */}
-      <div className={`absolute top-2 left-2 px-2 py-1 rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
+      <div className={`absolute top-2 left-2 px-2 py-1 shadow rounded text-xs font-semibold pointer-events-none ${priceInfo.badge}`}>
         {priceInfo.transactionType}
       </div>
-      <Link to={`/property/${property._id}`} onClick={() => { scrollTo(0,0); }} className='w-[50%] h-full'>
-        <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover aspect-8/10 md:aspect-5/4" loading='lazy' />
+      <Link to={`/property/${property._id}`} onClick={() => { scrollTo(0,0); }} className='w-[50%] h-full overflow-hidden'>
+        <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover aspect-8/10 md:aspect-5/4 scale-[1.04] group-hover:scale-[1] transition-all duration-500" loading='lazy' />
       </Link>
       <div className='p-4 py-3 w-full space-y-1'>
         <div className='w-full flex items-center justify-between'>

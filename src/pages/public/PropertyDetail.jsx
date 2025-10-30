@@ -490,11 +490,13 @@ const PropertyDetail = () => {
           <div>
             <h2 className="text-2xl font-bold mb-1"> About {property.propertyType} </h2>
             <p className="md:text-lg leading-relaxed mb-2">
-              {showFullDescription
-                ? property.description
-                : property.description.slice(0, 130) + ".."}
+              {property.description.length > 130 ? (
+                showFullDescription ? property.description : property.description.slice(0, 130) + ".."
+              ) : (
+                property.description.slice(0, 130)
+              )}
             </p>
-           {property.description.length > 130 && (
+            {property.description.length > 130 && (
               <button
                 onClick={() => setShowFullDescription(prev => !prev)}
                 className="font-semibold text-sm text-blue-600 underline cursor-pointer"

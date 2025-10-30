@@ -8,43 +8,49 @@ const PropertyPreview = ({ property }) => {
   const priceInfo = getFormattedPrice(property);
 
   return (
-    <div className="bg-dark/5 min-w-[320px] w-full hover:bg-dark/10  transition-colors duration-200 rounded-lg m-0 relative">
-      {/* Transaction Type Badge */}
-      <div className={`absolute bottom-2 md:top-2 right-2 z-10 px-2 py-1 rounded text-xs font-semibold pointer-events-none h-fit ${priceInfo.badge}`}>
-        {priceInfo.transactionType}
-      </div>
-      <div className="flex flex-col md:flex-row md:justify-between md:items-start md:h-[320px] gap-0">
-        <div className="flex flex-col items-start justify-between space-y-2 h-full w-full md:max-w-md p-4 md:p-6 overflow-hidden">
-          <div className='space-y-1 w-full'>
-            <h3 className="font-bold text-base md:text-xl uppercase whitespace-nowrap overflow-hidden text-ellipsis w-full">{property.title}</h3>
-              
-            <p className="font-medium text-xs"> {property.location} </p>
-            <p className="text-gray-600 text-sm"> {property.description.slice(0,68) + "..."} </p>
-            {property.price && (
-              <p className="text-xl md:text-3xl font-extrabold mt-2"> 
-                {priceInfo.formatted}
-                {priceInfo.suffix && (
-                  <span className='text-dark/80 font-normal text-base'>{priceInfo.suffix}</span>
-                )}
-              </p>
-            )}
-          </div>
-          <Link to={`/property/${property._id}`}className="hidden md:flex btn" onClick={() => { scrollTo(0,0)}}>
-            View details 
-            <HiMiniArrowRight />
-          </Link>
+    <div className="lg:min-w-full min-w-[320px] transition-colors duration-200 rounded-lg m-0 group">
+      <h3 className="font-medium text-base capitalize whitespace-nowrap overflow-hidden text-ellipsis w-full mb-1">{property.title}</h3>
+      
+
+      <div className="flex flex-col justify-between items-start gap-0 relative overflow-hidden rounded">
+        {/* Transaction Type Badge */}
+        <div className={`absolute top-2 left-2 z-10 px-2 py-1 shadow rounded text-xs font-semibold pointer-events-none h-fit ${priceInfo.badge}`}>
+          {priceInfo.transactionType}
         </div>
 
-        {property.images && (
-          <Link to={`/property/${property._id}`} className="w-full h-full bg-gray-200 rounded-lg overflow-hidden">
-            <img 
-              src={property.images[0]} 
-              alt={property.title}
-              className="w-full h-full object-cover aspect-4/3"
-              loading='lazy'
-            />
+        <div className='relative h-full'>
+          <div className='bg-dark/30 w-full h-full rounded absolute z-1 inset-0 select-none'></div>
+          <Link to={`/property/${property._id}`} className="flex btn border-0 bg-dark/60 backdrop-blur-xs !p-3 w-fit rounded-full absolute z-2 bottom-2 right-2" onClick={() => { scrollTo(0,0)}}>
+            {/* View details  */}
+            <HiMiniArrowRight />
           </Link>
-        )}
+
+          {property.images && (
+            <div className="relative w-full aspect-[4/3] overflow-hidden rounded z-0">
+              <Link to={`/property/${property._id}`} onClick={() => scrollTo(0, 0)} className="block w-full h-full">
+                <img
+                  src={property.images[0]}
+                  alt={property.title}
+                  className="w-full h-full object-cover scale-[1.08] group-hover:scale-[1] transition-transform duration-500 ease-in-out"
+                  loading="lazy"
+                />
+              </Link>
+            </div>
+          )}
+
+          {property.price && (
+            <p className="text-xl md:text-2xl font-extrabold absolute bottom-2 left-2 z-2"> 
+              {priceInfo.formatted}
+              {priceInfo.suffix && (
+                <span className='font-normal text-base'> {priceInfo.suffix} </span>
+              )}
+            </p>
+          )}
+        </div>
+        <div className='mt-2'>
+          <p className="font-medium text-xs"> {property.location} </p>
+          <p className="text-sm"> {property.description.slice(0,68) + "..."} </p>        
+        </div>
       </div>
     </div>
   );
